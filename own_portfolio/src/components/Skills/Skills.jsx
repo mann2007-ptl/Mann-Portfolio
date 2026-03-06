@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNodeJs, FaGitAlt, FaGithub, FaFigma } from 'react-icons/fa';
-import { SiTailwindcss, SiMongodb, SiFirebase, SiCplusplus, SiC, SiPostman, SiVercel, SiNetlify, SiTypescript } from 'react-icons/si';
+import { SiTailwindcss, SiMongodb, SiFirebase, SiCplusplus, SiC, SiPostman, SiVercel, SiNetlify, SiTypescript, SiExpress } from 'react-icons/si';
 import { VscVscode } from 'react-icons/vsc';
 import './Skills.css';
 
@@ -22,7 +22,7 @@ const Skills = () => {
             skills: [
                 { name: "Node JS", icon: <FaNodeJs className="skill-icon node" /> },
                 { name: "MongoDB", icon: <SiMongodb className="skill-icon mongo" /> },
-                { name: "Firebase", icon: <SiFirebase className="skill-icon firebase" /> }
+                { name: "Express JS", icon: <SiExpress className="skill-icon firebase" /> }
             ]
         },
         {

@@ -41,7 +41,7 @@ const About = () => {
                                 <span className="stat-label">Projects Completed</span>
                             </div>
                             <div className="stat-item">
-                                <span className="stat-number">02+</span>
+                                <span className="stat-number">01+</span>
                                 <span className="stat-label">Years Coding</span>
                             </div>
                         </div>

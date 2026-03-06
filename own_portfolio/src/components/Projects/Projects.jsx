@@ -1,6 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import ultimateEarsImg from '../../assets/ultimate-ears.png';
+import salomonImg from '../../assets/salomon.png';
+import lacosteImg from '../../assets/lacoste.png';
+import stanleyImg from '../../assets/stanley.png';
+import jioHotstarImg from '../../assets/jio-hotstar.png';
 import './Projects.css';
 
 const Projects = () => {
@@ -9,8 +14,8 @@ const Projects = () => {
             title: 'Ultimate Ears',
             category: 'Audio Brand Site',
             description: 'A high-energy, visually immersive landing page for Ultimate Ears, featuring dynamic scroll interactions and punchy typography.',
-            image: 'https://placehold.co/600x400/101010/00d4ff?text=Ultimate+Ears',
-            tags: ['HTML', 'CSS', 'JavaScript', 'GSAP'],
+            image: ultimateEarsImg,
+            tags: ['HTML', 'CSS'],
             links: {
                 demo: 'https://mannpatel-ultimate-ears-clone.netlify.app/',
                 code: 'https://github.com/mann2007-ptl/ultimate-ears-diwali-assgn'
@@ -20,8 +25,8 @@ const Projects = () => {
             title: 'Salomon',
             category: 'E-Commerce / Outdoor',
             description: 'A premium outdoor gear store clone featuring rugged aesthetics, smooth navigation, and responsive product grids.',
-            image: 'https://placehold.co/600x400/2c3e50/ffffff?text=Salomon',
-            tags: ['HTML', 'CSS', 'JavaScript'],
+            image: salomonImg,
+            tags: ['HTML', 'CSS'],
             links: {
                 demo: 'https://mannpatel-salomon-clone.netlify.app/',
                 code: 'https://github.com/mann2007-ptl/salomon-diwali-asgn/tree/main/salomon'
@@ -31,8 +36,8 @@ const Projects = () => {
             title: 'Lacoste Clone',
             category: 'E-commerce',
             description: 'A responsive clone of the Lacoste website featuring modern layout techniques, mega-menus, and product filtering.',
-            image: 'https://placehold.co/600x400/2c5530/ffffff?text=Lacoste',
-            tags: ['HTML', 'CSS', 'JavaScript'],
+            image: lacosteImg,
+            tags: ['HTML', 'CSS'],
             links: {
                 demo: 'https://mannpatel108585-lacoste-clone.netlify.app/diwali_assgn1/lacoste/',
                 code: 'https://github.com/mann2007-ptl/diwali_assgn1/tree/main/lacoste'
@@ -42,8 +47,8 @@ const Projects = () => {
             title: 'Stanley Product Page',
             category: 'Landing Page',
             description: 'Modern product landing page clone with strong visuals, typography focus, and completely responsive sections.',
-            image: 'https://placehold.co/600x400/d97706/ffffff?text=Stanley',
-            tags: ['HTML', 'CSS', 'Responsive'],
+            image: stanleyImg,
+            tags: ['HTML', 'CSS'],
             links: {
                 demo: 'https://mannpatel-stanley.netlify.app/stanley-diwal-assgn-/stanley/',
                 code: 'https://github.com/mann2007-ptl/stanley-diwal-assgn-/tree/main/stanley'
@@ -53,8 +58,8 @@ const Projects = () => {
             title: 'Jio-Hotstar Clone',
             category: 'Streaming UI',
             description: 'UI clone inspired by streaming platforms to practice card layouts, spacing, and content hierarchy.',
-            image: 'https://placehold.co/600x400/0f172a/00d4ff?text=Jio+Hotstar',
-            tags: ['HTML', 'CSS', 'JavaScript'],
+            image: jioHotstarImg,
+            tags: ['HTML', 'CSS'],
             links: {
                 demo: 'https://mannpatel108585-jiohotstar-clone.netlify.app/diwali_assgn/jio-hotstar/',
                 code: 'https://github.com/mann2007-ptl/diwali_assgn/tree/main/jio-hotstar'

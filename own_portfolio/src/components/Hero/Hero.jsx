@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
-import HeroImg from '../../assets/hero_avatar.png';
+import { SiLeetcode } from 'react-icons/si';
+import HeroImg from '../../assets/photo.jpeg';
 import './Hero.css';
 
 const Typewriter = ({ texts, speed = 150, deleteSpeed = 100, delay = 2000 }) => {
@@ -100,6 +101,7 @@ const Hero = () => {
                         <a href="https://github.com/mann2007-ptl" target="_blank" rel="noopener noreferrer" className="social-link"><FaGithub /></a>
                         <a href="https://www.linkedin.com/in/mann-patel-839b33399" target="_blank" rel="noopener noreferrer" className="social-link"><FaLinkedin /></a>
                         <a href="https://www.youtube.com/@patelmann7197" target="_blank" rel="noopener noreferrer" className="social-link"><FaYoutube /></a>
+                        <a href="https://leetcode.com/u/Mann2006/" target="_blank" rel="noopener noreferrer" className="social-link"><SiLeetcode /></a>
                     </motion.div>
                 </motion.div>
 
