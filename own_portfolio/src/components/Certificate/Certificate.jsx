@@ -1,65 +1,117 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import cssCertiImg from '../../assets/css-certi.png';
 import cCertiImg from '../../assets/c-certifictate.jpg';
+import cIntermediateCertiImg from '../../assets/c-intermediate-certi.jpg';
+import cppCertiImg from '../../assets/cpp-certificate.jpg';
+import swaminarayanUniCertiImg from '../../assets/swaminarayan-uni-certi.jpeg';
 import './Certificate.css';
 
 const certificates = [
     {
         id: 1,
-        title: "Introduction to C",
-        provider: "Sololearn",
-        date: "March 06, 2026",
-        description: "Completed course demonstrating theoretical and practical understanding of C.",
-        image: cCertiImg,
-        alt: "Sololearn Introduction to C Certificate"
+        title: 'C Intermediate',
+        provider: 'Sololearn',
+        date: 'March 12, 2026',
+        image: cIntermediateCertiImg,
     },
     {
         id: 2,
-        title: "HackerRank CSS (Basic) Certificate",
-        provider: "HackerRank",
-        date: "Dec 15, 2025",
-        description: "Validated expertise in CSS fundamentals including selectors, layout mechanisms (Flexbox, Grid), and responsive design.",
+        title: 'Introduction to C',
+        provider: 'Sololearn',
+        date: 'March 06, 2026',
+        image: cCertiImg,
+    },
+    {
+        id: 3,
+        title: 'CSS (Basic)',
+        provider: 'HackerRank',
+        date: 'Dec 15, 2025',
         image: cssCertiImg,
-        alt: "HackerRank CSS (Basic) Certificate"
+    },
+    {
+        id: 4,
+        title: 'C++ Certificate',
+        provider: 'Sololearn',
+        date: '2026',
+        image: cppCertiImg,
+    },
+    {
+        id: 5,
+        title: 'Swaminarayan University',
+        provider: 'Swaminarayan University',
+        date: '2026',
+        image: swaminarayanUniCertiImg,
     }
 ];
 
-const Certificate = () => {
-    return (
-        <section id="certificate" className="certificate-section section">
-            <div className="container">
-                <motion.div
-                    className="section-header center"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <span className="sub-heading">My Achievements</span>
-                    <h2 className="section-title">Certifications</h2>
-                </motion.div>
+gsap.registerPlugin(ScrollTrigger);
 
-                <div className="certificate-content">
+const Certificate = () => {
+    const sectionRef = useRef(null);
+
+    useEffect(() => {
+        let ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top 80%',
+                }
+            });
+
+            tl.fromTo('.section-label, .section-title',
+                { y: 30, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: 'power3.out' }
+            )
+                .fromTo('.cert-card',
+                    { y: 60, opacity: 0, rotationY: 10, scale: 0.95 },
+                    { y: 0, opacity: 1, rotationY: 0, scale: 1, duration: 0.8, stagger: 0.15, ease: 'expo.out' },
+                    "-=0.4"
+                );
+
+            // Subtle image parallax
+            gsap.utils.toArray('.cert-image img').forEach(img => {
+                gsap.to(img, {
+                    scale: 1.1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: img.closest('.cert-card'),
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
+
+    return (
+        <section id="certificates" className="certificate-section section" ref={sectionRef}>
+            <div className="container">
+                <div className="section-header center">
+                    <span className="section-label">Achievements</span>
+                    <h2 className="section-title">
+                        My <span className="accent">Certifications</span>
+                    </h2>
+                </div>
+
+                <div className="cert-grid">
                     {certificates.map((cert, index) => (
-                        <motion.div
-                            key={cert.id}
-                            className="certificate-card"
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                        >
-                            <div className="certificate-image">
-                                <img src={cert.image} alt={cert.alt} />
+                        <div key={cert.id} className="cert-card">
+                            <div className="cert-image">
+                                <img src={cert.image} alt={cert.title} />
                             </div>
-                            <div className="certificate-info">
-                                <h3 className="certificate-title">{cert.title}</h3>
-                                <div className="certificate-provider">{cert.provider}</div>
-                                <p className="certificate-description">{cert.description}</p>
-                                <span className="certificate-date">Earned: {cert.date}</span>
+                            <div className="cert-info">
+                                <h3 className="cert-title">{cert.title}</h3>
+                                <div className="cert-meta">
+                                    <span className="cert-provider">{cert.provider}</span>
+                                    <span className="cert-date">{cert.date}</span>
+                                </div>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>

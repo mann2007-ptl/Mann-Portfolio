@@ -1,74 +1,86 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
 import './CustomCursor.css';
 
 const CustomCursor = () => {
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [hidden, setHidden] = useState(false);
-    const [clicked, setClicked] = useState(false);
-    const [linkHovered, setLinkHovered] = useState(false);
+    const cursorDotRef = useRef(null);
+    const cursorOutlineRef = useRef(null);
+    const [isHovering, setIsHovering] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const addEventListeners = () => {
-            document.addEventListener("mousemove", onMouseMove);
-            document.addEventListener("mouseenter", onMouseEnter);
-            document.addEventListener("mouseleave", onMouseLeave);
-            document.addEventListener("mousedown", onMouseDown);
-            document.addEventListener("mouseup", onMouseUp);
+        const dot = cursorDotRef.current;
+        const outline = cursorOutlineRef.current;
+
+        // Use quickTo for high performance following
+        let xToDot = gsap.quickTo(dot, "left", { duration: 0.1, ease: "power2.out" });
+        let yToDot = gsap.quickTo(dot, "top", { duration: 0.1, ease: "power2.out" });
+
+        let xToOutline = gsap.quickTo(outline, "left", { duration: 0.4, ease: "power3.out" });
+        let yToOutline = gsap.quickTo(outline, "top", { duration: 0.4, ease: "power3.out" });
+
+        const moveCursor = (e) => {
+            if (!isVisible) setIsVisible(true);
+            xToDot(e.clientX);
+            yToDot(e.clientY);
+            xToOutline(e.clientX);
+            yToOutline(e.clientY);
         };
 
-        const removeEventListeners = () => {
-            document.removeEventListener("mousemove", onMouseMove);
-            document.removeEventListener("mouseenter", onMouseEnter);
-            document.removeEventListener("mouseleave", onMouseLeave);
-            document.removeEventListener("mousedown", onMouseDown);
-            document.removeEventListener("mouseup", onMouseUp);
+        const handleMouseEnter = () => setIsVisible(true);
+        const handleMouseLeave = () => setIsVisible(false);
+
+        const handleHoverStart = () => setIsHovering(true);
+        const handleHoverEnd = () => setIsHovering(false);
+
+        window.addEventListener("mousemove", moveCursor);
+        document.body.addEventListener("mouseenter", handleMouseEnter);
+        document.body.addEventListener("mouseleave", handleMouseLeave);
+
+        // Add listeners to all clickable elements
+        const updateHoverListeners = () => {
+            const clickables = document.querySelectorAll('a, button, input, textarea, .magnetic-wrap, select, .skill-chip, .project-card, .footer-brand');
+
+            clickables.forEach(el => {
+                el.addEventListener('mouseenter', handleHoverStart);
+                el.addEventListener('mouseleave', handleHoverEnd);
+            });
+            return clickables;
         };
 
-        const onMouseMove = (e) => {
-            setPosition({ x: e.clientX, y: e.clientY });
+        const clickables = updateHoverListeners();
 
-            // Check if hovering over clickable elements
-            const target = e.target;
-            const isLink = target.tagName === 'A' || target.tagName === 'BUTTON' ||
-                target.closest('a') || target.closest('button') ||
-                target.classList.contains('clickable');
+        // Mutation observer to handle dynamically added elements
+        const observer = new MutationObserver(() => {
+            updateHoverListeners();
+        });
 
-            setLinkHovered(!!isLink);
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        return () => {
+            window.removeEventListener("mousemove", moveCursor);
+            document.body.removeEventListener("mouseenter", handleMouseEnter);
+            document.body.removeEventListener("mouseleave", handleMouseLeave);
+
+            clickables.forEach(el => {
+                el.removeEventListener('mouseenter', handleHoverStart);
+                el.removeEventListener('mouseleave', handleHoverEnd);
+            });
+            observer.disconnect();
         };
-
-        const onMouseDown = () => {
-            setClicked(true);
-        };
-
-        const onMouseUp = () => {
-            setClicked(false);
-        };
-
-        const onMouseEnter = () => {
-            setHidden(false);
-        };
-
-        const onMouseLeave = () => {
-            setHidden(true);
-        };
-
-        addEventListeners();
-        return () => removeEventListeners();
-    }, []);
-
-    const cursorClasses = `custom-cursor 
-        ${hidden ? 'hidden' : ''} 
-        ${clicked ? 'clicked' : ''} 
-        ${linkHovered ? 'hovered' : ''}`;
+    }, [isVisible]);
 
     return (
-        <div
-            className={cursorClasses}
-            style={{
-                left: `${position.x}px`,
-                top: `${position.y}px`
-            }}
-        />
+        <>
+            <div
+                ref={cursorDotRef}
+                className={`custom-cursor-dot ${isVisible ? 'visible' : ''} ${isHovering ? 'hovering' : ''}`}
+            />
+            <div
+                ref={cursorOutlineRef}
+                className={`custom-cursor-outline ${isVisible ? 'visible' : ''} ${isHovering ? 'hovering' : ''}`}
+            />
+        </>
     );
 };
 

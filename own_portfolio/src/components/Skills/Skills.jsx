@@ -1,102 +1,84 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNodeJs, FaGitAlt, FaGithub, FaFigma } from 'react-icons/fa';
-import { SiTailwindcss, SiMongodb, SiFirebase, SiCplusplus, SiC, SiPostman, SiVercel, SiNetlify, SiTypescript, SiExpress } from 'react-icons/si';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {
+    FaHtml5, FaCss3Alt, FaJs, FaReact, FaNodeJs,
+    FaGitAlt, FaGithub, FaFigma
+} from 'react-icons/fa';
+import {
+    SiTailwindcss, SiMongodb, SiFirebase, SiCplusplus, SiC,
+    SiPostman, SiVercel, SiNetlify, SiTypescript, SiExpress
+} from 'react-icons/si';
 import { VscVscode } from 'react-icons/vsc';
 import './Skills.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Skills = () => {
-    const skillCategories = [
-        {
-            title: "Frontend",
-            skills: [
-                { name: "HTML", icon: <FaHtml5 className="skill-icon html" /> },
-                { name: "CSS", icon: <FaCss3Alt className="skill-icon css" /> },
-                { name: "JavaScript", icon: <FaJs className="skill-icon js" /> },
-                { name: "React JS", icon: <FaReact className="skill-icon react" /> },
-                { name: "Tailwind CSS", icon: <SiTailwindcss className="skill-icon tailwind" /> }
-            ]
-        },
-        {
-            title: "Backend",
-            skills: [
-                { name: "Node JS", icon: <FaNodeJs className="skill-icon node" /> },
-                { name: "MongoDB", icon: <SiMongodb className="skill-icon mongo" /> },
-                { name: "Express JS", icon: <SiExpress className="skill-icon firebase" /> }
-            ]
-        },
-        {
-            title: "Languages",
-            skills: [
-                { name: "C", icon: <SiC className="skill-icon c" /> },
-                { name: "C++", icon: <SiCplusplus className="skill-icon cpp" /> },
-                { name: "JavaScript", icon: <FaJs className="skill-icon js" /> },
-                { name: "TypeScript", icon: <SiTypescript className="skill-icon ts" /> }
-            ]
-        },
-        {
-            title: "Tools",
-            skills: [
-                { name: "Git", icon: <FaGitAlt className="skill-icon git" /> },
-                { name: "GitHub", icon: <FaGithub className="skill-icon github" /> },
-                { name: "VS Code", icon: <VscVscode className="skill-icon vscode" /> },
-                { name: "Postman", icon: <SiPostman className="skill-icon postman" /> },
-                { name: "Netlify", icon: <SiNetlify className="skill-icon netlify" /> },
-                { name: "Figma", icon: <FaFigma className="skill-icon figma" /> }
-            ]
-        }
+    const sectionRef = useRef(null);
+
+    const skills = [
+        { name: 'React', icon: <FaReact />, color: '#61DAFB' },
+        { name: 'JavaScript', icon: <FaJs />, color: '#F7DF1E' },
+        { name: 'TypeScript', icon: <SiTypescript />, color: '#3178C6' },
+        { name: 'Node.js', icon: <FaNodeJs />, color: '#339933' },
+        { name: 'MongoDB', icon: <SiMongodb />, color: '#47A248' },
+        { name: 'Express', icon: <SiExpress />, color: '#ffffff' },
+        { name: 'HTML5', icon: <FaHtml5 />, color: '#E34F26' },
+        { name: 'CSS3', icon: <FaCss3Alt />, color: '#1572B6' },
+        { name: 'Tailwind', icon: <SiTailwindcss />, color: '#06B6D4' },
+        { name: 'C', icon: <SiC />, color: '#A8B9CC' },
+        { name: 'C++', icon: <SiCplusplus />, color: '#00599C' },
+        { name: 'Git', icon: <FaGitAlt />, color: '#F05032' },
+        { name: 'GitHub', icon: <FaGithub />, color: '#ffffff' },
+        { name: 'VS Code', icon: <VscVscode />, color: '#007ACC' },
+        { name: 'Postman', icon: <SiPostman />, color: '#FF6C37' },
+        { name: 'Figma', icon: <FaFigma />, color: '#F24E1E' },
     ];
 
-    const container = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
-        }
-    };
+    useEffect(() => {
+        let ctx = gsap.context(() => {
+            gsap.fromTo('.skills-header-anim',
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out',
+                    scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }
+                }
+            );
 
-    const item = {
-        hidden: { opacity: 0, y: 20 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-    };
+            gsap.fromTo('.skill-card-glass',
+                { opacity: 0, y: 40, scale: 0.9 },
+                {
+                    opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.05, ease: 'back.out(1.7)',
+                    scrollTrigger: { trigger: '.skills-grid-layout', start: 'top 80%' }
+                }
+            );
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
 
     return (
-        <section id="skills" className="skills-section section">
+        <section id="skills" className="skills-section section" ref={sectionRef}>
             <div className="container">
-                <motion.div
-                    className="section-header center"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <span className="sub-heading">My Expertise</span>
-                    <h2 className="section-title">Skills</h2>
-                </motion.div>
+                <div className="section-header center mb-16">
+                    <span className="section-label neon-text-purple skills-header-anim inline-block mb-4">Tech Arsenal</span>
+                    <h2 className="section-title skills-header-anim text-5xl font-bold">
+                        Tools of the <span className="gradient-text italic">Trade</span>
+                    </h2>
+                </div>
 
-                <motion.div
-                    className="skills-wrapper"
-                    variants={container}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true }}
-                >
-                    {skillCategories.map((category, index) => (
-                        <motion.div key={index} className="skill-category-card" variants={item}>
-                            <h3 className="category-header">{category.title}</h3>
-                            <div className="skills-list">
-                                {category.skills.map((skill, idx) => (
-                                    <div key={idx} className="skill-item">
-                                        {skill.icon}
-                                        <span className="skill-text">{skill.name}</span>
-                                    </div>
-                                ))}
+                {/* Flat Glassmorphism Grid instead of broken 3D sphere */}
+                <div className="skills-grid-layout">
+                    {skills.map((skill, index) => (
+                        <div key={index} className="skill-card-glass" style={{ '--skill-color': skill.color }}>
+                            <div className="skill-icon-wrap" style={{ color: skill.color }}>
+                                {skill.icon}
                             </div>
-                        </motion.div>
+                            <span className="skill-name">{skill.name}</span>
+                        </div>
                     ))}
-                </motion.div>
+                </div>
             </div>
         </section>
     );

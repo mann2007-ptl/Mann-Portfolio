@@ -1,132 +1,164 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
-import ultimateEarsImg from '../../assets/ultimate-ears.png';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import VanillaTilt from 'vanilla-tilt';
+import { FaGithub, FaArrowRight } from 'react-icons/fa';
+import Magnetic from '../Magnetic/Magnetic';
+import ultimateEesImg from '../../assets/ultimate-ears.png';
+import githubAnalyzerImg from '../../assets/github-analyzer.png';
 import salomonImg from '../../assets/salomon.png';
 import lacosteImg from '../../assets/lacoste.png';
 import stanleyImg from '../../assets/stanley.png';
 import jioHotstarImg from '../../assets/jio-hotstar.png';
 import './Projects.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
+const TiltProject = ({ children, className = '' }) => {
+    const tiltRef = useRef(null);
+    useEffect(() => {
+        if (tiltRef.current) {
+            VanillaTilt.init(tiltRef.current, {
+                max: 5,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.1,
+                perspective: 1000,
+            });
+        }
+        return () => {
+            if (tiltRef.current && tiltRef.current.vanillaTilt) tiltRef.current.vanillaTilt.destroy();
+        };
+    }, []);
+    return (
+        <div ref={tiltRef} className={`tilt-project ${className}`} style={{ willChange: 'transform', transformStyle: 'preserve-3d' }}>
+            {children}
+        </div>
+    );
+};
+
 const Projects = () => {
+    const sectionRef = useRef(null);
     const projects = [
+        {
+            title: 'GitHub Profile Analyzer',
+            category: 'Web Application',
+            description: 'Analyze any GitHub profile with premium glassmorphism UI, displaying user stats, top repositories, and language distribution.',
+            image: githubAnalyzerImg,
+            tags: ['React', 'CSS', 'GitHub API'],
+            links: { demo: 'https://mannpatel-githubanalyser.netlify.app/', code: 'https://github.com/mann2007-ptl/Github-profileAnalyzer' }
+        },
         {
             title: 'Ultimate Ears',
             category: 'Audio Brand Site',
-            description: 'A high-energy, visually immersive landing page for Ultimate Ears, featuring dynamic scroll interactions and punchy typography.',
-            image: ultimateEarsImg,
+            description: 'High-energy, visually immersive landing page with dynamic scroll interactions and punchy typography.',
+            image: ultimateEesImg,
             tags: ['HTML', 'CSS'],
-            links: {
-                demo: 'https://mannpatel-ultimate-ears-clone.netlify.app/',
-                code: 'https://github.com/mann2007-ptl/ultimate-ears-diwali-assgn'
-            }
+            links: { demo: 'https://mannpatel-ultimate-ears-clone.netlify.app/', code: 'https://github.com/mann2007-ptl/ultimate-ears-diwali-assgn' }
         },
         {
             title: 'Salomon',
-            category: 'E-Commerce / Outdoor',
-            description: 'A premium outdoor gear store clone featuring rugged aesthetics, smooth navigation, and responsive product grids.',
+            category: 'E-Commerce',
+            description: 'Premium outdoor gear store featuring rugged aesthetics, smooth navigation, and responsive product grids.',
             image: salomonImg,
             tags: ['HTML', 'CSS'],
-            links: {
-                demo: 'https://mannpatel-salomon-clone.netlify.app/',
-                code: 'https://github.com/mann2007-ptl/salomon-diwali-asgn/tree/main/salomon'
-            }
+            links: { demo: 'https://mannpatel-salomon-clone.netlify.app/', code: 'https://github.com/mann2007-ptl/salomon-diwali-asgn/tree/main/salomon' }
         },
         {
             title: 'Lacoste Clone',
             category: 'E-commerce',
-            description: 'A responsive clone of the Lacoste website featuring modern layout techniques, mega-menus, and product filtering.',
+            description: 'Responsive Lacoste website clone with modern layout techniques, mega-menus, and product filtering.',
             image: lacosteImg,
             tags: ['HTML', 'CSS'],
-            links: {
-                demo: 'https://mannpatel108585-lacoste-clone.netlify.app/diwali_assgn1/lacoste/',
-                code: 'https://github.com/mann2007-ptl/diwali_assgn1/tree/main/lacoste'
-            }
+            links: { demo: 'https://mannpatel108585-lacoste-clone.netlify.app/diwali_assgn1/lacoste/', code: 'https://github.com/mann2007-ptl/diwali_assgn1/tree/main/lacoste' }
         },
         {
             title: 'Stanley Product Page',
             category: 'Landing Page',
-            description: 'Modern product landing page clone with strong visuals, typography focus, and completely responsive sections.',
+            description: 'Modern product landing page clone with strong visuals and typography focus.',
             image: stanleyImg,
             tags: ['HTML', 'CSS'],
-            links: {
-                demo: 'https://mannpatel-stanley.netlify.app/stanley-diwal-assgn-/stanley/',
-                code: 'https://github.com/mann2007-ptl/stanley-diwal-assgn-/tree/main/stanley'
-            }
+            links: { demo: 'https://mannpatel-stanley.netlify.app/stanley-diwal-assgn-/stanley/', code: 'https://github.com/mann2007-ptl/stanley-diwal-assgn-/tree/main/stanley' }
         },
         {
             title: 'Jio-Hotstar Clone',
             category: 'Streaming UI',
-            description: 'UI clone inspired by streaming platforms to practice card layouts, spacing, and content hierarchy.',
+            description: 'UI clone inspired by streaming platforms with card layouts, spacing, and content hierarchy.',
             image: jioHotstarImg,
             tags: ['HTML', 'CSS'],
-            links: {
-                demo: 'https://mannpatel108585-jiohotstar-clone.netlify.app/diwali_assgn/jio-hotstar/',
-                code: 'https://github.com/mann2007-ptl/diwali_assgn/tree/main/jio-hotstar'
-            }
+            links: { demo: 'https://mannpatel108585-jiohotstar-clone.netlify.app/diwali_assgn/jio-hotstar/', code: 'https://github.com/mann2007-ptl/diwali_assgn/tree/main/jio-hotstar' }
         }
     ];
 
-    const container = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
-        }
-    };
+    useEffect(() => {
+        let ctx = gsap.context(() => {
+            gsap.fromTo('.projects-header-anim',
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' } }
+            );
 
-    const item = {
-        hidden: { opacity: 0, y: 30 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-    };
+            const projectCards = gsap.utils.toArray('.unreal-project-card');
+            projectCards.forEach((card) => {
+                gsap.fromTo(card,
+                    { y: 150, opacity: 0, scale: 0.95, rotationX: 10 },
+                    { y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 1.5, ease: 'expo.out', scrollTrigger: { trigger: card, start: 'top 85%' } }
+                );
+                gsap.to(card.querySelector('img'), {
+                    yPercent: 15, scale: 1.1, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: 1 }
+                });
+            });
+        }, sectionRef);
+        return () => ctx.revert();
+    }, []);
 
     return (
-        <section id="projects" className="projects-section section">
+        <section id="work" className="projects-section section" ref={sectionRef}>
             <div className="container">
-                <motion.div
-                    className="section-header center"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <span className="sub-heading">My Portfolio</span>
-                    <h2 className="section-title">Featured Projects</h2>
-                </motion.div>
+                <div className="section-header center mb-20 projects-header-wrapper">
+                    <span className="section-label neon-text-cyan projects-header-anim inline-block mb-4">Selected Work</span>
+                    <h2 className="section-title projects-header-anim proj-main-title">
+                        My Creative <span className="gradient-text italic">Universe</span>
+                    </h2>
+                </div>
 
-                <motion.div
-                    className="projects-grid"
-                    variants={container}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, margin: "-100px" }}
-                >
-                    {projects.map((project, index) => (
-                        <motion.div key={index} className="project-card" variants={item}>
-                            <div className="project-image">
-                                <img src={project.image} alt={project.title} />
-                                <div className="project-overlay">
-                                    <div className="project-links">
-                                        <a href={project.links.demo} className="btn-icon" aria-label="Demo"><FaExternalLinkAlt /></a>
-                                        <a href={project.links.code} className="btn-icon" aria-label="Code"><FaGithub /></a>
-                                    </div>
+                <div className="projects-list">
+                    {projects.map((project, i) => (
+                        <div key={i} className={`unreal-project-card ${i % 2 !== 0 ? 'reverse' : ''}`}>
+                            <TiltProject className="project-image-side glass-panel">
+                                <div className="project-image-container">
+                                    <img src={project.image} alt={project.title} />
                                 </div>
-                            </div>
-                            <div className="project-info">
-                                <span className="project-category">{project.category}</span>
-                                <h3 className="project-title">{project.title}</h3>
+                            </TiltProject>
+
+                            <div className="project-details-side">
+                                <span className="project-category neon-text-purple">{project.category}</span>
+                                <h3 className="project-name">{project.title}</h3>
                                 <p className="project-description">{project.description}</p>
-                                <div className="project-tags">
-                                    {project.tags.map((tag, i) => (
-                                        <span key={i} className="tag">{tag}</span>
+
+                                <div className="tech-stack-tags">
+                                    {project.tags.map((tag, j) => (
+                                        <span key={j} className="tech-tag">
+                                            {tag}
+                                        </span>
                                     ))}
                                 </div>
+
+                                <div className="project-ctas">
+                                    <Magnetic strength={20}>
+                                        <a href={project.links.demo} target="_blank" rel="noopener noreferrer" className="btn-primary-glow">
+                                            Live Demo
+                                        </a>
+                                    </Magnetic>
+                                    <Magnetic strength={20}>
+                                        <a href={project.links.code} target="_blank" rel="noopener noreferrer" className="btn-outline-glow">
+                                            <FaGithub /> Source
+                                        </a>
+                                    </Magnetic>
+                                </div>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
-                </motion.div>
+                </div>
             </div>
         </section>
     );

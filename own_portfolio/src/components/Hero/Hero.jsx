@@ -1,133 +1,136 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import gsap from 'gsap';
 import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { SiLeetcode } from 'react-icons/si';
-import HeroImg from '../../assets/photo.jpeg';
+import Magnetic from '../Magnetic/Magnetic';
+import Hero3D from './Hero3D';
 import './Hero.css';
 
-const Typewriter = ({ texts, speed = 150, deleteSpeed = 100, delay = 2000 }) => {
-    const [textIndex, setTextIndex] = useState(0);
-    const [charIndex, setCharIndex] = useState(0);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [displayedText, setDisplayedText] = useState('');
+const Hero = () => {
+    const heroRef = useRef(null);
+    const titleLinesRef = useRef([]);
 
     useEffect(() => {
-        const currentFullText = texts[textIndex];
+        const tl = gsap.timeline();
 
-        const handleTyping = () => {
-            if (isDeleting) {
-                if (charIndex > 0) {
-                    setDisplayedText(currentFullText.substring(0, charIndex - 1));
-                    setCharIndex(charIndex - 1);
-                } else {
-                    setIsDeleting(false);
-                    setTextIndex((prev) => (prev + 1) % texts.length);
-                }
-            } else {
-                if (charIndex < currentFullText.length) {
-                    setDisplayedText(currentFullText.substring(0, charIndex + 1));
-                    setCharIndex(charIndex + 1);
-                } else {
-                    setTimeout(() => setIsDeleting(true), delay);
-                }
-            }
-        };
+        // Reveal background 3D scene smoothly
+        tl.fromTo('.hero-3d-canvas',
+            { opacity: 0 },
+            { opacity: 1, duration: 2, ease: "power2.inOut" },
+            0
+        )
+            // Reveal badge
+            .fromTo('.hero-badge',
+                { opacity: 0, y: 30, scale: 0.9 },
+                { opacity: 1, y: 0, scale: 1, duration: 1, ease: "back.out(1.5)" },
+                0.5
+            )
+            // Staggered massive text reveal
+            .fromTo(titleLinesRef.current,
+                { y: 150, opacity: 0, rotateX: 45, transformOrigin: "50% 100%" },
+                { y: 0, opacity: 1, rotateX: 0, duration: 1.5, stagger: 0.15, ease: "expo.out" },
+                0.8
+            )
+            // Fade up description
+            .fromTo('.hero-description',
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
+                1.6
+            )
+            // Reveal CTA buttons
+            .fromTo('.hero-cta a',
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "back.out(1.5)" },
+                1.8
+            )
+            // Drop in social icons
+            .fromTo('.social-icon',
+                { opacity: 0, scale: 0, y: 20 },
+                { opacity: 1, scale: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "back.out(2)" },
+                2.0
+            );
 
-        const timer = setTimeout(handleTyping, isDeleting ? deleteSpeed : speed);
-        return () => clearTimeout(timer);
-    }, [charIndex, isDeleting, texts, textIndex, speed, deleteSpeed, delay]);
+        // Subtle floating animation for the whole content block
+        gsap.to('.hero-content', {
+            y: 15,
+            duration: 4,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
 
-    return <span>{displayedText}<span className="cursor">|</span></span>;
-};
+    }, []);
 
-const Hero = () => {
+    const socialLinks = [
+        { icon: <FaGithub />, href: 'https://github.com/mann2007-ptl', label: 'GitHub' },
+        { icon: <FaLinkedin />, href: 'https://www.linkedin.com/in/mann-patel-839b33399', label: 'LinkedIn' },
+        { icon: <FaYoutube />, href: 'https://www.youtube.com/@patelmann7197', label: 'YouTube' },
+        { icon: <SiLeetcode />, href: 'https://leetcode.com/u/Mann2006/', label: 'LeetCode' },
+    ];
+
     return (
-        <section id="hero" className="hero-section section">
-            {/* Animated Background Blobs */}
-            <div className="hero-blob blob-1"></div>
-            <div className="hero-blob blob-2"></div>
+        <section id="hero" className="hero-section" ref={heroRef}>
+            <Hero3D />
 
             <div className="container hero-container">
-                <motion.div
-                    className="hero-content"
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                >
+                <div className="hero-content glass-panel-hero">
 
-
-                    <motion.h1
-                        className="hero-title"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4, duration: 0.5 }}
-                    >
-                        Hi, I'm <span className="accent-text">Mann Patel</span>
-                        <br />
-                        <span className="typewriter-text">
-                            <Typewriter
-                                texts={["Full-Stack Developer", "UI/UX Designer", "Creative Coder"]}
-                                speed={100}
-                                delay={2500}
-                            />
-                        </span>
-                    </motion.h1>
-
-                    <motion.p
-                        className="hero-description"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.6, duration: 0.5 }}
-                    >
-                        I build pixel-perfect, engaging, and accessible digital experiences. Passionate about merging design with robust engineering.
-                    </motion.p>
-
-                    <motion.div
-                        className="hero-cta"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8, duration: 0.5 }}
-                    >
-                        <a href="#projects" className="btn btn-primary">View Projects</a>
-                        <a href="#contact" className="btn btn-outline">Let's Talk</a>
-                    </motion.div>
-
-                    <motion.div
-                        className="hero-socials"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1, duration: 0.5 }}
-                    >
-                        <a href="https://github.com/mann2007-ptl" target="_blank" rel="noopener noreferrer" className="social-link"><FaGithub /></a>
-                        <a href="https://www.linkedin.com/in/mann-patel-839b33399" target="_blank" rel="noopener noreferrer" className="social-link"><FaLinkedin /></a>
-                        <a href="https://www.youtube.com/@patelmann7197" target="_blank" rel="noopener noreferrer" className="social-link"><FaYoutube /></a>
-                        <a href="https://leetcode.com/u/Mann2006/" target="_blank" rel="noopener noreferrer" className="social-link"><SiLeetcode /></a>
-                    </motion.div>
-                </motion.div>
-
-                <motion.div
-                    className="hero-image-container"
-                    initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                >
-                    <div className="hero-img-wrapper">
-                        <img src={HeroImg} alt="Mann Patel" className="hero-img" />
+                    <div className="hero-badge">
+                        <span className="badge-dot pulse"></span>
+                        <span>Available for opportunities</span>
                     </div>
-                </motion.div>
-            </div>
 
-            <motion.div
-                className="scroll-indicator"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 1 }}
-            >
-                <div className="mouse">
-                    <div className="wheel"></div>
+                    <div className="hero-title-wrapper">
+                        <div className="title-overflow-hidden">
+                            <h1 className="hero-title" ref={el => titleLinesRef.current[0] = el}>
+                                CREATIVE
+                            </h1>
+                        </div>
+                        <div className="title-overflow-hidden">
+                            <h1 className="hero-title" ref={el => titleLinesRef.current[1] = el}>
+                                <span className="gradient-text">DEVELOPER.</span>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div className="hero-bottom-area">
+                        <p className="hero-description">
+                            I'm <span className="neon-text-cyan font-bold">Mann Patel</span>. Architecting digital experiences that push the boundaries of web engineering and cinematic design.
+                        </p>
+
+                        <div className="hero-cta">
+                            <Magnetic strength={30}>
+                                <a href="#work" className="btn-primary magnetic-wrap">
+                                    <span>Explore Work</span>
+                                </a>
+                            </Magnetic>
+                            <Magnetic strength={20}>
+                                <a href="#contact" className="btn-outline magnetic-wrap">
+                                    <span>Let's Talk</span>
+                                </a>
+                            </Magnetic>
+                        </div>
+                    </div>
+
                 </div>
-                <span>Scroll Down</span>
-            </motion.div>
+
+                <div className="hero-socials">
+                    {socialLinks.map((link, i) => (
+                        <Magnetic key={i} strength={40}>
+                            <a
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="social-icon magnetic-wrap"
+                                aria-label={link.label}
+                            >
+                                {link.icon}
+                            </a>
+                        </Magnetic>
+                    ))}
+                </div>
+            </div>
         </section>
     );
 };

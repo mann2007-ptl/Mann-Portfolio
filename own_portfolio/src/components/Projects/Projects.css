@@ -1,141 +1,213 @@
-.center {
-    text-align: center;
+.projects-section {
+    position: relative;
+    padding: 120px 0;
+    z-index: 3;
 }
 
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2.5rem;
+.projects-header-wrapper {
+    margin-bottom: 5rem;
 }
 
-.project-card {
-    background: var(--bg-secondary);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    transition: all 0.4s ease;
-    height: 100%;
+.proj-main-title {
+    font-size: 4rem;
+    font-weight: 800;
+}
+
+/* Unreal Project Cards */
+.projects-list {
     display: flex;
     flex-direction: column;
+    gap: 8rem;
 }
 
-.project-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--accent-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+.unreal-project-card {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    position: relative;
 }
 
-.project-image {
-    height: 220px;
+.unreal-project-card.reverse {
+    grid-template-columns: 1fr 1.2fr;
+}
+
+.unreal-project-card.reverse .project-image-side {
+    order: 2;
+}
+
+.unreal-project-card.reverse .project-details-side {
+    order: 1;
+}
+
+.tilt-project {
+    cursor: pointer;
+}
+
+.project-image-side {
+    position: relative;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0.5rem;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.project-image-side:hover {
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.15), inset 0 0 20px rgba(0, 240, 255, 0.05);
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+.project-image-container {
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
     overflow: hidden;
     position: relative;
 }
 
-.project-image img {
+.project-image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    filter: brightness(0.8) contrast(1.1);
+    transition: filter 0.5s ease;
 }
 
-.project-card:hover .project-image img {
-    transform: scale(1.05);
+.unreal-project-card:hover .project-image-container img {
+    filter: brightness(1) contrast(1.15);
 }
 
-.project-overlay {
+.project-image-overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
-    opacity: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.3s ease;
-    backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-.project-card:hover .project-overlay {
+.unreal-project-card:hover .project-image-overlay {
     opacity: 1;
 }
 
-.project-links {
-    display: flex;
-    gap: 1rem;
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
-}
-
-.project-card:hover .project-links {
-    transform: translateY(0);
-}
-
-.btn-icon {
-    width: 45px;
-    height: 45px;
-    background: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #000;
-    font-size: 1.2rem;
-    transition: all 0.2s;
-}
-
-.btn-icon:hover {
-    background: var(--accent-color);
-    transform: scale(1.1);
-}
-
-.project-info {
-    padding: 1.5rem;
-    flex: 1;
+.project-details-side {
     display: flex;
     flex-direction: column;
+    z-index: 10;
 }
 
 .project-category {
-    font-size: 0.8rem;
+    font-size: 0.875rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--accent-color);
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
 }
 
-.project-title {
-    font-size: 1.4rem;
-    margin-bottom: 0.8rem;
-    color: var(--text-primary);
+.project-name {
+    font-size: 3.5rem;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    line-height: 1.1;
 }
 
 .project-description {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    flex: 1;
+    font-size: 1.125rem;
+    color: #9ca3af;
+    line-height: 1.7;
+    margin-bottom: 2rem;
 }
 
-.project-tags {
+.tech-stack-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: auto;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
 }
 
-.tag {
+.tech-tag {
     font-size: 0.75rem;
-    padding: 0.3rem 0.8rem;
-    background: var(--bg-tertiary);
-    color: var(--text-tertiary);
-    border-radius: 50px;
-    font-weight: 500;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #00f0ff;
+    backdrop-filter: blur(8px);
 }
 
-@media screen and (max-width: 768px) {
-    .projects-grid {
+.project-ctas {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-primary-glow,
+.btn-outline-glow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-primary-glow {
+    background: linear-gradient(90deg, #00f0ff, #b026ff);
+    color: white;
+}
+
+.btn-primary-glow:hover {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+}
+
+.btn-outline-glow {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.btn-outline-glow:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 1024px) {
+
+    .unreal-project-card,
+    .unreal-project-card.reverse {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 3rem;
+    }
+
+    .unreal-project-card.reverse .project-image-side {
+        order: 1;
+    }
+
+    .unreal-project-card.reverse .project-details-side {
+        order: 2;
+    }
+
+    .projects-list {
+        gap: 5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-name {
+        font-size: 2.5rem;
+    }
+
+    .project-ctas {
+        flex-direction: column;
+    }
+
+    .project-ctas a {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
     }
 }

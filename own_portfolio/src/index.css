@@ -1,70 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap');
 
 :root {
-  /* Common Variables */
-  --font-main: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Colors */
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #111111;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-tertiary: #666666;
+
+  --accent: #d4a843;
+  --accent-light: #f0c95c;
+  --accent-glow: rgba(212, 168, 67, 0.3);
+  --accent-subtle: rgba(212, 168, 67, 0.08);
+
+  --border-color: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.12);
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 2rem;
   --spacing-lg: 4rem;
   --spacing-xl: 8rem;
-  --border-radius: 12px;
-  --transition-speed: 0.3s;
+
+  /* Misc */
+  --border-radius: 16px;
+  --border-radius-sm: 8px;
+  --border-radius-lg: 24px;
+  --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-fast: 0.2s ease;
 }
 
-/* Dark Mode (Default) */
-[data-theme="dark"] {
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #121212;
-  --bg-tertiary: #1c1c1c;
-  --text-primary: #ededed;
-  --text-secondary: #a1a1aa;
-  --text-tertiary: #52525b;
-  --accent-color: #00d4ff;
-  --accent-glow: rgba(0, 212, 255, 0.4);
-  --accent-hover: #00b8e6;
-  --border-color: #27272a;
-  --navbar-bg: rgba(18, 18, 18, 0.6);
-  --navbar-border: rgba(255, 255, 255, 0.08);
-  --card-bg: rgba(255, 255, 255, 0.08);
-}
-
-/* Light Mode */
-[data-theme="light"] {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f4f4f5;
-  --bg-tertiary: #e4e4e7;
-  --text-primary: #18181b;
-  --text-secondary: #52525b;
-  --text-tertiary: #a1a1aa;
-  --accent-color: #0ea5e9;
-  /* Slightly darker blue for better contrast on white */
-  --accent-glow: rgba(14, 165, 233, 0.4);
-  --accent-hover: #0284c7;
-  --border-color: #e4e4e7;
-  --navbar-bg: rgba(255, 255, 255, 0.8);
-  --navbar-border: rgba(0, 0, 0, 0.08);
-  --card-bg: rgba(0, 0, 0, 0.03);
-}
-
-* {
+/* Reset */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px;
-  /* For sticky navbar */
   overflow-x: hidden;
   width: 100%;
+  font-size: 16px;
 }
 
 body {
-  font-family: var(--font-main);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  font-family: var(--font-sans) !important;
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
   line-height: 1.6;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -76,7 +69,7 @@ body {
 a {
   text-decoration: none;
   color: inherit;
-  transition: color var(--transition-speed);
+  transition: color var(--transition-fast);
 }
 
 ul {
@@ -90,45 +83,76 @@ button {
   background: none;
 }
 
+img {
+  max-width: 100%;
+  display: block;
+}
+
 /* Utilities */
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
 .section {
-  padding: var(--spacing-lg) 0;
+  padding: var(--spacing-xl) 0;
+  position: relative;
+}
+
+.section-header {
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-header.center {
+  text-align: center;
+}
+
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: block;
 }
 
 .section-title {
-  text-align: center;
-  font-size: 3rem;
+  font-family: var(--font-serif) !important;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 700;
-  margin-bottom: var(--spacing-lg);
-  display: inline-block;
+  line-height: 1.1;
   color: var(--text-primary);
-  width: 100%;
+  letter-spacing: -1px;
 }
 
-/* Custom Text Selection */
+.section-title .accent {
+  color: var(--accent);
+  font-style: italic;
+  font-family: var(--font-serif) !important;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif) !important;
+}
+
+/* Selection */
 ::selection {
-  background: var(--accent-color);
+  background: var(--accent);
   color: #000;
 }
 
-.sub-heading {
-  color: var(--accent-color);
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 0.5rem;
-  display: block;
-  text-align: center;
-}
-
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -136,10 +160,56 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-tertiary);
-  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Glow effect utility */
+.glow {
+  box-shadow: 0 0 40px var(--accent-glow), 0 0 80px rgba(212, 168, 67, 0.1);
+}
+
+/* Glass card utility */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all var(--transition);
+}
+
+.glass-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+/* Noise texture overlay */
+.app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.015;
+  z-index: 1000;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .section {
+    padding: var(--spacing-lg) 0;
+  }
 }

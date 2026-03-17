@@ -1,61 +1,54 @@
-.background-container {
+.bg-grid-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
-    z-index: -10;
+    height: 100%;
+    z-index: -1;
     pointer-events: none;
     overflow: hidden;
-    background-color: var(--bg-primary);
 }
 
-/* The Base Grid (Dim lines) */
-.dot-pattern-bg {
+.bg-gradient-1 {
     position: absolute;
-    inset: 0;
-    background-size: 50px 50px;
-    background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 168, 67, 0.03), transparent 70%);
+    top: -200px;
+    right: -100px;
+    filter: blur(80px);
+    animation: bg-float 20s ease-in-out infinite;
 }
 
-/* The Glowing Grid (Spotlight) */
-.dot-mask {
+.bg-gradient-2 {
     position: absolute;
-    inset: 0;
-    background-size: 50px 50px;
-    background-image:
-        linear-gradient(to right, var(--accent-color) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--accent-color) 1px, transparent 1px);
-
-    /* Spotlight Mask */
-    mask-image: radial-gradient(300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-            black,
-            transparent);
-    -webkit-mask-image: radial-gradient(300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-            black,
-            transparent);
-
-    opacity: 0.6;
-    will-change: mask-image;
-    filter: drop-shadow(0 0 2px var(--accent-color));
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 168, 67, 0.02), transparent 70%);
+    bottom: -200px;
+    left: -100px;
+    filter: blur(80px);
+    animation: bg-float 25s ease-in-out infinite reverse;
 }
 
-/* The Glowing Cell Highlight */
-.grid-highlight {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    top: 0;
-    left: 0;
-    background: var(--accent-color);
-    opacity: 0.2;
-    pointer-events: none;
-    transform: translate(var(--highlight-x), var(--highlight-y));
-    transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1);
-    box-shadow: 0 0 15px var(--accent-color), inset 0 0 10px rgba(255, 255, 255, 0.3);
-    z-index: -1;
-    border: 1px solid var(--accent-color);
+@keyframes bg-float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(30px, -20px);
+    }
+
+    50% {
+        transform: translate(-20px, 30px);
+    }
+
+    75% {
+        transform: translate(20px, 20px);
+    }
 }

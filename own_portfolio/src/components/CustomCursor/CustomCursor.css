@@ -1,60 +1,80 @@
-.custom-cursor {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--accent-color);
-    border-radius: 50%;
+.custom-cursor-dot {
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background-color: #00f0ff;
+    border-radius: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
     z-index: 9999;
-    transition: all 0.1s ease;
-    transition-property: width, height, border;
-    will-change: width, height, transform, border;
-    mix-blend-mode: difference;
-}
-
-.custom-cursor.clicked {
-    transform: translate(-50%, -50%) scale(0.9);
-    background-color: var(--accent-color);
-}
-
-.custom-cursor.hovered {
-    width: 50px;
-    height: 50px;
-    border-color: transparent;
-    background-color: rgba(0, 212, 255, 0.1);
-    backdrop-filter: blur(2px);
-}
-
-.custom-cursor.hidden {
     opacity: 0;
+    box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+    mix-blend-mode: screen;
+    transition: opacity 0.3s ease, transform 0.2s ease, background-color 0.2s ease;
 }
 
-/* Hide default cursor only on non-touch devices if desired, 
-   but usually we keep it or set cursor: none on body. 
-   Let's set cursor: none on body in index.css later or here */
-body {
-    cursor: none;
+.custom-cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(0, 240, 255, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease, background-color 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-a,
-button,
-.clickable {
-    cursor: none;
+.custom-cursor-dot.visible,
+.custom-cursor-outline.visible {
+    opacity: 1;
+}
+
+.custom-cursor-dot.hovering {
+    transform: translate(-50%, -50%) scale(0);
+}
+
+.custom-cursor-outline.hovering {
+    width: 70px;
+    height: 70px;
+    background-color: rgba(176, 38, 255, 0.8);
+    border-color: transparent;
+    mix-blend-mode: screen;
+    box-shadow: 0 0 30px rgba(176, 38, 255, 0.6);
+    opacity: 0.9;
+}
+
+/* Hide native cursor on desktop */
+@media (pointer: fine) {
+
+    body,
+    a,
+    button,
+    input,
+    textarea,
+    select {
+        cursor: none !important;
+    }
 }
 
 @media (max-width: 768px) {
-    .custom-cursor {
-        display: none;
+
+    .custom-cursor-dot,
+    .custom-cursor-outline {
+        display: none !important;
     }
 
-    body {
-        cursor: auto;
-    }
-
+    body,
     a,
     button,
-    .clickable {
-        cursor: pointer;
+    input,
+    textarea,
+    select {
+        cursor: auto !important;
     }
 }

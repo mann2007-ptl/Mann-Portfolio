@@ -1,132 +1,166 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaYoutube, FaEnvelope, FaPaperPlane } from 'react-icons/fa';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { FaGithub, FaLinkedin, FaYoutube, FaEnvelope, FaPaperPlane, FaArrowUp } from 'react-icons/fa';
+import { SiLeetcode } from 'react-icons/si';
+import Magnetic from '../Magnetic/Magnetic';
+import Contact3D from './Contact3D';
 import './Contact.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Contact = () => {
+    const sectionRef = useRef(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-
         const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
 
         try {
             const response = await fetch("https://formsubmit.co/ajax/patelmann673@gmail.com", {
                 method: "POST",
-                body: formData
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
             });
+            const result = await response.json();
 
-            const data = await response.json();
-
-            if (data.success === "true") {
+            if (result.success === "true" || result.success === true) {
                 setShowSuccess(true);
                 e.target.reset();
                 setTimeout(() => setShowSuccess(false), 5000);
             } else {
-                alert("Something went wrong. Please try again.");
+                alert(result.message || "Something went wrong. Please check if you have verified your email with FormSubmit.");
             }
         } catch (error) {
-            console.error("Error sending email:", error);
+            console.error("Form error:", error);
             alert("Error sending email. Please try again later.");
         } finally {
             setIsSubmitting(false);
         }
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const socialLinks = [
+        { icon: <FaGithub />, href: 'https://github.com/mann2007-ptl', label: 'GitHub' },
+        { icon: <FaLinkedin />, href: 'https://www.linkedin.com/in/mann-patel-839b33399', label: 'LinkedIn' },
+        { icon: <FaYoutube />, href: 'https://www.youtube.com/@patelmann7197', label: 'YouTube' },
+        { icon: <SiLeetcode />, href: 'https://leetcode.com/u/Mann2006/', label: 'LeetCode' },
+    ];
+
+    useEffect(() => {
+        let ctx = gsap.context(() => {
+            gsap.fromTo('.contact-header-anim',
+                { opacity: 0, y: 30 },
+                { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' } }
+            );
+
+            gsap.fromTo('.contact-left-col',
+                { opacity: 0, x: -50 },
+                { opacity: 1, x: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.contact-layout', start: 'top 80%' } }
+            );
+
+            gsap.fromTo('.contact-form-glass',
+                { opacity: 0, x: 50 },
+                { opacity: 1, x: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.contact-layout', start: 'top 80%' } }
+            );
+        }, sectionRef);
+        return () => ctx.revert();
+    }, []);
+
     return (
-        <section id="contact" className="contact-section section">
+        <section id="contact" className="contact-section section" ref={sectionRef}>
+            <Contact3D />
+
             {showSuccess && (
-                <motion.div
-                    className="success-modal"
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                >
-                    <div className="success-icon">✓</div>
-                    <div className="success-text">Message Sent Successfully!</div>
-                </motion.div>
+                <div className="success-toast">
+                    <span className="success-check">✓</span>
+                    Message sent successfully!
+                </div>
             )}
-            <div className="container">
-                <motion.div
-                    className="section-header center"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <span className="sub-heading">Get In Touch</span>
-                    <h2 className="section-title">Contact Me</h2>
-                </motion.div>
 
-                <div className="contact-container">
-                    <motion.div
-                        className="contact-info"
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                        <h3>Let's create something specific.</h3>
-                        <p>
-                            I'm open for internships and junior developer roles. If you have a project in mind
-                            or just want to say hello, don't hesitate to reach out!
-                        </p>
-
-                        <div className="contact-links">
-                            <a href="mailto:patelmann673@gmail.com" className="contact-link-item">
-                                <div className="icon-box"><FaEnvelope /></div>
-                                <span>patelmann673@gmail.com</span>
-                            </a>
-                            <a href="https://www.linkedin.com/in/mann-patel-839b33399" target="_blank" rel="noopener noreferrer" className="contact-link-item">
-                                <div className="icon-box"><FaLinkedin /></div>
-                                <span>LinkedIn</span>
-                            </a>
-                            <a href="https://github.com/mann2007-ptl" target="_blank" rel="noopener noreferrer" className="contact-link-item">
-                                <div className="icon-box"><FaGithub /></div>
-                                <span>GitHub</span>
-                            </a>
-                            <a href="https://www.youtube.com/@patelmann7197" target="_blank" rel="noopener noreferrer" className="contact-link-item">
-                                <div className="icon-box"><FaYoutube /></div>
-                                <span>YouTube</span>
-                            </a>
-                        </div>
-                    </motion.div>
-
-                    <motion.form
-                        className="contact-form"
-                        onSubmit={handleSubmit}
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                    >
-                        <input type="hidden" name="_captcha" value="false" />
-
-                        <div className="form-group">
-                            <label htmlFor="name">Name</label>
-                            <input type="text" id="name" name="name" placeholder="John Doe" required />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="john@example.com" required />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="message">Message</label>
-                            <textarea id="message" name="message" rows="5" placeholder="Drop your message here..." required></textarea>
-                        </div>
-
-                        <button type="submit" className="btn btn-primary submit-btn" disabled={isSubmitting}>
-                            {isSubmitting ? 'Sending...' : 'Send Message'} <FaPaperPlane className="btn-icon-small" />
-                        </button>
-                    </motion.form>
+            <div className="container contact-container">
+                <div className="section-header center mb-16">
+                    <span className="section-label neon-text-purple contact-header-anim inline-block mb-4">Transmission</span>
+                    <h2 className="section-title contact-header-anim contact-main-title">
+                        Initiate <span className="gradient-text italic">Contact</span>
+                    </h2>
                 </div>
 
-                <div className="footer-copyright">
-                    <p>&copy; {new Date().getFullYear()} Mann Patel. Made with React & Framer Motion.</p>
+                <div className="contact-layout">
+                    <div className="contact-left-col">
+                        <h3 className="contact-left-title">Ready to Build the Future?</h3>
+                        <p className="contact-left-desc">
+                            I'm actively seeking internships and junior developer roles. Whether you have a visionary project or just want to connect with a fellow engineer, my inbox is always open.
+                        </p>
+
+                        <a href="mailto:patelmann673@gmail.com" className="contact-email-link glass-panel">
+                            <FaEnvelope className="email-icon" />
+                            <span className="email-text">patelmann673@gmail.com</span>
+                        </a>
+
+                        <div className="contact-social-row">
+                            {socialLinks.map((link, i) => (
+                                <Magnetic key={i} strength={30}>
+                                    <a href={link.href} target="_blank" rel="noopener noreferrer" className="contact-social-icon magnetic-wrap glass-panel" aria-label={link.label}>
+                                        {link.icon}
+                                    </a>
+                                </Magnetic>
+                            ))}
+                        </div>
+                    </div>
+
+                    <form className="contact-form-glass glass-panel" onSubmit={handleSubmit}>
+                        <input type="hidden" name="_captcha" value="false" />
+
+                        <div className="contact-form-grid">
+                            <div className="form-group">
+                                <label htmlFor="name" className="form-label label-cyan">Identity</label>
+                                <input type="text" id="name" name="name" placeholder="John Doe" required className="neon-input" />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="email" className="form-label label-purple">Comlink (Email)</label>
+                                <input type="email" id="email" name="email" placeholder="john@example.com" required className="neon-input" />
+                            </div>
+                        </div>
+
+                        <div className="form-group msg-group">
+                            <label htmlFor="message" className="form-label label-white">Transmission Data</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Project details or message..." required className="neon-input"></textarea>
+                        </div>
+
+                        <Magnetic strength={20}>
+                            <button type="submit" className="contact-submit-btn magnetic-wrap" disabled={isSubmitting}>
+                                <span>{isSubmitting ? 'Transmitting...' : 'Send Transmission'}</span>
+                                <FaPaperPlane />
+                            </button>
+                        </Magnetic>
+                    </form>
+                </div>
+
+                {/* Footer */}
+                <div className="contact-footer">
+                    <div className="footer-left">
+                        <span className="footer-name">Mann Patel</span>
+                        <span className="footer-role">UX Engineer</span>
+                    </div>
+                    <p className="footer-center">
+                        &copy; {new Date().getFullYear()} Mann Patel. Engineered with React, GSAP & Three.js.
+                    </p>
+                    <Magnetic strength={40}>
+                        <button className="footer-up-btn magnetic-wrap" onClick={scrollToTop} aria-label="Back to top">
+                            <FaArrowUp />
+                        </button>
+                    </Magnetic>
                 </div>
             </div>
         </section>
