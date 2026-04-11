@@ -10,6 +10,7 @@ import {
     SiPostman, SiVercel, SiNetlify, SiTypescript, SiExpress
 } from 'react-icons/si';
 import { VscVscode } from 'react-icons/vsc';
+import ScrollReveal from '../ScrollReveal/ScrollReveal';
 import './Skills.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -42,15 +43,15 @@ const Skills = () => {
                 { opacity: 0, y: 30 },
                 {
                     opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out',
-                    scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }
+                    scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: "play none none reverse" }
                 }
             );
 
             gsap.fromTo('.skill-card-glass',
-                { opacity: 0, y: 40, scale: 0.9 },
+                { opacity: 0, y: 30, scale: 0.95 },
                 {
-                    opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.05, ease: 'back.out(1.7)',
-                    scrollTrigger: { trigger: '.skills-grid-layout', start: 'top 80%' }
+                    opacity: 1, y: 0, scale: 1, duration: 1, stagger: 0.04, ease: 'power2.out',
+                    scrollTrigger: { trigger: '.skills-grid-layout', start: 'top 85%', toggleActions: "play none none reverse" }
                 }
             );
         }, sectionRef);
@@ -62,10 +63,12 @@ const Skills = () => {
         <section id="skills" className="skills-section section" ref={sectionRef}>
             <div className="container">
                 <div className="section-header center mb-16">
-                    <span className="section-label neon-text-purple skills-header-anim inline-block mb-4">Tech Arsenal</span>
-                    <h2 className="section-title skills-header-anim text-5xl font-bold">
-                        Tools of the <span className="gradient-text italic">Trade</span>
-                    </h2>
+                    <ScrollReveal type="heading" stagger={0.1}>
+                        <span className="section-label neon-text-purple inline-block mb-4">Tech Arsenal</span>
+                        <h2 className="section-title text-5xl font-bold">
+                            Tools of the <span className="gradient-text italic">Trade</span>
+                        </h2>
+                    </ScrollReveal>
                 </div>
 
                 {/* Flat Glassmorphism Grid instead of broken 3D sphere */}

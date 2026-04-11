@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import VanillaTilt from 'vanilla-tilt';
+import ScrollReveal from '../ScrollReveal/ScrollReveal';
 import './Education.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -57,13 +58,13 @@ const Education = () => {
             // Header animation
             gsap.fromTo('.edu-header-anim',
                 { opacity: 0, y: 30 },
-                { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' } }
+                { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: "play none none reverse" } }
             );
 
             // Cards staggered 3D reveal
             gsap.fromTo('.tilt-edu-card',
                 { opacity: 0, y: 60, rotationX: 15, scale: 0.95 },
-                { opacity: 1, y: 0, rotationX: 0, scale: 1, duration: 1.2, stagger: 0.2, ease: 'expo.out', scrollTrigger: { trigger: '.edu-grid', start: 'top 80%' } }
+                { opacity: 1, y: 0, rotationX: 0, scale: 1, duration: 1.2, stagger: 0.2, ease: 'expo.out', scrollTrigger: { trigger: '.edu-grid', start: 'top 80%', toggleActions: "play none none reverse" } }
             );
         }, sectionRef);
 
@@ -74,10 +75,12 @@ const Education = () => {
         <section id="education" className="education-section section" ref={sectionRef}>
             <div className="container">
                 <div className="section-header center edu-header-wrapper">
-                    <span className="section-label neon-text-cyan edu-header-anim inline-block mb-4">Academic Background</span>
-                    <h2 className="section-title edu-header-anim edu-main-title">
-                        My <span className="gradient-text italic">Foundation</span>
-                    </h2>
+                    <ScrollReveal type="heading" stagger={0.1}>
+                        <span className="section-label neon-text-cyan inline-block mb-4">Academic Background</span>
+                        <h2 className="section-title edu-main-title">
+                            My <span className="gradient-text italic">Foundation</span>
+                        </h2>
+                    </ScrollReveal>
                 </div>
 
                 <div className="edu-grid">

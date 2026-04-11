@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import VanillaTilt from 'vanilla-tilt';
 import userPhoto from '../../assets/photo.jpeg';
+import ScrollReveal from '../ScrollReveal/ScrollReveal';
 import './About.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -42,16 +43,16 @@ const About = () => {
             textLines.forEach((text) => {
                 gsap.fromTo(text,
                     { y: 40, opacity: 0, rotationX: 45 },
-                    { y: 0, opacity: 1, rotationX: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: text, start: 'top 85%' } }
+                    { y: 0, opacity: 1, rotationX: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: text, start: 'top 85%', toggleActions: "play none none reverse" } }
                 );
             });
 
             gsap.fromTo('.about-stat',
                 { y: 60, opacity: 0, scale: 0.9 },
-                { y: 0, opacity: 1, scale: 1, stagger: 0.15, duration: 1, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.about-stats', start: 'top 80%' } }
+                { y: 0, opacity: 1, scale: 1, stagger: 0.15, duration: 1, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.about-stats', start: 'top 80%', toggleActions: "play none none reverse" } }
             );
 
-            const tl = gsap.timeline({ scrollTrigger: { trigger: '.experience-timeline', start: 'top 75%' } });
+            const tl = gsap.timeline({ scrollTrigger: { trigger: '.experience-timeline', start: 'top 75%', toggleActions: "play none none reverse" } });
 
             tl.fromTo('.timeline-title-text',
                 { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.8 }
@@ -111,23 +112,23 @@ const About = () => {
 
                 <div className="about-grid">
                     <TiltCard className="about-image-wrapper glass-panel" options={{ max: 10, scale: 1.02 }}>
-                        <img src={userPhoto} alt="Mann Patel" className="about-image" />
+                        <img src={userPhoto} alt="Mann Patel" className="about-image" loading="lazy" />
                         <div className="corner-accent top-left"></div>
                         <div className="corner-accent bottom-right"></div>
                     </TiltCard>
 
                     <div className="about-content-wrapper">
                         <div className="about-text-block">
-                            <p className="about-text-reveal about-intro-text">
-                                I am a <strong className="highlight-cyan">Computer Engineering student</strong> based in Gujarat, India.
+                            <ScrollReveal type="paragraph" className="about-intro-text" stagger={0.03}>
+                                I am a Computer Engineering student based in Gujarat, India.
                                 My journey in web development started with a curiosity for internet mechanics,
-                                which has explosive-evolved into an obsession for creating <span className="highlight-white">award-winning level digital experiences</span>.
-                            </p>
-                            <p className="about-text-reveal about-sub-text">
-                                Specializing in the <strong className="highlight-purple">MERN stack</strong>,
+                                which has explosive-evolved into an obsession for creating award-winning level digital experiences.
+                            </ScrollReveal>
+                            <ScrollReveal type="paragraph" className="about-sub-text" delay={0.2} stagger={0.03}>
+                                Specializing in the MERN stack,
                                 my true passion is frontend engineering—fusing bleeding-edge technology like
                                 WebGL, GSAP, and cinematic design to build things that make people say wow.
-                            </p>
+                            </ScrollReveal>
                         </div>
 
                         <div className="about-stats">

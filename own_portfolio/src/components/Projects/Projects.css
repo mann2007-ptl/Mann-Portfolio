@@ -9,7 +9,7 @@
 }
 
 .proj-main-title {
-    font-size: 4rem;
+    font-size: 3.5rem;
     font-weight: 800;
 }
 
@@ -22,10 +22,12 @@
 
 .unreal-project-card {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 5rem;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 4rem;
     align-items: center;
     position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
 .unreal-project-card.reverse {
@@ -54,8 +56,9 @@
 }
 
 .project-image-side:hover {
-    box-shadow: 0 0 40px rgba(0, 240, 255, 0.15), inset 0 0 20px rgba(0, 240, 255, 0.05);
-    border-color: rgba(0, 240, 255, 0.3);
+    box-shadow: 0 0 50px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.1);
+    border-color: rgba(0, 240, 255, 0.4);
+    transform: scale(1.02);
 }
 
 .project-image-container {
@@ -107,13 +110,19 @@
 }
 
 .project-name {
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-family: var(--font-serif);
     font-weight: 700;
     color: #fff;
-    margin-bottom: 1.5rem;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    margin-bottom: 1.2rem;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
     line-height: 1.1;
+    transition: text-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.unreal-project-card:hover .project-name {
+    text-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+    transform: translateX(10px);
 }
 
 .project-description {
@@ -133,12 +142,20 @@
 .tech-tag {
     font-size: 0.75rem;
     font-weight: 600;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.2rem;
     border-radius: 9999px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.1);
+    background: rgba(0, 240, 255, 0.03);
     color: #00f0ff;
     backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+    background: rgba(0, 240, 255, 0.1);
+    border-color: rgba(0, 240, 255, 0.4);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .project-ctas {

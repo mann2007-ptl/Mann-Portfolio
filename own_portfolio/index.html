@@ -3,8 +3,26 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+  <!-- Favicons for browser tabs and Google Search results -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#010204" />
+
+  <!-- Preconnect to Google Fonts (eliminates DNS + TLS latency) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Non-blocking font loading (preload + swap pattern) -->
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap"
+    media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" />
+  </noscript>
 
   <!-- SEO Meta Tags -->
   <meta name="description"
@@ -15,14 +33,12 @@
   <meta name="robots" content="index, follow" />
 
   <!-- Open Graph Tags for Social Sharing -->
-  <!-- TODO: Replace "https://example.com" with your actual production domain -->
-  <!-- TODO: Create og-image.png (1200x630px recommended) and place in public folder -->
   <meta property="og:title" content="Mann Patel | Full-Stack Developer & UI/UX Designer" />
   <meta property="og:description"
     content="Explore my portfolio showcasing innovative web projects, creative designs, and professional development skills." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://example.com/" />
-  <meta property="og:image" content="https://example.com/og-image.png" />
+  <meta property="og:url" content="https://mann-portfolio-six.vercel.app/" />
+  <meta property="og:image" content="https://mann-portfolio-six.vercel.app/og-image.png" />
   <meta property="og:site_name" content="Mann Patel Portfolio" />
 
   <!-- Twitter Card Tags -->
@@ -30,12 +46,31 @@
   <meta name="twitter:title" content="Mann Patel | Full-Stack Developer & UI/UX Designer" />
   <meta name="twitter:description"
     content="Explore my portfolio showcasing innovative web projects, creative designs, and professional development skills." />
-  <meta name="twitter:image" content="https://example.com/og-image.png" />
+  <meta name="twitter:image" content="https://mann-portfolio-six.vercel.app/og-image.png" />
 
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://example.com/" />
+  <link rel="canonical" href="https://mann-portfolio-six.vercel.app/" />
 
   <title>Mann Patel | Full-Stack Developer & UI/UX Designer</title>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Mann Patel",
+      "url": "https://mann-portfolio-six.vercel.app",
+      "jobTitle": "Full-Stack Developer & UI/UX Designer",
+      "description": "Architecting digital experiences that push the boundaries of web engineering and cinematic design.",
+      "sameAs": [
+        "https://github.com/mann2007-ptl",
+        "https://www.linkedin.com/in/mann-patel-839b33399",
+        "https://www.youtube.com/@patelmann7197",
+        "https://leetcode.com/u/Mann2006/",
+        "https://x.com/mann_ptl_20"
+      ]
+    }
+  </script>
 </head>
 
 <body>

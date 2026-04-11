@@ -13,8 +13,8 @@ const ParallaxSection = ({ children, className = '', speed = 0.5 }) => {
         const content = contentRef.current;
 
         // Entry Animation: Fade up when section enters viewport
-        gsap.fromTo(content,
-            { y: 100, opacity: 0 },
+        const entryTween = gsap.fromTo(content,
+            { y: 60, opacity: 0 },
             {
                 y: 0,
                 opacity: 1,
@@ -22,27 +22,29 @@ const ParallaxSection = ({ children, className = '', speed = 0.5 }) => {
                 ease: 'power3.out',
                 scrollTrigger: {
                     trigger: section,
-                    start: 'top 85%',
+                    start: 'top 88%',
                     toggleActions: 'play none none reverse',
                 }
             }
         );
 
-        // Parallax Effect: Scrub vertical movement based on scroll speed
-        gsap.to(content, {
+        // Parallax Effect — scrub: 1.5 for damped, buttery movement (not raw scrub: true)
+        const parallaxTween = gsap.to(content, {
             y: () => -window.innerHeight * speed,
             ease: 'none',
             scrollTrigger: {
                 trigger: section,
                 start: 'top bottom',
                 end: 'bottom top',
-                scrub: true,
+                scrub: 1.5,
                 invalidateOnRefresh: true,
             }
         });
 
         return () => {
-            ScrollTrigger.getAll().forEach(t => t.kill());
+            // Kill only THIS instance's triggers, not all global ones
+            entryTween.scrollTrigger?.kill();
+            parallaxTween.scrollTrigger?.kill();
         };
     }, [speed]);
 

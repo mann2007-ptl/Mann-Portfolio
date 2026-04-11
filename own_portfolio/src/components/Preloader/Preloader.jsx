@@ -10,15 +10,16 @@ const Preloader = ({ setLoading }) => {
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
 
-        // Fake loading progress
+        // Normal, cinematic loading progress (LCP is secure behind the veil)
         const interval = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 100) {
                     clearInterval(interval);
-                    setTimeout(() => setIsComplete(true), 500); // Small wait after getting to 100
+                    // Signal the App to be ready before preloader fully slides out
+                    setLoading(false);
+                    setTimeout(() => setIsComplete(true), 500);
                     return 100;
                 }
-                // Random jump in progress
                 const jump = Math.floor(Math.random() * 10) + 2;
                 return Math.min(prev + jump, 100);
             });
@@ -29,10 +30,8 @@ const Preloader = ({ setLoading }) => {
         };
     }, []);
 
-    // Cleanup and trigger App reveal
     const handleExitComplete = () => {
         document.body.style.overflow = '';
-        setLoading(false);
     };
 
     return (
@@ -43,7 +42,7 @@ const Preloader = ({ setLoading }) => {
                     initial={{ y: 0 }}
                     exit={{
                         y: '-100%',
-                        transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 },
+                        transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] },
                     }}
                 >
                     <div className="preloader-content">
@@ -112,7 +111,7 @@ const Preloader = ({ setLoading }) => {
                                 <motion.div
                                     className="preloader-bar-fill"
                                     animate={{ width: `${progress}%` }}
-                                    transition={{ ease: 'linear', duration: 0.2 }}
+                                    transition={{ ease: 'linear', duration: 0.1 }}
                                 />
                             </div>
                         </div>

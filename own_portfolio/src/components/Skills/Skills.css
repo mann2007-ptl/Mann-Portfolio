@@ -27,14 +27,17 @@
 }
 
 .skill-card-glass:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px) scale(1.02);
     border-color: var(--skill-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px var(--skill-color);
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(var(--skill-color-rgb), 0.2),
+        inset 0 0 15px rgba(var(--skill-color), 0.1);
 }
 
 .skill-card-glass:hover .skill-icon-wrap {
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 10px var(--skill-color));
+    transform: scale(1.15) rotate(5deg);
+    filter: drop-shadow(0 0 15px var(--skill-color));
 }
 
 .skill-icon-wrap {

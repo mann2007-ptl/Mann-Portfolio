@@ -17,6 +17,7 @@ const LeetCode = () => {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: 'top 80%',
+                    toggleActions: "play none none reverse"
                 }
             });
 
@@ -71,7 +72,7 @@ const LeetCode = () => {
                     </div>
 
                     <div className="lc-stats">
-                        <img src={leetCardUrl} alt="LeetCode Stats" className="lc-card-img" />
+                        <img src={leetCardUrl} alt="LeetCode Stats" className="lc-card-img" loading="lazy" />
                     </div>
 
                     <div className="lc-tags">

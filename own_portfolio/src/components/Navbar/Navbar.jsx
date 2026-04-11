@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Magnetic from '../Magnetic/Magnetic';
 import Logo from './Logo';
 import './Navbar.css';
@@ -20,23 +21,24 @@ const Navbar = () => {
     };
 
     const navItems = [
-        { label: 'About', href: '#about' },
-        { label: 'Skills', href: '#skills' },
-        { label: 'Projects', href: '#work' },
-        { label: 'Certificate', href: '#certificate' },
-        { label: 'LeetCode', href: '#leetcode' },
-        { label: 'Education', href: '#education' },
-        { label: 'Contact', href: '#contact' },
+        { label: 'About', to: '/about' },
+        { label: 'Skills', to: '/skills' },
+        { label: 'Projects', to: '/projects' },
+        { label: 'Hackathon', to: '/hackathon' },
+        { label: 'Certificate', to: '/certificates' },
+        { label: 'LeetCode', to: '/leetcode' },
+        { label: 'Education', to: '/education' },
+        { label: 'Contact', to: '/contact' },
     ];
 
     return (
         <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
             <div className="nav-container">
                 <Magnetic strength={10}>
-                    <a href="#" className="nav-logo magnetic-wrap">
+                    <Link to="/" className="nav-logo magnetic-wrap">
                         <Logo />
                         <span className="nav-logo-text">MANN</span>
-                    </a>
+                    </Link>
                 </Magnetic>
 
                 <Magnetic strength={20}>
@@ -59,13 +61,13 @@ const Navbar = () => {
                 <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
                     {navItems.map((item) => (
                         <Magnetic key={item.label} strength={15}>
-                            <a
-                                href={item.href}
+                            <Link
+                                to={item.to}
                                 className="nav-link magnetic-wrap"
                                 onClick={handleLinkClick}
                             >
                                 {item.label}
-                            </a>
+                            </Link>
                         </Magnetic>
                     ))}
                 </div>
@@ -75,3 +77,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
