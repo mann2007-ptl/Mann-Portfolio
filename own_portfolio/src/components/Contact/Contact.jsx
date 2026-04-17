@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import { createPortal } from 'react-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -7,15 +7,41 @@ import { FaXTwitter } from 'react-icons/fa6';
 import { SiLeetcode } from 'react-icons/si';
 import Magnetic from '../Magnetic/Magnetic';
 import ScrollReveal from '../ScrollReveal/ScrollReveal';
-import Contact3D from './Contact3D';
+import { isMobileDevice } from '../../hooks/useDeviceDetect';
 import './Contact.css';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Lazy-load the Three.js 3D component — only on desktop
+const Contact3D = lazy(() => import('./Contact3D'));
+const isDesktop = !isMobileDevice();
 
 const Contact = () => {
     const sectionRef = useRef(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [show3D, setShow3D] = useState(false);
+
+    // Only load 3D when section enters viewport AND on desktop
+    useEffect(() => {
+        if (!isDesktop) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setShow3D(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '200px' }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -83,16 +109,19 @@ const Contact = () => {
 
     return (
         <section id="contact" className="contact-section section" ref={sectionRef}>
-            <Contact3D />
-
-
+            {/* 3D background — lazy loaded, desktop only, viewport-triggered */}
+            {show3D && (
+                <Suspense fallback={null}>
+                    <Contact3D />
+                </Suspense>
+            )}
 
             <div className="container contact-container">
                 <div className="section-header center mb-16">
                     <ScrollReveal type="heading" stagger={0.1}>
                         <span className="section-label neon-text-purple inline-block mb-4">Transmission</span>
                         <h2 className="section-title contact-main-title">
-                            Initiate <span className="gradient-text italic">Contact</span>
+                            Initiate <span className="accent">Contact</span>
                         </h2>
                     </ScrollReveal>
                 </div>

@@ -2,14 +2,18 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import VanillaTilt from 'vanilla-tilt';
+import { isMobileDevice } from '../../hooks/useDeviceDetect';
 import ScrollReveal from '../ScrollReveal/ScrollReveal';
 import './Education.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const isDesktop = !isMobileDevice();
+
 const TiltEduCard = ({ children, className = '' }) => {
     const tiltRef = useRef(null);
     useEffect(() => {
+        if (!isDesktop) return; // Skip on mobile
         if (tiltRef.current) {
             VanillaTilt.init(tiltRef.current, {
                 max: 8,
@@ -78,7 +82,7 @@ const Education = () => {
                     <ScrollReveal type="heading" stagger={0.1}>
                         <span className="section-label neon-text-cyan inline-block mb-4">Academic Background</span>
                         <h2 className="section-title edu-main-title">
-                            My <span className="gradient-text italic">Foundation</span>
+                            My <span className="accent">Foundation</span>
                         </h2>
                     </ScrollReveal>
                 </div>

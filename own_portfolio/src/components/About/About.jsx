@@ -2,15 +2,19 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import VanillaTilt from 'vanilla-tilt';
+import { isMobileDevice } from '../../hooks/useDeviceDetect';
 import userPhoto from '../../assets/photo.jpeg';
 import ScrollReveal from '../ScrollReveal/ScrollReveal';
 import './About.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const isDesktop = !isMobileDevice();
+
 const TiltCard = ({ children, className = '', options = {} }) => {
     const tiltRef = useRef(null);
     useEffect(() => {
+        if (!isDesktop) return; // Skip VanillaTilt on mobile
         if (tiltRef.current) {
             VanillaTilt.init(tiltRef.current, {
                 max: 15,
@@ -106,7 +110,7 @@ const About = () => {
                 <div className="section-header center mb-20">
                     <span className="section-label neon-text-cyan">Prologize</span>
                     <h2 className="section-title">
-                        My career & <span className="gradient-text italic">experience</span>
+                        My career & <span className="accent">experience</span>
                     </h2>
                 </div>
 
@@ -143,7 +147,7 @@ const About = () => {
                 </div>
 
                 <div className="experience-timeline">
-                    <h3 className="timeline-title-text">The Journey</h3>
+                    <h3 className="timeline-title-text">The <span className="accent">Journey</span></h3>
 
                     <div className="timeline-container">
                         {/* Center glowing line */}

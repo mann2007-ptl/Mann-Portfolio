@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import VanillaTilt from 'vanilla-tilt';
+import { isMobileDevice } from '../../hooks/useDeviceDetect';
 import { FaGithub, FaArrowRight, FaYoutube } from 'react-icons/fa';
 import Magnetic from '../Magnetic/Magnetic';
 import ScrollReveal from '../ScrollReveal/ScrollReveal';
@@ -15,9 +16,12 @@ import './Projects.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const isDesktop = !isMobileDevice();
+
 const TiltProject = ({ children, className = '' }) => {
     const tiltRef = useRef(null);
     useEffect(() => {
+        if (!isDesktop) return; // Skip VanillaTilt on mobile
         if (tiltRef.current) {
             VanillaTilt.init(tiltRef.current, {
                 max: 5,
@@ -119,7 +123,7 @@ const Projects = () => {
                     <ScrollReveal type="heading" stagger={0.2}>
                         <span className="section-label neon-text-cyan inline-block mb-4">Selected Work</span>
                         <h2 className="section-title proj-main-title">
-                            My Creative <span className="gradient-text italic">Universe</span>
+                            My Creative <span className="accent">Universe</span>
                         </h2>
                     </ScrollReveal>
                 </div>

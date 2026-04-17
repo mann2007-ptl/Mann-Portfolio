@@ -1,76 +1,104 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
 
 <head>
   <meta charset="UTF-8" />
-  <!-- Favicons for browser tabs and Google Search results -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="apple-touch-icon" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#010204" />
-
-  <!-- Preconnect to Google Fonts (eliminates DNS + TLS latency) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <!-- Non-blocking font loading (preload + swap pattern) -->
-  <link rel="preload" as="style"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" />
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap"
-    media="print" onload="this.media='all'" />
-  <noscript>
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" />
-  </noscript>
-
-  <!-- SEO Meta Tags -->
-  <meta name="description"
-    content="Mann Patel - Full-Stack Developer & UI/UX Designer. Explore my portfolio showcasing innovative web projects, creative designs, and professional development skills." />
-  <meta name="keywords"
-    content="Mann Patel, Full-Stack Developer, Web Developer, React Developer, UI/UX Designer, Portfolio, Frontend Developer, JavaScript, Software Engineer" />
   <meta name="author" content="Mann Patel" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-  <!-- Open Graph Tags for Social Sharing -->
-  <meta property="og:title" content="Mann Patel | Full-Stack Developer & UI/UX Designer" />
-  <meta property="og:description"
-    content="Explore my portfolio showcasing innovative web projects, creative designs, and professional development skills." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mann-portfolio-six.vercel.app/" />
-  <meta property="og:image" content="https://mann-portfolio-six.vercel.app/og-image.png" />
-  <meta property="og:site_name" content="Mann Patel Portfolio" />
-
-  <!-- Twitter Card Tags -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Mann Patel | Full-Stack Developer & UI/UX Designer" />
-  <meta name="twitter:description"
-    content="Explore my portfolio showcasing innovative web projects, creative designs, and professional development skills." />
-  <meta name="twitter:image" content="https://mann-portfolio-six.vercel.app/og-image.png" />
-
-  <!-- Canonical URL -->
+  <!-- Primary SEO -->
+  <title>Mann Patel | Full-Stack Developer Portfolio</title>
+  <meta name="description"
+    content="Mann Patel is a Full-Stack Developer skilled in React, Node.js, Express, MongoDB, JavaScript, and modern UI development. Explore projects, technical skills, and contact details in this portfolio website." />
   <link rel="canonical" href="https://mann-portfolio-six.vercel.app/" />
 
-  <title>Mann Patel | Full-Stack Developer & UI/UX Designer</title>
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
 
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Mann Patel",
-      "url": "https://mann-portfolio-six.vercel.app",
-      "jobTitle": "Full-Stack Developer & UI/UX Designer",
-      "description": "Architecting digital experiences that push the boundaries of web engineering and cinematic design.",
-      "sameAs": [
-        "https://github.com/mann2007-ptl",
-        "https://www.linkedin.com/in/mann-patel-839b33399",
-        "https://www.youtube.com/@patelmann7197",
-        "https://leetcode.com/u/Mann2006/",
-        "https://x.com/mann_ptl_20"
-      ]
+  <!-- Critical inline CSS — allows instant first paint before any JS or external CSS -->
+  <style>
+    /* Instant background + layout so browser can paint immediately */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-  </script>
+
+    html {
+      background-color: #010204;
+      color: #fff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #010204;
+      min-height: 100vh;
+    }
+
+    #root {
+      min-height: 100vh;
+      background-color: #010204;
+    }
+
+    /* Hero placeholder layout so LCP element paints instantly */
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #010204;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 11vw, 8rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      color: #fff;
+    }
+  </style>
+
+  <!-- Fonts — only essential weights, non-blocking -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap"
+    media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" />
+  </noscript>
+
+  <!-- Open Graph -->
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Mann Patel | Full-Stack Developer Portfolio" />
+  <meta property="og:description"
+    content="Explore the portfolio of Mann Patel, a Full-Stack Developer building modern web applications with React, Node.js, Express, MongoDB, and clean UI design." />
+  <meta property="og:url" content="https://mann-portfolio-six.vercel.app/" />
+  <meta property="og:site_name" content="Mann Patel Portfolio" />
+  <meta property="og:image" content="https://mann-portfolio-six.vercel.app/og-image.png" />
+  <meta property="og:image:alt" content="Mann Patel portfolio preview image" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mann Patel | Full-Stack Developer Portfolio" />
+  <meta name="twitter:description"
+    content="View projects, technical skills, and contact information for Mann Patel, a Full-Stack Developer focused on modern web development." />
+  <meta name="twitter:image" content="https://mann-portfolio-six.vercel.app/og-image.png" />
+  <meta name="twitter:image:alt" content="Mann Patel portfolio preview image" />
+  <meta name="twitter:creator" content="@mann_ptl_20" />
+
+  <!-- Optional theme / app-like metadata -->
+  <meta name="application-name" content="Mann Patel Portfolio" />
+
+  <!-- Structured Data managed dynamically via React Helmet in App -->
 </head>
 
 <body>

@@ -5,11 +5,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiGithub, FiExternalLink, FiX, FiCalendar, FiMaximize2, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { HiOutlineSparkles } from 'react-icons/hi';
 import VanillaTilt from 'vanilla-tilt';
+import { isMobileDevice } from '../../hooks/useDeviceDetect';
 
 import ScrollReveal from '../ScrollReveal/ScrollReveal';
 import './Hackathon.css';
 
 gsap.registerPlugin(ScrollTrigger);
+const isDesktop = !isMobileDevice();
 
 const Hackathon = () => {
     const sectionRef = useRef(null);
@@ -207,6 +209,7 @@ const HackathonRow = ({ data, onOpen }) => {
     }, [data.gallery.length]);
 
     useEffect(() => {
+        if (!isDesktop) return; // Skip on mobile
         if (tRef1.current) VanillaTilt.init(tRef1.current, { max: 8, speed: 400, glare: true, "max-glare": 0.2 });
         if (tRef2.current) VanillaTilt.init(tRef2.current, { max: 5, speed: 400, glare: true, "max-glare": 0.1 });
     }, []);

@@ -66,7 +66,7 @@ const Skills = () => {
                     <ScrollReveal type="heading" stagger={0.1}>
                         <span className="section-label neon-text-purple inline-block mb-4">Tech Arsenal</span>
                         <h2 className="section-title text-5xl font-bold">
-                            Tools of the <span className="gradient-text italic">Trade</span>
+                            Tools of the <span className="accent">Trade</span>
                         </h2>
                     </ScrollReveal>
                 </div>

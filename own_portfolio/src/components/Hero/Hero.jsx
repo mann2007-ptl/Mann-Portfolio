@@ -1,109 +1,54 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { SiLeetcode } from 'react-icons/si';
 import Magnetic from '../Magnetic/Magnetic';
-import ScrollReveal from '../ScrollReveal/ScrollReveal';
+import { isMobileDevice } from '../../hooks/useDeviceDetect';
 import './Hero.css';
 
-// Simple lightweight particle component
-const Particles = () => {
-    // Generate an array of 40 ambient dots
-    const dotsContent = Array.from({ length: 40 }).map((_, i) => {
-        // Random position, size, and animation delay
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        const size = Math.random() * 3 + 1; // 1px to 4px
-        const delay = Math.random() * 5;
-        const isCyan = Math.random() > 0.5;
-
-        return (
-            <div
-                key={i}
-                className={`ambient-particle ${isCyan ? 'cyan' : 'purple'}`}
-                style={{
-                    left: `${x}%`,
-                    top: `${y}%`,
-                    width: `${size}px`,
-                    height: `${size}px`,
-                    animationDelay: `${delay}s`,
-                }}
-            />
-        );
-    });
-
-    return <div className="particles-container">{dotsContent}</div>;
-};
-
-// Extremely lightweight CSS parallax starfield
-const Starfield = () => {
-    return (
-        <div className="starfield-wrapper">
-            <div className="stars-layer-1"></div>
-            <div className="stars-layer-2"></div>
-            <div className="stars-layer-3"></div>
-        </div>
-    );
-};
+const Hero3D = lazy(() => import('./Hero3D'));
+const isDesktop = !isMobileDevice();
 
 const Hero = ({ loading }) => {
     const heroRef = useRef(null);
-    const cardRef = useRef(null);
-    const titleLinesRef = useRef([]);
-
-    // Zero-lag mouse tracker for the glass card flashlight effect
-    const handleMouseMove = (e) => {
-        if (!cardRef.current) return;
-        const rect = cardRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        cardRef.current.style.setProperty('--mouse-x', `${x}px`);
-        cardRef.current.style.setProperty('--mouse-y', `${y}px`);
-    };
+    const [animationRan, setAnimationRan] = useState(false);
 
     useEffect(() => {
-        if (loading) return; // Allow natural DOM paint behind preloader for LCP, run GSAP after
+        if (loading || animationRan) return;
 
-        let ctx = gsap.context(() => {
-            const tl = gsap.timeline();
+        const rafId = requestAnimationFrame(() => {
+            gsap.context(() => {
+                const tl = gsap.timeline();
 
-            tl.fromTo('.hero-glow-core',
-                { opacity: 0, scale: 0.8 },
-                { opacity: 1, scale: 1, duration: 1.5, ease: "power2.out" },
-                0
-            )
-                .fromTo('.cinematic-glass-card',
-                    { opacity: 0, y: 60, scale: 0.95 },
-                    { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "expo.out" },
-                    0
-                )
-                .fromTo('.hero-badge-pill',
-                    { opacity: 0, y: -20 },
-                    { opacity: 1, y: 0, duration: 1, ease: "back.out(1.5)" },
+                tl.from('.hero-label',
+                    { y: -15, opacity: 0, duration: 0.8, ease: "back.out(1.5)" },
                     0.2
                 )
-                .fromTo(titleLinesRef.current,
-                    { y: 120, opacity: 0, rotateX: 20 },
-                    { y: 0, opacity: 1, rotateX: 0, duration: 1.2, stagger: 0.15, ease: "power4.out" },
-                    0.2
-                )
-                .fromTo('.hero-cta a',
-                    { opacity: 0, y: 20 },
-                    { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "back.out(1.5)" },
-                    0.6
-                )
-                .fromTo('.social-icon',
-                    { opacity: 0, scale: 0 },
-                    { opacity: 1, scale: 1, duration: 0.6, stagger: 0.08, ease: "back.out(2)" },
-                    0.8
-                );
+                    .from('.hero-bottom-area',
+                        { y: 25, opacity: 0, duration: 0.9, ease: "power3.out" },
+                        0.4
+                    )
+                    .from('.hero-3d-wrapper',
+                        { opacity: 0, scale: 0.9, duration: 1.2, ease: "power3.out" },
+                        0.3
+                    )
+                    .from('.hero-socials a',
+                        { y: 15, opacity: 0, duration: 0.5, stagger: 0.08, ease: "power3.out" },
+                        0.6
+                    )
+                    .from('.hero-scroll-cue',
+                        { opacity: 0, duration: 0.6, ease: "power2.out" },
+                        1.0
+                    );
+            }, heroRef);
 
-        }, heroRef);
+            setAnimationRan(true);
+        });
 
-        return () => ctx.revert();
-    }, [loading]);
+        return () => cancelAnimationFrame(rafId);
+    }, [loading, animationRan]);
 
     const socialLinks = [
         { icon: <FaGithub />, href: 'https://github.com/mann2007-ptl', label: 'GitHub' },
@@ -115,39 +60,24 @@ const Hero = ({ loading }) => {
 
     return (
         <section id="hero" className="hero-section" ref={heroRef}>
-            <div className="hero-background-gradient"></div>
-            <Starfield />
-            <Particles />
+            <div className="hero-ambient-glow"></div>
+            <div className="hero-grain"></div>
 
             <div className="container hero-container">
-                <div
-                    className="cinematic-glass-card"
-                    ref={cardRef}
-                    onMouseMove={handleMouseMove}
-                >
-                    <div className="hero-glow-core"></div>
+                {/* LEFT: Main content */}
+                <div className="hero-left">
+                    <span className="hero-label">Mann Patel</span>
 
-                    <div className="hero-badge-pill">
-                        <span className="badge-dot pulse-cyan"></span>
-                        <span className="badge-text">AVAILABLE FOR OPPORTUNITIES</span>
-                    </div>
-
-                    <div className="hero-title-wrapper">
-                        <div className="title-overflow-hidden">
-                            <h1 className="hero-title white-text" ref={el => titleLinesRef.current[0] = el}>
-                                CREATIVE
-                            </h1>
-                        </div>
-                        <div className="title-overflow-hidden">
-                            <h1 className="hero-title highlight-gradient" ref={el => titleLinesRef.current[1] = el}>
-                                DEVELOPER.
-                            </h1>
-                        </div>
-                    </div>
+                    <h1 className="hero-headline">
+                        I build <em>digital</em><br />
+                        experiences that<br />
+                        <em>inspire.</em>
+                    </h1>
 
                     <div className="hero-bottom-area">
                         <p className="hero-description">
-                            I'm Mann Patel. Architecting digital experiences that push the boundaries of web engineering and cinematic design.
+                            Full-stack developer specializing in cinematic web design,
+                            MERN stack, and performance engineering.
                         </p>
 
                         <div className="hero-cta">
@@ -168,23 +98,40 @@ const Hero = ({ loading }) => {
                             </Magnetic>
                         </div>
                     </div>
+
+                    <div className="hero-socials">
+                        {socialLinks.map((link, i) => (
+                            <Magnetic key={i} strength={40}>
+                                <a
+                                    href={link.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="social-icon magnetic-wrap"
+                                    aria-label={link.label}
+                                >
+                                    {link.icon}
+                                </a>
+                            </Magnetic>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="hero-socials">
-                    {socialLinks.map((link, i) => (
-                        <Magnetic key={i} strength={40}>
-                            <a
-                                href={link.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="social-icon magnetic-wrap"
-                                aria-label={link.label}
-                            >
-                                {link.icon}
-                            </a>
-                        </Magnetic>
-                    ))}
+                {/* RIGHT: 3D Object */}
+                <div className="hero-3d-wrapper">
+                    {isDesktop ? (
+                        <Suspense fallback={null}>
+                            <Hero3D />
+                        </Suspense>
+                    ) : (
+                        /* Mobile fallback — decorative gold ring via CSS */
+                        <div className="hero-mobile-visual"></div>
+                    )}
                 </div>
+            </div>
+
+            <div className="hero-scroll-cue">
+                <div className="scroll-line"></div>
+                <span className="scroll-text">Scroll</span>
             </div>
         </section>
     );

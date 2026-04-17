@@ -30,8 +30,7 @@
     background: linear-gradient(160deg,
             rgba(10, 10, 20, 0.92) 0%,
             rgba(10, 10, 20, 0.97) 100%);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+
     display: flex;
     align-items: center;
     justify-content: center;

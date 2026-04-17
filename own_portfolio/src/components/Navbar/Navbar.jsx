@@ -71,6 +71,8 @@ const Navbar = () => {
                         </Magnetic>
                     ))}
                 </div>
+
+
             </div>
         </nav>
     );

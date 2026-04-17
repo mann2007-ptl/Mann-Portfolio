@@ -1,3 +1,4 @@
+/* ===== SKILLS SECTION ===== */
 .skills-section {
     position: relative;
     padding: 120px 0;
@@ -6,8 +7,8 @@
 
 .skills-grid-layout {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1.25rem;
     margin-top: 3rem;
 }
 
@@ -17,44 +18,39 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    background: rgba(10, 10, 15, 0.5);
+    background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 16px;
     padding: 2rem 1rem;
-    backdrop-filter: blur(10px);
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     cursor: pointer;
 }
 
 .skill-card-glass:hover {
-    transform: translateY(-8px) scale(1.02);
-    border-color: var(--skill-color);
-    box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.6),
-        0 0 20px rgba(var(--skill-color-rgb), 0.2),
-        inset 0 0 15px rgba(var(--skill-color), 0.1);
+    transform: translateY(-6px);
+    border-color: rgba(212, 168, 67, 0.25);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
 .skill-card-glass:hover .skill-icon-wrap {
-    transform: scale(1.15) rotate(5deg);
-    filter: drop-shadow(0 0 15px var(--skill-color));
+    transform: scale(1.1);
 }
 
 .skill-icon-wrap {
-    font-size: 3rem;
-    transition: transform 0.3s ease, filter 0.3s ease;
+    font-size: 2.8rem;
+    transition: transform 0.3s ease;
 }
 
 .skill-name {
-    color: #ffffff;
-    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
     font-weight: 600;
     letter-spacing: 0.5px;
 }
 
 @media (max-width: 768px) {
     .skills-grid-layout {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
         gap: 1rem;
     }
 
@@ -63,6 +59,6 @@
     }
 
     .skill-icon-wrap {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
 }

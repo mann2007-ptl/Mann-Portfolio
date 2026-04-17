@@ -1,3 +1,4 @@
+/* ===== EDUCATION SECTION ===== */
 .education-section {
     position: relative;
     padding: 100px 0;
@@ -9,31 +10,30 @@
 }
 
 .edu-main-title {
-    font-size: 3.5rem;
-    font-weight: 800;
+    font-size: 3rem;
+    font-weight: 700;
 }
 
 .edu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
     margin-top: 2rem;
 }
 
 .edu-card {
     position: relative;
-    background: rgba(10, 10, 15, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 20px;
-    backdrop-filter: blur(10px);
     overflow: hidden;
-    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
     height: 100%;
 }
 
 .edu-card:hover {
-    box-shadow: 0 10px 40px rgba(0, 240, 255, 0.1), inset 0 0 20px rgba(176, 38, 255, 0.05);
-    border-color: rgba(0, 240, 255, 0.3);
+    border-color: rgba(212, 168, 67, 0.2);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
 .card-top-accent {
@@ -41,20 +41,17 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #00f0ff, transparent);
-    opacity: 0.5;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent, #d4a843), transparent);
+    opacity: 0.4;
     transition: opacity 0.4s ease;
 }
 
 .edu-card:hover .card-top-accent {
     opacity: 1;
-    background: linear-gradient(90deg, #00f0ff, #b026ff);
-    box-shadow: 0 0 15px #00f0ff;
 }
 
 .edu-card-content {
-    /* Utilized in JSX to pop the content out of the card via z-translation */
     transform: translateZ(30px);
     display: flex;
     flex-direction: column;
@@ -64,21 +61,20 @@
 
 .edu-year-badge {
     display: inline-block;
-    padding: 0.4rem 1.25rem;
-    background: rgba(0, 240, 255, 0.05);
-    border: 1px solid rgba(0, 240, 255, 0.2);
-    color: #00f0ff;
-    font-size: 0.85rem;
-    font-family: var(--font-mono, monospace);
-    letter-spacing: 2px;
+    padding: 0.35rem 1rem;
+    background: rgba(212, 168, 67, 0.06);
+    border: 1px solid rgba(212, 168, 67, 0.2);
+    color: var(--accent, #d4a843);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
     border-radius: 100px;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.05);
     align-self: flex-start;
     margin-bottom: 2rem;
 }
 
 .edu-institution {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
     font-family: var(--font-serif);
     color: #fff;
     font-weight: 700;
@@ -86,14 +82,14 @@
 }
 
 .edu-degree {
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 600;
-    color: #b026ff;
+    color: var(--accent, #d4a843);
     margin-bottom: 1.5rem;
 }
 
 .edu-desc {
-    color: #9ca3af;
+    color: rgba(255, 255, 255, 0.45);
     line-height: 1.8;
     margin-top: auto;
 }
@@ -101,10 +97,10 @@
 @media (max-width: 768px) {
     .edu-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.5rem;
     }
 
     .edu-main-title {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
 }

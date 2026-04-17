@@ -11,7 +11,6 @@ body,
   width: 100%;
   min-height: 100vh;
   background-color: #030305;
-  /* Deep futuristic black */
   color: #ffffff;
   overflow-x: hidden;
 }
@@ -29,35 +28,25 @@ body,
   z-index: 1;
   width: 100%;
   padding-top: 80px;
-  /* Space for navbar */
 }
 
-/* Navbar is styled in Navbar.css */
-
-/* --- Global Premium Utilities --- */
-
+/* --- Unified Glass Panel --- */
 .glass-panel {
   background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   will-change: transform, opacity;
 }
 
-.neon-text-cyan {
-  color: #00f0ff;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.3);
-}
-
+/* Removed neon utilities — replaced with gold accent */
+.neon-text-cyan,
 .neon-text-purple {
-  color: #b026ff;
-  text-shadow: 0 0 10px rgba(176, 38, 255, 0.5), 0 0 20px rgba(176, 38, 255, 0.3);
+  color: var(--accent, #d4a843);
+  text-shadow: none;
 }
 
+/* gradient-text now maps to accent */
 .gradient-text {
-  background: linear-gradient(90deg, #00f0ff, #b026ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--accent, #d4a843);
+  font-style: italic;
 }

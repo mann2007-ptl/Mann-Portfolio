@@ -1,101 +1,142 @@
-.preloader-overlay {
+/* Clean Decode Preloader */
+
+.preloader-overlay.dev-mode {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-    height: 100dvh;
-    background-color: #030305;
+    background-color: transparent;
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     overflow: hidden;
-}
-
-/* Background grid or subtle glow */
-.preloader-overlay::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(0, 242, 254, 0.05) 0%, transparent 60%);
     pointer-events: none;
 }
 
-.preloader-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
+.dev-door {
+    position: absolute;
+    left: 0;
+    width: 100vw;
+    height: 50vh;
+    background-color: #030408;
+    z-index: 1;
+    will-change: transform;
+}
+
+.top-door {
+    top: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* Very subtle separation line */
+}
+
+.bottom-door {
+    bottom: 0;
+}
+
+/* Subtle background tech grid layout */
+.dev-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 400px;
-}
-
-.preloader-logo-container {
-    margin-bottom: 2rem;
-    filter: drop-shadow(0 0 20px rgba(0, 242, 254, 0.3));
-}
-
-.preloader-logo-svg {
-    display: block;
-}
-
-.preloader-text {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: 8px;
-    color: #fff;
-    text-transform: uppercase;
-    margin-bottom: 3rem;
-    background: linear-gradient(90deg, #fff, #a0a0a0);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* Progress Area */
-.preloader-progress-container {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.preloader-percent {
-    font-size: 1.1rem;
-    font-family: var(--font-mono, monospace);
-    color: #fff;
-    font-weight: 500;
-    letter-spacing: 2px;
-}
-
-.preloader-bar-bg {
-    width: 100%;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-}
-
-.preloader-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, #00f2fe, #4facfe, #00f2fe);
-    background-size: 200% 100%;
-    border-radius: 4px;
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
-    animation: gradientMove 2s linear infinite;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 2;
+    opacity: 0.5;
 }
 
-@keyframes gradientMove {
+.dev-center-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* The Decoded Name Text */
+.dev-name-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 5vw;
+    font-weight: 300;
+    /* Use elegant font weight */
+    line-height: 1;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    /* Wide spacing for a normal, sophisticated brand feel */
+    will-change: transform, opacity;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding-left: 0.4em;
+    /* Offsets center due to tracking */
+
+    @media (max-width: 768px) {
+        font-size: 9vw;
+    }
+}
+
+.decoding-noise {
+    color: #6b7280;
+    /* Neutral grey during calculation */
+}
+
+.decoded-clean {
+    color: #ffffff;
+    /* Soft, luxurious gradient after resolution */
+    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+    /* Pop a tiny bit when entering the decoded state */
+    animation: flash-white 0.3s ease-out;
+}
+
+@keyframes flash-white {
     0% {
-        background-position: 100% 0;
+        filter: brightness(2);
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
     }
 
     100% {
-        background-position: -100% 0;
+        filter: brightness(1);
     }
+}
+
+/* Minimalist Subtitle */
+.dev-role-box {
+    margin-top: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1vw;
+    font-weight: 500;
+    color: #9ca3af;
+    letter-spacing: 0.6em;
+    /* Super wide luxury tracking */
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+    text-transform: uppercase;
+    padding-left: 0.6em;
+    transition: width 0.8s ease-out, opacity 0.8s ease-out;
+
+    @media (max-width: 768px) {
+        font-size: 3vw;
+        letter-spacing: 0.4em;
+    }
+}
+
+.dev-role-box.role-hidden {
+    width: 0;
+    opacity: 0;
+}
+
+.dev-role-box.role-visible {
+    width: auto;
+    opacity: 1;
 }

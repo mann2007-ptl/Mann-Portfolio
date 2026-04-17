@@ -1,124 +1,142 @@
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState, useRef } from 'react';
+import gsap from 'gsap';
 import './Preloader.css';
 
+const FINAL_TEXT = "MANN PATEL";
+const CHARS = "ABCDEFGHIKLMNOPRSTUVWXYZ0123456789!@#%^&*";
+
 const Preloader = ({ setLoading }) => {
-    const [progress, setProgress] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
+    const [displayText, setDisplayText] = useState("");
+    const [isDecoded, setIsDecoded] = useState(false);
+    const overlayRef = useRef(null);
+    const topDoorRef = useRef(null);
+    const bottomDoorRef = useRef(null);
+    const nameRef = useRef(null);
+    const roleRef = useRef(null);
 
     useEffect(() => {
-        // Prevent body scroll
-        document.body.style.overflow = 'hidden';
+        // DO NOT set overflow:hidden — content behind must be paintable for FCP/LCP
+        // The preloader is just a visual overlay with pointer-events, not a DOM blocker
 
-        // Normal, cinematic loading progress (LCP is secure behind the veil)
-        const interval = setInterval(() => {
-            setProgress((prev) => {
-                if (prev >= 100) {
-                    clearInterval(interval);
-                    // Signal the App to be ready before preloader fully slides out
-                    setLoading(false);
-                    setTimeout(() => setIsComplete(true), 500);
-                    return 100;
+        // Matrix Decode algorithm
+        let iterations = 0;
+        const decodeInterval = setInterval(() => {
+            setDisplayText(
+                FINAL_TEXT.split("").map((letter, index) => {
+                    if (letter === " ") return " ";
+                    if (index < iterations) {
+                        return FINAL_TEXT[index];
+                    }
+                    return CHARS[Math.floor(Math.random() * CHARS.length)];
+                }).join("")
+            );
+
+            if (iterations >= FINAL_TEXT.length) {
+                clearInterval(decodeInterval);
+                setIsDecoded(true);
+            }
+
+            iterations += 1 / 2;
+        }, 20);
+
+        // Initial entrance animation with GSAP
+        if (nameRef.current) {
+            gsap.fromTo(nameRef.current,
+                { scale: 0.95, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.4, ease: "power2.out" }
+            );
+        }
+
+        // Shortened preloader: 1.8s total (down from 2.6s)
+        const timer = setTimeout(() => {
+            // Signal loading complete FIRST — hero animation can start
+            setLoading(false);
+
+            // Exit animation using GSAP
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    setIsComplete(true);
                 }
-                const jump = Math.floor(Math.random() * 10) + 2;
-                return Math.min(prev + jump, 100);
             });
-        }, 150);
+
+            // Fade out name + role
+            if (nameRef.current) {
+                tl.to(nameRef.current, {
+                    scale: 1.05, opacity: 0, filter: "blur(5px)",
+                    duration: 0.3, ease: "power2.in"
+                }, 0);
+            }
+            if (roleRef.current) {
+                tl.to(roleRef.current, {
+                    y: 20, opacity: 0,
+                    duration: 0.2, ease: "power2.in"
+                }, 0);
+            }
+
+            // Door split animation
+            if (topDoorRef.current) {
+                tl.to(topDoorRef.current, {
+                    y: "-100%",
+                    duration: 0.6,
+                    ease: "power4.inOut"
+                }, 0.1);
+            }
+            if (bottomDoorRef.current) {
+                tl.to(bottomDoorRef.current, {
+                    y: "100%",
+                    duration: 0.6,
+                    ease: "power4.inOut"
+                }, 0.1);
+            }
+
+            // Fade overlay
+            if (overlayRef.current) {
+                tl.to(overlayRef.current, {
+                    opacity: 0,
+                    duration: 0.6,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        if (overlayRef.current) overlayRef.current.style.pointerEvents = 'none';
+                    }
+                }, 0.2);
+            }
+
+        }, 2200); // Restored cinematic length. Transparency solves LCP.
 
         return () => {
-            clearInterval(interval);
+            clearInterval(decodeInterval);
+            clearTimeout(timer);
         };
-    }, []);
+    }, [setLoading]);
 
-    const handleExitComplete = () => {
-        document.body.style.overflow = '';
-    };
+    if (isComplete) return null;
 
     return (
-        <AnimatePresence onExitComplete={handleExitComplete}>
-            {!isComplete && (
-                <motion.div
-                    className="preloader-overlay"
-                    initial={{ y: 0 }}
-                    exit={{
-                        y: '-100%',
-                        transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] },
-                    }}
+        <div className="preloader-overlay dev-mode" ref={overlayRef}>
+            <div className="dev-door top-door" ref={topDoorRef} />
+            <div className="dev-door bottom-door" ref={bottomDoorRef} />
+
+            {/* Developer Tech Grid Background */}
+            <div className="dev-grid"></div>
+
+            <div className="dev-center-container">
+                <h1
+                    className={`dev-name-text ${isDecoded ? 'decoded-clean' : 'decoding-noise'}`}
+                    ref={nameRef}
                 >
-                    <div className="preloader-content">
-                        {/* Logo Animation */}
-                        <motion.div className="preloader-logo-container">
-                            <svg
-                                width="120"
-                                height="110"
-                                viewBox="0 0 130 120"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="preloader-logo-svg"
-                            >
-                                <defs>
-                                    <linearGradient id="neonGradientPreloader" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#00f2fe" />
-                                        <stop offset="50%" stopColor="#4facfe" />
-                                        <stop offset="100%" stopColor="#7303c0" />
-                                    </linearGradient>
-                                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                                        <feGaussianBlur stdDeviation="6" result="blur" />
-                                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                                    </filter>
-                                </defs>
+                    {displayText}
+                </h1>
 
-                                <motion.g filter="url(#glow)">
-                                    {/* "M" Part */}
-                                    <motion.path
-                                        d="M 25 90 V 30 L 55 60 L 85 30 V 90"
-                                        stroke="url(#neonGradientPreloader)"
-                                        strokeWidth="12"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        initial={{ pathLength: 0, opacity: 0 }}
-                                        animate={{ pathLength: 1, opacity: 1 }}
-                                        transition={{ duration: 1.5, ease: 'easeInOut' }}
-                                    />
-
-                                    {/* "P" Loop Part */}
-                                    <motion.path
-                                        d="M 85 30 H 95 C 120 30, 120 65, 95 65 H 85"
-                                        stroke="url(#neonGradientPreloader)"
-                                        strokeWidth="12"
-                                        strokeLinecap="round"
-                                        initial={{ pathLength: 0, opacity: 0 }}
-                                        animate={{ pathLength: 1, opacity: 1 }}
-                                        transition={{ duration: 1.2, ease: 'easeInOut', delay: 0.5 }}
-                                    />
-                                </motion.g>
-                            </svg>
-                        </motion.div>
-
-                        <motion.div
-                            className="preloader-text"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 1 }}
-                        >
-                            MANN PATEL
-                        </motion.div>
-
-                        {/* Progress Container */}
-                        <div className="preloader-progress-container">
-                            <div className="preloader-percent">{progress}%</div>
-                            <div className="preloader-bar-bg">
-                                <motion.div
-                                    className="preloader-bar-fill"
-                                    animate={{ width: `${progress}%` }}
-                                    transition={{ ease: 'linear', duration: 0.1 }}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
+                {/* Elegant minimalist subtitle */}
+                <div
+                    className={`dev-role-box ${isDecoded ? 'role-visible' : 'role-hidden'}`}
+                    ref={roleRef}
+                >
+                    SOFTWARE ENGINEER
+                </div>
+            </div>
+        </div>
     );
 };
 

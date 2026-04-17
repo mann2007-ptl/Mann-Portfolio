@@ -1,38 +1,52 @@
-import React, { useEffect } from 'react';
-import Lenis from 'lenis';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useEffect, Suspense, lazy, useState, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
-import About from './components/About/About';
-import Skills from './components/Skills/Skills';
-import Hackathon from './components/Hackathon/Hackathon';
-import Marquee from './components/Marquee/Marquee';
-import Projects from './components/Projects/Projects';
-import Certificate from './components/Certificate/Certificate';
-import LeetCode from './components/LeetCode/LeetCode';
-import Education from './components/Education/Education';
-import Contact from './components/Contact/Contact';
-import CustomCursor from './components/CustomCursor/CustomCursor';
 import Preloader from './components/Preloader/Preloader';
-import { motion } from 'framer-motion';
+import SEO from './components/SEO/SEO';
+import { isMobileDevice } from './hooks/useDeviceDetect';
+import LazySection from './components/LazySection/LazySection';
 import './App.css';
+
+// Lazy-load CustomCursor — only on desktop
+const CustomCursor = lazy(() => import('./components/CustomCursor/CustomCursor'));
+
+// Route & Component Level Code Splitting
+const About = lazy(() => import('./components/About/About'));
+const Skills = lazy(() => import('./components/Skills/Skills'));
+const Hackathon = lazy(() => import('./components/Hackathon/Hackathon'));
+const Marquee = lazy(() => import('./components/Marquee/Marquee'));
+const Projects = lazy(() => import('./components/Projects/Projects'));
+const Certificate = lazy(() => import('./components/Certificate/Certificate'));
+const LeetCode = lazy(() => import('./components/LeetCode/LeetCode'));
+const Education = lazy(() => import('./components/Education/Education'));
+const Contact = lazy(() => import('./components/Contact/Contact'));
+
+const SectionLoader = () => (
+  <div style={{ height: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', opacity: 0.1 }}>
+    Loading section...
+  </div>
+);
+
+const isDesktop = !isMobileDevice();
 
 function HomePage({ loading }) {
   return (
     <main className="main-content">
+      <SEO />
       <Hero loading={loading} />
-      <Marquee />
-      <About />
-      <Skills />
-      <Hackathon />
-      <Projects />
-      <Certificate />
-      <LeetCode />
-      <Education />
-      <Contact />
+
+      {/* Component-level viewport intersection loading */}
+      <LazySection threshold="800px"><Marquee /></LazySection>
+      <LazySection threshold="800px"><About /></LazySection>
+      <LazySection threshold="800px"><Skills /></LazySection>
+      <LazySection threshold="800px"><Hackathon /></LazySection>
+      <LazySection threshold="800px"><Projects /></LazySection>
+      <LazySection threshold="800px"><Certificate /></LazySection>
+      <LazySection threshold="800px"><LeetCode /></LazySection>
+      <LazySection threshold="800px"><Education /></LazySection>
+      <LazySection threshold="800px"><Contact /></LazySection>
     </main>
   );
 }
@@ -40,7 +54,8 @@ function HomePage({ loading }) {
 function AboutPage() {
   return (
     <main className="main-content">
-      <About />
+      <SEO title="About Mann Patel | Full-Stack Developer" description="Learn more about my background, experience, and passion for building scalable web applications and intuitive interfaces." />
+      <Suspense fallback={<SectionLoader />}><About /></Suspense>
     </main>
   );
 }
@@ -48,7 +63,8 @@ function AboutPage() {
 function SkillsPage() {
   return (
     <main className="main-content">
-      <Skills />
+      <SEO title="Skills & Technologies | Mann Patel" description="Discover my technical skill set including React, Node.js, Express, MongoDB, TailwindCSS, GSAP, and Three.js." />
+      <Suspense fallback={<SectionLoader />}><Skills /></Suspense>
     </main>
   );
 }
@@ -56,7 +72,8 @@ function SkillsPage() {
 function ProjectsPage() {
   return (
     <main className="main-content">
-      <Projects />
+      <SEO title="Projects & Portfolio | Mann Patel" description="View my latest full-stack projects, creative web designs, and interactive technical solutions." />
+      <Suspense fallback={<SectionLoader />}><Projects /></Suspense>
     </main>
   );
 }
@@ -64,7 +81,8 @@ function ProjectsPage() {
 function CertificatesPage() {
   return (
     <main className="main-content">
-      <Certificate />
+      <SEO title="Certifications | Mann Patel" description="Explore my professional certifications and continuous learning achievements in Software Engineering." />
+      <Suspense fallback={<SectionLoader />}><Certificate /></Suspense>
     </main>
   );
 }
@@ -72,7 +90,8 @@ function CertificatesPage() {
 function EducationPage() {
   return (
     <main className="main-content">
-      <Education />
+      <SEO title="Education | Mann Patel" description="My academic background, degrees, and the foundational education that drives my engineering career." />
+      <Suspense fallback={<SectionLoader />}><Education /></Suspense>
     </main>
   );
 }
@@ -80,7 +99,8 @@ function EducationPage() {
 function ContactPage() {
   return (
     <main className="main-content">
-      <Contact />
+      <SEO title="Contact Mann Patel | Hire Me" description="Get in touch for freelance opportunities, job offers, or collaborations. Let's build something amazing together." />
+      <Suspense fallback={<SectionLoader />}><Contact /></Suspense>
     </main>
   );
 }
@@ -88,7 +108,8 @@ function ContactPage() {
 function HackathonPage() {
   return (
     <main className="main-content">
-      <Hackathon />
+      <SEO title="Hackathons & Achievements | Mann Patel" description="Check out my hackathon wins, participation, and the innovative products built under intense deadlines." />
+      <Suspense fallback={<SectionLoader />}><Hackathon /></Suspense>
     </main>
   );
 }
@@ -96,59 +117,105 @@ function HackathonPage() {
 function LeetCodePage() {
   return (
     <main className="main-content">
-      <LeetCode />
+      <SEO title="LeetCode Profile & DSA | Mann Patel" description="Review my Data Structures and Algorithms progress, problem-solving skills, and LeetCode achievements." />
+      <Suspense fallback={<SectionLoader />}><LeetCode /></Suspense>
     </main>
   );
 }
 
 function App() {
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = useState(true);
+  const [smoothScrollReady, setSmoothScrollReady] = useState(false);
 
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+  // Defer GSAP, and skip Lenis entirely on mobile
+  const initSmoothScroll = useCallback(() => {
+    Promise.all([
+      isDesktop ? import('lenis') : Promise.resolve(null),
+      import('gsap'),
+      import('gsap/ScrollTrigger'),
+    ]).then(([LenisModule, gsapModule, scrollTriggerModule]) => {
+      const gsap = gsapModule.default;
+      const ScrollTrigger = scrollTriggerModule.ScrollTrigger;
 
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1.2,
-      touchMultiplier: 2,
-      infinite: false,
-      autoRaf: false,
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Only initialize Lenis on Desktop
+      if (typeof LenisModule?.default === 'function') {
+        const Lenis = LenisModule.default;
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          gestureOrientation: 'vertical',
+          smoothWheel: true,
+          wheelMultiplier: 1.2,
+          touchMultiplier: 2,
+          infinite: false,
+          autoRaf: false,
+        });
+
+        lenis.on('scroll', ScrollTrigger.update);
+
+        const rafFn = (time) => lenis.raf(time * 1000);
+        gsap.ticker.add(rafFn);
+        gsap.ticker.lagSmoothing(0);
+
+        window.__lenis = lenis;
+        window.__lenisRaf = rafFn;
+      }
+
+      setSmoothScrollReady(true);
     });
-
-    lenis.on('scroll', ScrollTrigger.update);
-
-    const rafFn = (time) => {
-      lenis.raf(time * 1000);
-    };
-
-    gsap.ticker.add(rafFn);
-    gsap.ticker.lagSmoothing(0);
-
-    return () => {
-      lenis.destroy();
-      gsap.ticker.remove(rafFn);
-    };
   }, []);
 
   useEffect(() => {
+    // Use requestIdleCallback to defer GSAP initialization
+    if ('requestIdleCallback' in window) {
+      const id = requestIdleCallback(initSmoothScroll, { timeout: 2000 });
+      return () => cancelIdleCallback(id);
+    } else {
+      // Fallback: defer to next frame
+      const timer = setTimeout(initSmoothScroll, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [initSmoothScroll]);
+
+  useEffect(() => {
     if (!loading) {
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 100);
+      // Refresh ScrollTrigger after preloader exits
+      const timer = setTimeout(() => {
+        import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
+          ScrollTrigger.refresh();
+        });
+      }, 200);
 
       window.scrollTo(0, 0);
+      return () => clearTimeout(timer);
     }
   }, [loading]);
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (window.__lenis) {
+        window.__lenis.destroy();
+        import('gsap').then(({ default: gsap }) => {
+          if (window.__lenisRaf) gsap.ticker.remove(window.__lenisRaf);
+        });
+      }
+    };
+  }, []);
+
   return (
     <div className="app-container">
-      <CustomCursor />
+      {/* CustomCursor only on desktop */}
+      {isDesktop && (
+        <Suspense fallback={null}>
+          <CustomCursor />
+        </Suspense>
+      )}
 
-      {/* Preloader overlay sits strictly on top using z-index, but doesn't block DOM parsing underneath */}
+      {/* Preloader overlay */}
       {loading && <Preloader setLoading={setLoading} />}
 
       <Navbar />
