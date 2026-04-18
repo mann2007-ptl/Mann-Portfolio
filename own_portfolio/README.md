@@ -1,16 +1,185 @@
-# React + Vite
+# 🚀 Mann Patel — Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Inter&size=28&pause=1000&color=4F46E5&center=true&vCenter=true&width=800&lines=Full+Stack+Developer;MERN+Stack+Enthusiast;Building+Modern+Web+Experiences;Consistency+Beats+Shortcuts" />
+</p>
 
-Currently, two official plugins are available:
+<p align="center">
+  <a href="https://mann-portfolio-six.vercel.app/">
+    <img src="https://img.shields.io/badge/🌐 Live%20Portfolio-Visit-blue?style=for-the-badge" />
+  </a>
+  <a href="https://github.com/mann2007-ptl">
+    <img src="https://img.shields.io/badge/GitHub-Profile-black?style=for-the-badge&logo=github" />
+  </a>
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ About This Project
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This is my **personal portfolio website** built with a focus on:
 
-## Expanding the ESLint configuration
+- ⚡ Performance & smooth animations  
+- 🎨 Clean and modern UI  
+- 💡 Creative interactions  
+- 📱 Fully responsive design  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+> 💬 *“Consistency beats shortcuts.”*
+
+---
+
+## 🧠 Tech Stack
+
+### 💻 Frontend
+- React.js
+- Vite
+- Tailwind CSS
+
+### 🎨 Animations & Effects
+- Framer Motion
+- Custom Cursor
+- Smooth Scroll
+- Scroll Reveal Effects
+- Parallax Effects
+
+### ⚙️ Tools & Optimization
+- ESLint
+- Lazy Loading
+- Optimized Images
+
+---
+
+## 📂 Folder Structure
+
+
+own.portfolio/
+│
+├── public/
+├── src/
+│ ├── assets/
+│ ├── components/
+│ │ ├── About/
+│ │ ├── Certificate/
+│ │ ├── Contact/
+│ │ ├── CustomCursor/
+│ │ ├── Education/
+│ │ ├── Hackathon/
+│ │ ├── Hero/
+│ │ ├── LazySection/
+│ │ ├── LeetCode/
+│ │ ├── Magnetic/
+│ │ ├── Marquee/
+│ │ ├── Navbar/
+│ │ ├── OptimizedImage/
+│ │ ├── ParallaxSection/
+│ │ ├── Preloader/
+│ │ ├── Projects/
+│ │ ├── ScrollReveal/
+│ │ ├── SEO/
+│ │ ├── Skills/
+│ │ ├── PageSection.jsx
+│ │ └── SmoothScroll.jsx
+│ │
+│ ├── context/
+│ ├── hooks/
+│ ├── App.jsx
+│ ├── App.css
+│ ├── index.css
+│ └── main.jsx
+│
+├── index.html
+├── package.json
+├── vite.config.js
+
+
+---
+
+## 🌟 Features
+
+- 🎯 Smooth scrolling experience  
+- 🎨 Custom animated cursor  
+- ⚡ Lightning-fast performance  
+- 🧩 Modular component structure  
+- 📱 Fully responsive layout  
+- 🖼️ Lazy loading sections  
+- ✨ Scroll-based animations  
+- 🚀 Optimized assets & images  
+- 🔍 SEO-friendly structure  
+
+---
+
+## 🎬 Preview
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=4F46E5&height=200&section=header&text=Portfolio%20Preview&fontSize=40&fontColor=ffffff" />
+</p>
+
+---
+
+## 🛠️ Installation & Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/your-repo-name.git
+
+# Navigate to project folder
+cd your-repo-name
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+🚀 Deployment
+
+This project is deployed on Vercel
+
+npm run build
+📈 Performance Goals
+⚡ Lighthouse Score: 90+
+🚀 Fast loading (LCP optimized)
+🔍 SEO optimized
+🎯 Smooth UX
+🧩 Components Breakdown
+Component	Purpose
+Hero	Landing section
+About	Introduction
+Skills	Tech stack
+Projects	Showcase work
+LeetCode	Coding journey
+Hackathon	Achievements
+Education	Academic info
+Contact	Get in touch
+📸 Special UI Features
+🔥 Magnetic buttons
+🎯 Custom cursor animation
+🌊 Parallax scrolling
+🎬 Scroll reveal animations
+⚡ Smooth transitions
+🧠 Learning Outcomes
+Advanced React structure
+Performance optimization
+Animation techniques
+UI/UX design principles
+Clean code practices
+📬 Contact
+📧 Email: patelmann673@gmail.com
+🌐 Portfolio: https://mann-portfolio-six.vercel.app/
+💻 GitHub: https://github.com/mann2007-ptl
+⭐ Support
+
+If you like this project:
+
+👉 Give it a ⭐ on GitHub
+👉 Share it with others
+
+🏁 Final Thought
+
+“Great developers are not built overnight.
+They are built by consistency, curiosity, and code.”
+
+<p align="center"> <img src="https://capsule-render.vercel.app/api?type=waving&color=4F46E5&height=120&section=footer"/> </p> ```
+
+Mann Patel
+Mann-Portfolio
+patelmann673@gmail.com
