@@ -41,19 +41,19 @@ const Education = () => {
             institution: 'Swaminarayan University',
             degree: 'B.E. Computer Engineering',
             year: '2025 – Present',
-            description: 'Focusing on core CS concepts, algorithm design, data structures, and architecting scalable web applications.'
+            description: 'Immersing in core Computer Science principles, advanced algorithm design, and robust data structures. Actively learning modern software engineering methodologies to architect, deploy, and maintain highly scalable full-stack web applications.'
         },
         {
             institution: 'Higher Secondary (Class 12)',
             degree: 'Science Stream',
             year: '2024 – 2025',
-            description: 'Major subjects: Physics, Mathematics, and Computer Science. Built a strong analytical and logical foundation.'
+            description: 'Specialized in Physics, Mathematics, and Computer Science. Built a rigorously strong analytical and logical foundation, while passionately exploring new technologies, participating in technical seminars, and polishing problem-solving strategies.'
         },
         {
             institution: 'Secondary School (Class 10)',
             degree: 'General Curriculum',
             year: '2023',
-            description: 'Developed a passion for logical reasoning, early programming concepts, and problem-solving mechanics.'
+            description: 'Cultivated a deep passion for logical reasoning, mathematical computations, and early programming mechanics. Consistently maintained academic excellence while demonstrating a natural, driving aptitude for technology and innovation.'
         }
     ];
 

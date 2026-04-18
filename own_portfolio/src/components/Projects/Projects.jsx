@@ -140,6 +140,13 @@ const Projects = () => {
                     });
                 }
             });
+
+            // Force global refresh of trigger calculations since DOM height drastically changes
+            // when filtering projects from many down to one or two.
+            setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 100);
+
         }, sectionRef);
         return () => ctx.revert();
     }, [activeCategory]);

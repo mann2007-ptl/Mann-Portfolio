@@ -43,11 +43,11 @@ const GoldShape = () => {
                 <torusKnotGeometry args={[1.2, 0.35, 128, 16, 2, 3]} />
                 <meshStandardMaterial
                     color={goldColor}
-                    emissive={darkGold}
-                    emissiveIntensity={0.4}
+                    emissive={goldColor}
+                    emissiveIntensity={1.8}
                     wireframe
                     transparent
-                    opacity={0.5}
+                    opacity={0.9}
                 />
             </mesh>
         </group>
@@ -104,8 +104,8 @@ const Hero3D = () => {
             gl={{ antialias: true, alpha: true }}
             style={{ background: 'transparent' }}
         >
-            <ambientLight intensity={0.3} />
-            <pointLight position={[3, 3, 3]} intensity={1.5} color="#d4a843" distance={15} />
+            <ambientLight intensity={0.6} />
+            <pointLight position={[3, 3, 3]} intensity={2.5} color="#d4a843" distance={15} />
             <pointLight position={[-3, -2, 2]} intensity={0.5} color="#ffffff" distance={10} />
             <GoldShape />
             <FloatingParticles />
