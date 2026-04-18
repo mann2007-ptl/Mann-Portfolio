@@ -9,6 +9,8 @@
 .marquee-track {
     overflow: hidden;
     white-space: nowrap;
+    width: 100%;
+    position: relative;
 }
 
 .marquee-content {
@@ -27,12 +29,14 @@
     opacity: 0.15;
     padding: 0 1.5rem;
     white-space: nowrap;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
     letter-spacing: 2px;
 }
 
 .marquee-item:hover {
-    opacity: 0.4;
+    opacity: 1;
+    color: var(--accent, #d4a843);
+    text-shadow: 0 0 15px rgba(212, 168, 67, 0.4);
 }
 
 .marquee-dot {

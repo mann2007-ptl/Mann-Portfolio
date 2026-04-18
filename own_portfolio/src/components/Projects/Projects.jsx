@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import VanillaTilt from 'vanilla-tilt';
 import { isMobileDevice } from '../../hooks/useDeviceDetect';
 import { FaGithub, FaArrowRight, FaYoutube } from 'react-icons/fa';
+import { FaFigma } from 'react-icons/fa6';
 import Magnetic from '../Magnetic/Magnetic';
 import ScrollReveal from '../ScrollReveal/ScrollReveal';
 import ultimateEesImg from '../../assets/ultimate-ears.png';
@@ -12,6 +13,8 @@ import salomonImg from '../../assets/salomon.png';
 import lacosteImg from '../../assets/lacoste.png';
 import stanleyImg from '../../assets/stanley.png';
 import jioHotstarImg from '../../assets/jio-hotstar.png';
+import figmaCodingGitaImg from '../../assets/figma-design-cg-clone.jpg';
+import figmaEpicHospitalImg from '../../assets/figma-design-epic-hospital.jpg';
 import './Projects.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -44,10 +47,12 @@ const TiltProject = ({ children, className = '' }) => {
 
 const Projects = () => {
     const sectionRef = useRef(null);
+    const [activeCategory, setActiveCategory] = useState('All');
+
     const projects = [
         {
             title: 'GitHub Profile Analyzer',
-            category: 'Web Application',
+            category: 'Full-Stack',
             description: 'Analyze any GitHub profile with premium glassmorphism UI, displaying user stats, top repositories, and language distribution.',
             image: githubAnalyzerImg,
             tags: ['React', 'CSS', 'GitHub API'],
@@ -55,7 +60,7 @@ const Projects = () => {
         },
         {
             title: 'Ultimate Ears',
-            category: 'Audio Brand Site',
+            category: 'Website Clone',
             description: 'High-energy, visually immersive landing page with dynamic scroll interactions and punchy typography.',
             image: ultimateEesImg,
             tags: ['HTML', 'CSS'],
@@ -63,7 +68,7 @@ const Projects = () => {
         },
         {
             title: 'Salomon',
-            category: 'E-Commerce',
+            category: 'Website Clone',
             description: 'Premium outdoor gear store featuring rugged aesthetics, smooth navigation, and responsive product grids.',
             image: salomonImg,
             tags: ['HTML', 'CSS'],
@@ -71,7 +76,7 @@ const Projects = () => {
         },
         {
             title: 'Lacoste Clone',
-            category: 'E-commerce',
+            category: 'Website Clone',
             description: 'Responsive Lacoste website clone with modern layout techniques, mega-menus, and product filtering.',
             image: lacosteImg,
             tags: ['HTML', 'CSS'],
@@ -79,7 +84,7 @@ const Projects = () => {
         },
         {
             title: 'Stanley Product Page',
-            category: 'Landing Page',
+            category: 'Website Clone',
             description: 'Modern product landing page clone with strong visuals and typography focus.',
             image: stanleyImg,
             tags: ['HTML', 'CSS'],
@@ -87,13 +92,32 @@ const Projects = () => {
         },
         {
             title: 'Jio-Hotstar Clone',
-            category: 'Streaming UI',
+            category: 'Website Clone',
             description: 'UI clone inspired by streaming platforms with card layouts, spacing, and content hierarchy.',
             image: jioHotstarImg,
             tags: ['HTML', 'CSS'],
             links: { demo: 'https://mannpatel108585-jiohotstar-clone.netlify.app/diwali_assgn/jio-hotstar/', code: 'https://github.com/mann2007-ptl/diwali_assgn/tree/main/jio-hotstar', youtube: 'https://youtu.be/g-J-iG2aoR4?si=zn8WcRV48pUlUvgk' }
+        },
+        {
+            title: 'CodingGita Website Clone',
+            category: 'Figma',
+            description: 'Comprehensive Figma design and prototyping for a full website clone of CodingGita, capturing modern aesthetics and responsive layout flows.',
+            image: figmaCodingGitaImg,
+            tags: ['Figma', 'UI Design'],
+            links: { figma: 'https://www.figma.com/design/ptv2A9fooySZj6ptxVyJc4/Untitled?node-id=716-2&t=h5aBYjHjlA8j6WJM-1' }
+        },
+        {
+            title: 'Epic Multispeciality Hospital',
+            category: 'Figma',
+            description: 'A modern, premium UI/UX design for a multispeciality hospital, focusing on patient accessibility, elegant layout, and clear information hierarchy.',
+            image: figmaEpicHospitalImg,
+            tags: ['Figma', 'UI/UX Design', 'Healthcare'],
+            links: { figma: 'https://www.figma.com/design/ptv2A9fooySZj6ptxVyJc4/Untitled?node-id=645-2&t=h5aBYjHjlA8j6WJM-1' }
         }
     ];
+
+    const categories = ['All', 'Website Clone', 'Full-Stack', 'Figma'];
+    const filteredProjects = activeCategory === 'All' ? projects : projects.filter(p => p.category === activeCategory);
 
     useEffect(() => {
         let ctx = gsap.context(() => {
@@ -108,13 +132,17 @@ const Projects = () => {
                     { y: 80, opacity: 0, scale: 0.98, rotationX: 5 },
                     { y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 1.2, ease: 'power2.out', scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: "play none none reverse" } }
                 );
-                gsap.to(card.querySelector('img'), {
-                    yPercent: 15, scale: 1.1, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: 1 }
-                });
+
+                const img = card.querySelector('img');
+                if (img) {
+                    gsap.to(img, {
+                        yPercent: 15, scale: 1.1, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: 1 }
+                    });
+                }
             });
         }, sectionRef);
         return () => ctx.revert();
-    }, []);
+    }, [activeCategory]);
 
     return (
         <section id="work" className="projects-section section" ref={sectionRef}>
@@ -128,8 +156,20 @@ const Projects = () => {
                     </ScrollReveal>
                 </div>
 
+                <div className="projects-filter projects-header-anim">
+                    {categories.map((cat, idx) => (
+                        <button
+                            key={idx}
+                            className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
+                            onClick={() => setActiveCategory(cat)}
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+
                 <div className="projects-list">
-                    {projects.map((project, i) => (
+                    {filteredProjects.map((project, i) => (
                         <div key={i} className={`unreal-project-card ${i % 2 !== 0 ? 'reverse' : ''}`}>
                             <TiltProject className="project-image-side glass-panel">
                                 <div className="project-image-container">
@@ -151,16 +191,27 @@ const Projects = () => {
                                 </div>
 
                                 <div className="project-ctas">
-                                    <Magnetic strength={20}>
-                                        <a href={project.links.demo} target="_blank" rel="noopener noreferrer" className="btn-primary-glow">
-                                            Live Demo
-                                        </a>
-                                    </Magnetic>
-                                    <Magnetic strength={20}>
-                                        <a href={project.links.code} target="_blank" rel="noopener noreferrer" className="btn-outline-glow">
-                                            <FaGithub /> Source
-                                        </a>
-                                    </Magnetic>
+                                    {project.links.demo && (
+                                        <Magnetic strength={20}>
+                                            <a href={project.links.demo} target="_blank" rel="noopener noreferrer" className="btn-primary-glow">
+                                                Live Demo
+                                            </a>
+                                        </Magnetic>
+                                    )}
+                                    {project.links.figma && (
+                                        <Magnetic strength={20}>
+                                            <a href={project.links.figma} target="_blank" rel="noopener noreferrer" className="btn-primary-glow">
+                                                <FaFigma style={{ marginRight: '6px' }} /> Figma
+                                            </a>
+                                        </Magnetic>
+                                    )}
+                                    {project.links.code && (
+                                        <Magnetic strength={20}>
+                                            <a href={project.links.code} target="_blank" rel="noopener noreferrer" className="btn-outline-glow">
+                                                <FaGithub /> Source
+                                            </a>
+                                        </Magnetic>
+                                    )}
                                     {project.links.youtube && (
                                         <Magnetic strength={20}>
                                             <a href={project.links.youtube} target="_blank" rel="noopener noreferrer" className="btn-outline-glow">

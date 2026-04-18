@@ -14,7 +14,7 @@ const certificates = [
         title: 'C Intermediate',
         provider: 'Sololearn',
         date: 'March 12, 2026',
-        description: 'Intermediate-level C programming certification covering pointers, memory management, and data structures.',
+        description: 'An intensive intermediate-level C programming certification focused on memory management, mastering pointers, linked lists, advanced data structures, and building robust, efficient applications.',
         image: cIntermediateCertiImg,
     },
     {
@@ -22,7 +22,7 @@ const certificates = [
         title: 'Introduction to C',
         provider: 'Sololearn',
         date: 'March 06, 2026',
-        description: 'Foundational C programming certificate covering variables, loops, functions, and basic algorithms.',
+        description: 'A comprehensive foundational C programming certification detailing core concepts like compiling, variables, iterative loops, functions, and basic algorithmic problem-solving techniques for beginners.',
         image: cCertiImg,
     },
     {
@@ -30,7 +30,7 @@ const certificates = [
         title: 'CSS (Basic)',
         provider: 'HackerRank',
         date: 'Dec 15, 2025',
-        description: 'CSS basics certification covering selectors, box model, flexbox, and responsive design fundamentals.',
+        description: 'A foundational CSS certification from HackerRank covering styling strategies, advanced selectors, the complex box model, CSS flexbox layout mechanisms, and modern responsive UI design patterns.',
         image: cssCertiImg,
     },
     {
@@ -38,7 +38,7 @@ const certificates = [
         title: 'C++ Certificate',
         provider: 'Sololearn',
         date: '2026',
-        description: 'C++ programming certificate covering OOP concepts, templates, STL, and advanced language features.',
+        description: 'An advanced C++ programming certification emphasizing object-oriented paradigms, generic programming with templates, standard template library (STL) usage, memory management, and high-performance techniques.',
         image: cppCertiImg,
     },
     {
@@ -46,7 +46,7 @@ const certificates = [
         title: 'Introduction to JavaScript',
         provider: 'Sololearn',
         date: 'March 30, 2026',
-        description: 'Foundational JavaScript certificate covering variables, data types, functions, and core programming concepts.',
+        description: 'A dedicated foundational JavaScript certification exploring variables and advanced data types, asynchronous concepts, functional programming, DOM manipulation, and modern web application scripting basics.',
         image: introJsCertiImg,
     }
 ];

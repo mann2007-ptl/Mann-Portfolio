@@ -5,11 +5,9 @@ import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { SiLeetcode } from 'react-icons/si';
 import Magnetic from '../Magnetic/Magnetic';
-import { isMobileDevice } from '../../hooks/useDeviceDetect';
 import './Hero.css';
 
 const Hero3D = lazy(() => import('./Hero3D'));
-const isDesktop = !isMobileDevice();
 
 const Hero = ({ loading }) => {
     const heroRef = useRef(null);
@@ -118,14 +116,9 @@ const Hero = ({ loading }) => {
 
                 {/* RIGHT: 3D Object */}
                 <div className="hero-3d-wrapper">
-                    {isDesktop ? (
-                        <Suspense fallback={null}>
-                            <Hero3D />
-                        </Suspense>
-                    ) : (
-                        /* Mobile fallback — decorative gold ring via CSS */
-                        <div className="hero-mobile-visual"></div>
-                    )}
+                    <Suspense fallback={null}>
+                        <Hero3D />
+                    </Suspense>
                 </div>
             </div>
 
