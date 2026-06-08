@@ -9,6 +9,10 @@ import { isMobileDevice } from '../../hooks/useDeviceDetect';
 
 import ScrollReveal from '../ScrollReveal/ScrollReveal';
 import './Hackathon.css';
+import charusatCertificate from '../../assets/charusat-hackathon/charusat-X-oceanlab.jpg';
+import charusatPoster from '../../assets/charusat-hackathon/postor.jpeg';
+import charusatDuo from '../../assets/charusat-hackathon/duo.webp';
+import charusatDashboard from '../../assets/charusat-hackathon/dashboard.png';
 
 gsap.registerPlugin(ScrollTrigger);
 const isDesktop = !isMobileDevice();
@@ -40,7 +44,27 @@ const Hackathon = () => {
                 "/kalixAI/kalix4.jpeg",
                 "/kalixAI/kalix5.jpeg"
             ]
+        } , 
+
+        {
+            id: 2,
+            eventTitle: "OceanLab X CHARUSAT Hacks",
+            category: "DEPSTAR & OceanLab",
+            year: "2026",
+            summary: "A national-level 48-hour offline hackathon focused on building AI-first SaaS solutions.",
+            projectName: "Venture AI",
+            projectDescription: "An AI-powered startup validator that analyzes business ideas using market data and competitor analysis.",
+            tags: ["React","Tailwind","Node.js","Express","MongoDB"],
+            github: "https://github.com/Dev1822/VentureAI",
+            live: "https://venture-ai-devduo.vercel.app/",
+            certificate: charusatCertificate,
+            gallery: [
+                charusatPoster,
+                charusatDuo,
+                charusatDashboard
+            ]
         }
+
     ], []);
 
     useEffect(() => {

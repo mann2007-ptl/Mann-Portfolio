@@ -15,6 +15,7 @@ import stanleyImg from '../../assets/stanley.png';
 import jioHotstarImg from '../../assets/jio-hotstar.png';
 import figmaCodingGitaImg from '../../assets/figma-design-cg-clone.jpg';
 import figmaEpicHospitalImg from '../../assets/figma-design-epic-hospital.jpg';
+import KiranaSetu from '../../assets/kiranaSetu.png'
 import './Projects.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -50,6 +51,16 @@ const Projects = () => {
     const [activeCategory, setActiveCategory] = useState('All');
 
     const projects = [
+
+        {
+            title: 'kiranaSetu',
+            category: 'Full-Stack',
+           description: 'A MERN-based web application that digitizes local kirana stores by providing online product browsing, order management, and customer engagement features through an intuitive user interface',
+            image: KiranaSetu,
+            tags: ['React', 'Tailwind', 'Node.js','Express','MongoDB'],
+            links: { demo: 'https://kirana-setu.netlify.app/', code: 'https://github.com/mann2007-ptl/kiranaSetu', youtube: 'https://youtu.be/5tiD33iZs70?si=FDFRdx7IKPOi2eSY' }
+        },
+
         {
             title: 'GitHub Profile Analyzer',
             category: 'Full-Stack',
