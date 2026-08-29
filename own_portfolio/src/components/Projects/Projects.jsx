@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import VanillaTilt from 'vanilla-tilt';
 import { isMobileDevice } from '../../hooks/useDeviceDetect';
-import { FaGithub, FaArrowRight, FaYoutube } from 'react-icons/fa';
+import { FaGithub, FaArrowRight, FaYoutube, FaBook } from 'react-icons/fa';
 import { FaFigma } from 'react-icons/fa6';
 import Magnetic from '../Magnetic/Magnetic';
 import ScrollReveal from '../ScrollReveal/ScrollReveal';
@@ -15,7 +15,8 @@ import stanleyImg from '../../assets/stanley.png';
 import jioHotstarImg from '../../assets/jio-hotstar.png';
 import figmaCodingGitaImg from '../../assets/figma-design-cg-clone.jpg';
 import figmaEpicHospitalImg from '../../assets/figma-design-epic-hospital.jpg';
-import KiranaSetu from '../../assets/kiranaSetu.png'
+import KiranaSetu from '../../assets/kiranaSetu.png';
+import caiaImg from '../../assets/caia.png';
 import './Projects.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -51,6 +52,14 @@ const Projects = () => {
     const [activeCategory, setActiveCategory] = useState('All');
 
     const projects = [
+        {
+            title: 'CAIA — AI System Design Knowledge Platform',
+            category: 'Full-Stack',
+            description: 'Engineered an AI-powered system design learning platform covering over 900 structured engineering concepts, supporting fuzzy, regex, and autocomplete search. Features RBAC, bookmarking, interactive notes, voting, admin analytics dashboard, and 100+ backend API endpoints.',
+            image: caiaImg,
+            tags: ['React 19', 'Redux Toolkit', 'Material UI', 'Node.js', 'Express 5', 'MongoDB', 'JWT'],
+            links: { demo: 'https://caia-system-design.vercel.app/', code: 'https://github.com/mann2007-ptl/caia_system_design_mann_patel', docs: 'https://documenter.getpostman.com/view/50840766/2sBXwmQYQA' }
+        },
 
         {
             title: 'kiranaSetu',
@@ -227,6 +236,13 @@ const Projects = () => {
                                         <Magnetic strength={20}>
                                             <a href={project.links.code} target="_blank" rel="noopener noreferrer" className="btn-outline-glow">
                                                 <FaGithub /> Source
+                                            </a>
+                                        </Magnetic>
+                                    )}
+                                    {project.links.docs && (
+                                        <Magnetic strength={20}>
+                                            <a href={project.links.docs} target="_blank" rel="noopener noreferrer" className="btn-outline-glow">
+                                                <FaBook style={{ marginRight: '6px' }} /> API Docs
                                             </a>
                                         </Magnetic>
                                     )}

@@ -13,6 +13,8 @@ import charusatCertificate from '../../assets/charusat-hackathon/charusat-X-ocea
 import charusatPoster from '../../assets/charusat-hackathon/postor.jpeg';
 import charusatDuo from '../../assets/charusat-hackathon/duo.webp';
 import charusatDashboard from '../../assets/charusat-hackathon/dashboard.png';
+import globetrotterImg from '../../assets/globetrotter.png';
+import talesImg from '../../assets/tales.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 const isDesktop = !isMobileDevice();
@@ -63,6 +65,34 @@ const Hackathon = () => {
                 charusatDuo,
                 charusatDashboard
             ]
+        },
+        {
+            id: 3,
+            eventTitle: "Tales Beyond the Tomb",
+            category: "Game Dev Hackathon",
+            year: "2024",
+            summary: "A thrilling adventure game where choices determine your fate.",
+            projectName: "Tales Beyond the Tomb",
+            projectDescription: "Created an immersive storytelling experience with engaging mechanics and rich visuals during a game development hackathon.",
+            tags: ["HTML", "CSS", "JS", "Game Dev"],
+            github: "https://github.com/mann2007-ptl/tales-beyond-the-tomb",
+            live: "https://mannpatel-tales-beyond-the-tomb.netlify.app/",
+            certificate: talesImg,
+            gallery: [talesImg]
+        },
+        {
+            id: 4,
+            eventTitle: "GlobeTrotter",
+            category: "Travel Hackathon",
+            year: "2024",
+            summary: "A travel companion app to discover and plan your next adventure.",
+            projectName: "GlobeTrotter",
+            projectDescription: "A comprehensive travel platform that aggregates destinations, provides itineraries, and allows users to explore world wonders.",
+            tags: ["React", "CSS", "API"],
+            github: "https://github.com/mann2007-ptl/globetrotter",
+            live: "https://mannpatel-globetrotter.netlify.app/",
+            certificate: globetrotterImg,
+            gallery: [globetrotterImg]
         }
 
     ], []);
