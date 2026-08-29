@@ -125,7 +125,6 @@ function LeetCodePage() {
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [smoothScrollReady, setSmoothScrollReady] = useState(false);
 
   // Defer GSAP, and skip Lenis entirely on mobile
   const initSmoothScroll = useCallback(() => {
@@ -164,7 +163,6 @@ function App() {
         window.__lenisRaf = rafFn;
       }
 
-      setSmoothScrollReady(true);
     });
   }, []);
 

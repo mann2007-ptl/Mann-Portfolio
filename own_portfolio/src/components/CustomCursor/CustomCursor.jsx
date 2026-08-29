@@ -5,8 +5,7 @@ const CustomCursor = () => {
     const cursorDotRef = useRef(null);
     const cursorOutlineRef = useRef(null);
     const mousePos = useRef({ x: -100, y: -100 });
-    const dotPos = useRef({ x: -100, y: -100 });
-    const outlinePos = useRef({ x: -100, y: -100 });
+    const outlinePos = useRef({ x: 0, y: 0 });
     const rafId = useRef(null);
     const isHovering = useRef(false);
     const isVisible = useRef(false);
@@ -16,26 +15,21 @@ const CustomCursor = () => {
         typeof window === 'undefined' ? true : !window.matchMedia('(pointer: fine)').matches
     );
 
-    const render = useCallback(() => {
+    const render = useCallback(function animationFrame() {
         const dot = cursorDotRef.current;
         const outline = cursorOutlineRef.current;
         if (!dot || !outline) return;
 
-        // Ultra-smooth lerp — dot nearly instant, outline trails beautifully
-        const dotSpeed = 0.85;
-        const outlineSpeed = 0.18;
+        // Move dot instantly
+        dot.style.transform = `translate3d(${mousePos.current.x}px, ${mousePos.current.y}px, 0) translate(-50%, -50%)`;
 
-        dotPos.current.x += (mousePos.current.x - dotPos.current.x) * dotSpeed;
-        dotPos.current.y += (mousePos.current.y - dotPos.current.y) * dotSpeed;
-
-        outlinePos.current.x += (mousePos.current.x - outlinePos.current.x) * outlineSpeed;
-        outlinePos.current.y += (mousePos.current.y - outlinePos.current.y) * outlineSpeed;
-
-        // Use transform instead of top/left — GPU accelerated, zero layout thrash
-        dot.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0) translate(-50%, -50%)`;
+        // Ease outline
+        outlinePos.current.x += (mousePos.current.x - outlinePos.current.x) * 0.15;
+        outlinePos.current.y += (mousePos.current.y - outlinePos.current.y) * 0.15;
+        
         outline.style.transform = `translate3d(${outlinePos.current.x}px, ${outlinePos.current.y}px, 0) translate(-50%, -50%)`;
 
-        rafId.current = requestAnimationFrame(render);
+        rafId.current = requestAnimationFrame(animationFrame);
     }, []);
 
     useEffect(() => {

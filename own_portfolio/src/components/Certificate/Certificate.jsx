@@ -105,7 +105,7 @@ const Certificate = () => {
                 </div>
 
                 <div className="cert-grid">
-                    {certificates.map((cert, index) => (
+                    {certificates.map((cert) => (
                         <div key={cert.id} className="cert-card">
                             <div className="cert-image">
                                 <img src={cert.image} alt={cert.title} loading="lazy" />
