@@ -1,153 +1,137 @@
+/* ═══════════════════════════════════════════════════
+   CERTIFICATES — "The Obsidian Monoliths"
+   ═══════════════════════════════════════════════════ */
+
 .certificate-section {
     position: relative;
+    padding: 150px 0;
+    z-index: 5;
+    background: var(--bg-primary);
 }
 
-.cert-grid {
+/* ── Monolith Grid ── */
+.monolith-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    margin-top: 4rem;
+    perspective: 1200px; /* Essential for 3D flip */
 }
 
-.cert-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    transition: all var(--transition);
+/* ── Monolith Card Container ── */
+.monolith-card {
     position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    cursor: pointer;
+    perspective: 1500px;
 }
 
-.cert-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.25);
-    transform: translateY(-4px);
+/* ── 3D Flipper ── */
+.monolith-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Hover Overlay */
-.cert-hover-overlay {
+.monolith-card:hover .monolith-inner {
+    transform: rotateY(180deg);
+}
+
+/* ── Faces Common ── */
+.monolith-front,
+.monolith-back {
     position: absolute;
     inset: 0;
-    background: linear-gradient(160deg,
-            rgba(10, 10, 20, 0.92) 0%,
-            rgba(10, 10, 20, 0.97) 100%);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
-    box-sizing: border-box;
+    backface-visibility: hidden;
+    border-radius: 8px; /* Slight bevel */
+    overflow: hidden;
 }
 
-.cert-card:hover .cert-hover-overlay {
-    opacity: 1;
-}
-
-.cert-hover-content {
+/* ── Front: Obsidian Slab ── */
+.monolith-front {
+    background: linear-gradient(160deg, #0a0a0a 0%, #020202 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    text-align: center;
-    transform: translateY(12px);
-    transition: transform 0.35s ease;
-}
-
-.cert-card:hover .cert-hover-content {
-    transform: translateY(0);
-}
-
-.cert-hover-badge {
-    display: inline-block;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--accent);
-    background: rgba(var(--accent-rgb, 99, 102, 241), 0.12);
-    border: 1px solid rgba(var(--accent-rgb, 99, 102, 241), 0.3);
-    border-radius: 50px;
-    padding: 0.25rem 0.75rem;
-    align-self: center;
-}
-
-.cert-hover-title {
-    font-family: var(--font-serif);
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #fff;
-    margin: 0;
-    line-height: 1.3;
-}
-
-.cert-hover-desc {
-    font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.65);
-    line-height: 1.55;
-    margin: 0;
-}
-
-.cert-hover-date {
-    display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 0.4rem;
-    font-size: 0.72rem;
-    font-weight: 600;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    /* Subtle vertical shine */
+}
+
+.monolith-front::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 45%, rgba(212, 175, 55, 0.05) 50%, transparent 55%);
+    transform: rotate(30deg);
+    pointer-events: none;
+}
+
+.monolith-provider {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     color: var(--accent);
-    margin-top: 0.25rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
 }
 
-.cert-image {
-    overflow: hidden;
-    aspect-ratio: 16 / 11;
+.monolith-divider {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.5), transparent);
+    margin-bottom: 1.5rem;
 }
 
-.cert-image img {
+.monolith-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+/* ── Back: Glowing Certificate ── */
+.monolith-back {
+    background: #020202;
+    transform: rotateY(180deg);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.monolith-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    filter: sepia(20%) contrast(1.1);
 }
 
-.cert-card:hover .cert-image img {
-    transform: scale(1.05);
+.monolith-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 30%, rgba(212, 175, 55, 0.4) 120%);
+    mix-blend-mode: color-dodge;
+    pointer-events: none;
 }
 
-.cert-info {
-    padding: 1.25rem;
-}
-
-.cert-title {
-    font-family: var(--font-serif);
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.75rem;
-}
-
-.cert-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.cert-provider {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--accent);
-}
-
-.cert-date {
-    font-size: 0.75rem;
-    color: var(--text-tertiary);
-}
-
+/* ── Responsive ── */
 @media (max-width: 768px) {
-    .cert-grid {
+    .monolith-grid {
         grid-template-columns: 1fr;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
     }
 }

@@ -38,14 +38,10 @@ function HomePage({ loading }) {
       <Hero loading={loading} />
 
       {/* Component-level viewport intersection loading */}
-      <LazySection threshold="800px"><Marquee /></LazySection>
       <LazySection threshold="800px"><About /></LazySection>
       <LazySection threshold="800px"><Skills /></LazySection>
-      <LazySection threshold="800px"><Hackathon /></LazySection>
       <LazySection threshold="800px"><Projects /></LazySection>
       <LazySection threshold="800px"><Certificate /></LazySection>
-      <LazySection threshold="800px"><LeetCode /></LazySection>
-      <LazySection threshold="800px"><Education /></LazySection>
       <LazySection threshold="800px"><Contact /></LazySection>
     </main>
   );

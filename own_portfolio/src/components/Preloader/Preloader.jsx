@@ -3,137 +3,203 @@ import gsap from 'gsap';
 import './Preloader.css';
 
 const FINAL_TEXT = "MANN PATEL";
-const CHARS = "ABCDEFGHIKLMNOPRSTUVWXYZ0123456789!@#%^&*";
+const ROLE_TEXT = "SOFTWARE ENGINEER";
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
 
 const Preloader = ({ setLoading }) => {
     const [isComplete, setIsComplete] = useState(false);
-    const [displayText, setDisplayText] = useState("");
-    const [isDecoded, setIsDecoded] = useState(false);
+    const [percent, setPercent] = useState(0);
+    const [nameText, setNameText] = useState("");
+    const [roleText, setRoleText] = useState("");
+    const [nameDecoded, setNameDecoded] = useState(false);
     const overlayRef = useRef(null);
-    const topDoorRef = useRef(null);
-    const bottomDoorRef = useRef(null);
+    const leftDoorRef = useRef(null);
+    const rightDoorRef = useRef(null);
+    const counterRef = useRef(null);
     const nameRef = useRef(null);
     const roleRef = useRef(null);
+    const ringsRef = useRef(null);
 
     useEffect(() => {
-        // DO NOT set overflow:hidden — content behind must be paintable for FCP/LCP
-        // The preloader is just a visual overlay with pointer-events, not a DOM blocker
+        // ── Counter 0% → 100% ──
+        const counterTween = gsap.to({ val: 0 }, {
+            val: 100,
+            duration: 2.4,
+            ease: "power2.inOut",
+            onUpdate: function () {
+                setPercent(Math.round(this.targets()[0].val));
+            }
+        });
 
-        // Matrix Decode algorithm
-        let iterations = 0;
-        const decodeInterval = setInterval(() => {
-            setDisplayText(
+        // ── Name decode animation ──
+        let nameIterations = 0;
+        const nameInterval = setInterval(() => {
+            setNameText(
                 FINAL_TEXT.split("").map((letter, index) => {
                     if (letter === " ") return " ";
-                    if (index < iterations) {
-                        return FINAL_TEXT[index];
-                    }
+                    if (index < nameIterations) return FINAL_TEXT[index];
                     return CHARS[Math.floor(Math.random() * CHARS.length)];
                 }).join("")
             );
-
-            if (iterations >= FINAL_TEXT.length) {
-                clearInterval(decodeInterval);
-                setIsDecoded(true);
+            if (nameIterations >= FINAL_TEXT.length) {
+                clearInterval(nameInterval);
+                setNameDecoded(true);
+                // Start role decode
+                let roleIterations = 0;
+                const roleInterval = setInterval(() => {
+                    setRoleText(
+                        ROLE_TEXT.split("").map((letter, index) => {
+                            if (letter === " ") return " ";
+                            if (index < roleIterations) return ROLE_TEXT[index];
+                            return CHARS[Math.floor(Math.random() * CHARS.length)];
+                        }).join("")
+                    );
+                    if (roleIterations >= ROLE_TEXT.length) {
+                        clearInterval(roleInterval);
+                    }
+                    roleIterations += 1 / 2;
+                }, 25);
             }
-
-            iterations += 1 / 2;
+            nameIterations += 1 / 3;
         }, 20);
 
-        // Initial entrance animation with GSAP
+        // ── Ring spin acceleration ──
+        if (ringsRef.current) {
+            gsap.to(ringsRef.current.querySelectorAll('.vault-ring'), {
+                rotation: 360,
+                duration: 2.4,
+                ease: "power2.in",
+                stagger: { each: 0.15, from: "center" },
+                repeat: 0
+            });
+        }
+
+        // ── Name entrance ──
         if (nameRef.current) {
             gsap.fromTo(nameRef.current,
-                { scale: 0.95, opacity: 0 },
-                { scale: 1, opacity: 1, duration: 0.4, ease: "power2.out" }
+                { scale: 0.9, opacity: 0, y: 20 },
+                { scale: 1, opacity: 1, y: 0, duration: 0.6, ease: "power3.out", delay: 0.2 }
             );
         }
 
-        // Shortened preloader: 1.8s total (down from 2.6s)
-        const timer = setTimeout(() => {
-            // Signal loading complete FIRST — hero animation can start
+        // ── Exit: Vault Door Split at ~2.6s ──
+        const exitTimer = setTimeout(() => {
             setLoading(false);
 
-            // Exit animation using GSAP
             const tl = gsap.timeline({
-                onComplete: () => {
-                    setIsComplete(true);
-                }
+                onComplete: () => setIsComplete(true)
             });
 
-            // Fade out name + role
+            // Bloom flash on rings
+            if (ringsRef.current) {
+                tl.to(ringsRef.current, {
+                    filter: "brightness(2) drop-shadow(0 0 30px rgba(212, 175, 55, 0.8))",
+                    duration: 0.3,
+                    ease: "power2.in"
+                }, 0);
+            }
+
+            // Fade counter + text
+            if (counterRef.current) {
+                tl.to(counterRef.current, {
+                    scale: 1.1, opacity: 0, filter: "blur(8px)",
+                    duration: 0.35, ease: "power2.in"
+                }, 0);
+            }
             if (nameRef.current) {
                 tl.to(nameRef.current, {
-                    scale: 1.05, opacity: 0, filter: "blur(5px)",
+                    opacity: 0, y: -20, filter: "blur(5px)",
                     duration: 0.3, ease: "power2.in"
-                }, 0);
+                }, 0.05);
             }
             if (roleRef.current) {
                 tl.to(roleRef.current, {
-                    y: 20, opacity: 0,
-                    duration: 0.2, ease: "power2.in"
-                }, 0);
+                    opacity: 0, y: 20,
+                    duration: 0.25, ease: "power2.in"
+                }, 0.05);
             }
 
-            // Door split animation
-            if (topDoorRef.current) {
-                tl.to(topDoorRef.current, {
-                    y: "-100%",
-                    duration: 0.6,
+            // Vault doors slide apart (left goes left, right goes right)
+            if (leftDoorRef.current) {
+                tl.to(leftDoorRef.current, {
+                    x: "-105%",
+                    duration: 0.8,
                     ease: "power4.inOut"
-                }, 0.1);
+                }, 0.2);
             }
-            if (bottomDoorRef.current) {
-                tl.to(bottomDoorRef.current, {
-                    y: "100%",
-                    duration: 0.6,
+            if (rightDoorRef.current) {
+                tl.to(rightDoorRef.current, {
+                    x: "105%",
+                    duration: 0.8,
                     ease: "power4.inOut"
-                }, 0.1);
+                }, 0.2);
             }
 
-            // Fade overlay
+            // Fade entire overlay
             if (overlayRef.current) {
                 tl.to(overlayRef.current, {
                     opacity: 0,
-                    duration: 0.6,
+                    duration: 0.4,
                     ease: "power2.in",
                     onComplete: () => {
                         if (overlayRef.current) overlayRef.current.style.pointerEvents = 'none';
                     }
-                }, 0.2);
+                }, 0.6);
             }
 
-        }, 2200); // Restored cinematic length. Transparency solves LCP.
+        }, 2800);
 
         return () => {
-            clearInterval(decodeInterval);
-            clearTimeout(timer);
+            clearInterval(nameInterval);
+            clearTimeout(exitTimer);
+            counterTween.kill();
         };
     }, [setLoading]);
 
     if (isComplete) return null;
 
     return (
-        <div className="preloader-overlay dev-mode" ref={overlayRef}>
-            <div className="dev-door top-door" ref={topDoorRef} />
-            <div className="dev-door bottom-door" ref={bottomDoorRef} />
+        <div className="preloader-overlay" ref={overlayRef}>
+            {/* Vault Doors */}
+            <div className="vault-door vault-left" ref={leftDoorRef}>
+                <div className="vault-door-trim" />
+            </div>
+            <div className="vault-door vault-right" ref={rightDoorRef}>
+                <div className="vault-door-trim" />
+            </div>
 
-            {/* Developer Tech Grid Background */}
-            <div className="dev-grid"></div>
+            {/* Grid Background */}
+            <div className="vault-grid" />
 
-            <div className="dev-center-container">
+            {/* Rotating Rings */}
+            <div className="vault-rings-container" ref={ringsRef}>
+                <div className="vault-ring ring-outer" />
+                <div className="vault-ring ring-mid" />
+                <div className="vault-ring ring-inner" />
+            </div>
+
+            {/* Center Content */}
+            <div className="vault-center">
+                {/* Percentage Counter */}
+                <div className="vault-counter" ref={counterRef}>
+                    <span className="vault-counter-number">{String(percent).padStart(3, '0')}</span>
+                    <span className="vault-counter-symbol">%</span>
+                </div>
+
+                {/* Decoded Name */}
                 <h1
-                    className={`dev-name-text ${isDecoded ? 'decoded-clean' : 'decoding-noise'}`}
+                    className={`vault-name ${nameDecoded ? 'decoded' : 'decoding'}`}
                     ref={nameRef}
                 >
-                    {displayText}
+                    {nameText}
                 </h1>
 
-                {/* Elegant minimalist subtitle */}
+                {/* Role */}
                 <div
-                    className={`dev-role-box ${isDecoded ? 'role-visible' : 'role-hidden'}`}
+                    className={`vault-role ${nameDecoded ? 'role-visible' : 'role-hidden'}`}
                     ref={roleRef}
                 >
-                    SOFTWARE ENGINEER
+                    {roleText || "\u00A0"}
                 </div>
             </div>
         </div>

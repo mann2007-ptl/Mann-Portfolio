@@ -1,64 +1,143 @@
-/* ===== SKILLS SECTION ===== */
-.skills-section {
+/* ═══════════════════════════════════════════════════
+   SKILLS — "Magnetic Constellation"
+   ═══════════════════════════════════════════════════ */
+
+.skills-constellation-section {
     position: relative;
-    padding: 120px 0;
-    z-index: 3;
+    padding: 150px 0;
+    overflow: hidden;
 }
 
-.skills-grid-layout {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 1.25rem;
-    margin-top: 3rem;
+/* ── Ripple Container ── */
+.ripple-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
 }
 
-.skill-card-glass {
+.gold-ripple {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6);
+    animation: rippleEffect 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes rippleEffect {
+    0% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6), inset 0 0 0 0 rgba(212, 175, 55, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 0 200vw rgba(212, 175, 55, 0), inset 0 0 0 10px rgba(212, 175, 55, 0);
+    }
+}
+
+/* ── Constellation Grid ── */
+.constellation-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 4rem auto 0;
+    padding: 2rem;
+    perspective: 1000px;
+}
+
+/* ── Magnetic Node ── */
+.magnetic-node-wrapper {
+    position: relative;
+    padding: 1.5rem; /* Increased hit area for magnetism */
+    cursor: pointer;
+    touch-action: none;
+}
+
+.magnetic-node {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    background: rgba(255, 255, 255, 0.02);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(8, 8, 8, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    padding: 2rem 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
-.skill-card-glass:hover {
-    transform: translateY(-6px);
-    border-color: rgba(212, 168, 67, 0.25);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-}
-
-.skill-card-glass:hover .skill-icon-wrap {
+.magnetic-node.hovered {
+    background: rgba(8, 8, 8, 0.9);
+    border-color: var(--node-color, var(--accent));
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 
+                0 0 30px rgba(212, 175, 55, 0.15),
+                inset 0 0 30px rgba(0, 0, 0, 0.9);
     transform: scale(1.1);
 }
 
-.skill-icon-wrap {
-    font-size: 2.8rem;
-    transition: transform 0.3s ease;
+.node-icon {
+    font-size: 2.5rem;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    filter: grayscale(100%) opacity(0.7);
 }
 
-.skill-name {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+.magnetic-node.hovered .node-icon {
+    color: var(--node-color, var(--accent));
+    filter: grayscale(0%) opacity(1);
+    transform: scale(1.1);
 }
 
+.node-name {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    margin-top: 0.8rem;
+    color: var(--text-secondary);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.magnetic-node.hovered .node-name {
+    opacity: 1;
+    transform: translateY(0);
+    color: #ffffff;
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
-    .skills-grid-layout {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    .constellation-grid {
         gap: 1rem;
+        padding: 1rem;
     }
 
-    .skill-card-glass {
-        padding: 1.5em 1rem;
+    .magnetic-node-wrapper {
+        padding: 0.5rem;
     }
 
-    .skill-icon-wrap {
-        font-size: 2.2rem;
+    .magnetic-node {
+        width: 90px;
+        height: 90px;
+    }
+
+    .node-icon {
+        font-size: 2rem;
+    }
+    
+    .node-name {
+        font-size: 0.65rem;
+        margin-top: 0.5rem;
     }
 }

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#010204" />
+  <meta name="theme-color" content="#020202" />
   <meta name="author" content="Mann Patel" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
@@ -19,9 +19,8 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
   <link rel="apple-touch-icon" href="/favicon.svg" />
 
-  <!-- Critical inline CSS — allows instant first paint before any JS or external CSS -->
+  <!-- Critical inline CSS — instant paint before JS/CSS loads -->
   <style>
-    /* Instant background + layout so browser can paint immediately */
     *,
     *::before,
     *::after {
@@ -31,19 +30,19 @@
     }
 
     html {
-      background-color: #010204;
+      background-color: #020202;
       color: #fff;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background-color: #010204;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #020202;
       min-height: 100vh;
     }
 
     #root {
       min-height: 100vh;
-      background-color: #010204;
+      background-color: #020202;
     }
 
     /* Hero placeholder layout so LCP element paints instantly */
@@ -52,7 +51,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #010204;
+      background-color: #020202;
     }
 
     .hero-title {
@@ -64,15 +63,25 @@
     }
   </style>
 
-  <!-- Fonts — only essential weights, non-blocking -->
+  <!-- Fonts — Inter (body) + Fira Code (mono) via Google Fonts, non-blocking -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap"
     media="print" onload="this.media='all'" />
   <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap" />
+  </noscript>
+
+  <!-- Clash Display — loaded via CDN (high-contrast geometric display font for headlines) -->
+  <link rel="preload" as="style" href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap" />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap"
+    media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap" />
   </noscript>
 
   <!-- Open Graph -->
@@ -97,8 +106,6 @@
 
   <!-- Optional theme / app-like metadata -->
   <meta name="application-name" content="Mann Patel Portfolio" />
-
-  <!-- Structured Data managed dynamically via React Helmet in App -->
 </head>
 
 <body>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -6,42 +6,14 @@ import { FaGithub, FaLinkedin, FaYoutube, FaEnvelope, FaPaperPlane, FaArrowUp } 
 import { FaXTwitter } from 'react-icons/fa6';
 import { SiLeetcode } from 'react-icons/si';
 import Magnetic from '../Magnetic/Magnetic';
-import ScrollReveal from '../ScrollReveal/ScrollReveal';
-import { isMobileDevice } from '../../hooks/useDeviceDetect';
 import './Contact.css';
 
 gsap.registerPlugin(ScrollTrigger);
-
-// Lazy-load the Three.js 3D component — only on desktop
-const Contact3D = lazy(() => import('./Contact3D'));
-const isDesktop = !isMobileDevice();
 
 const Contact = () => {
     const sectionRef = useRef(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
-    const [show3D, setShow3D] = useState(false);
-
-    // Only load 3D when section enters viewport AND on desktop
-    useEffect(() => {
-        if (!isDesktop) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setShow3D(true);
-                    observer.disconnect();
-                }
-            },
-            { rootMargin: '200px' }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,7 +37,7 @@ const Contact = () => {
                 e.target.reset();
                 setTimeout(() => setShowSuccess(false), 5000);
             } else {
-                alert(result.message || "Something went wrong. Please check if you have verified your email with FormSubmit.");
+                alert(result.message || "Something went wrong.");
             }
         } catch (error) {
             console.error("Form error:", error);
@@ -89,19 +61,36 @@ const Contact = () => {
 
     useEffect(() => {
         let ctx = gsap.context(() => {
-            gsap.fromTo('.contact-header-anim',
-                { opacity: 0, y: 30 },
-                { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: "play none none reverse" } }
+            gsap.fromTo('.contact-title-anim',
+                { opacity: 0, y: 50 },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 1.2, 
+                    ease: 'power3.out',
+                    scrollTrigger: { 
+                        trigger: sectionRef.current, 
+                        start: 'top 80%', 
+                        toggleActions: "play none none reverse" 
+                    }
+                }
             );
 
-            gsap.fromTo('.contact-left-col',
-                { opacity: 0, x: -50 },
-                { opacity: 1, x: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.contact-layout', start: 'top 80%', toggleActions: "play none none reverse" } }
-            );
-
-            gsap.fromTo('.contact-form-glass',
-                { opacity: 0, x: 50 },
-                { opacity: 1, x: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.contact-layout', start: 'top 80%', toggleActions: "play none none reverse" } }
+            gsap.fromTo('.gold-form',
+                { opacity: 0, y: 50, scale: 0.98 },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1, 
+                    duration: 1.2, 
+                    delay: 0.2,
+                    ease: 'expo.out', 
+                    scrollTrigger: { 
+                        trigger: '.contact-layout', 
+                        start: 'top 80%', 
+                        toggleActions: "play none none reverse" 
+                    }
+                }
             );
         }, sectionRef);
         return () => ctx.revert();
@@ -109,85 +98,74 @@ const Contact = () => {
 
     return (
         <section id="contact" className="contact-section section" ref={sectionRef}>
-            {/* 3D background — lazy loaded, desktop only, viewport-triggered */}
-            {show3D && (
-                <Suspense fallback={null}>
-                    <Contact3D />
-                </Suspense>
-            )}
-
             <div className="container contact-container">
-                <div className="section-header center mb-16">
-                    <ScrollReveal type="heading" stagger={0.1}>
-                        <span className="section-label neon-text-purple inline-block mb-4">Transmission</span>
-                        <h2 className="section-title contact-main-title">
-                            Initiate <span className="accent">Contact</span>
-                        </h2>
-                    </ScrollReveal>
+                <div className="section-header center contact-title-anim">
+                    <span className="section-label">05. Communication</span>
+                    <h2 className="section-title">
+                        The Final <span className="accent">Transmission</span>
+                    </h2>
                 </div>
 
                 <div className="contact-layout">
-                    <div className="contact-left-col">
-                        <ScrollReveal type="heading" stagger={0.1}>
-                            <h3 className="contact-left-title">Ready to Build the Future?</h3>
-                        </ScrollReveal>
-                        <ScrollReveal type="paragraph" className="contact-left-desc" stagger={0.02}>
-                            I'm actively seeking internships and junior developer roles. Whether you have a visionary project or just want to connect with a fellow engineer, my inbox is always open.
-                        </ScrollReveal>
+                    <div className="terminal-info">
+                        <div className="terminal-header">
+                            <span className="dot dot-red"></span>
+                            <span className="dot dot-yellow"></span>
+                            <span className="dot dot-green"></span>
+                        </div>
+                        <div className="terminal-body">
+                            <p><span className="cmd">root@mann-patel:~$</span> ./initiate_contact.sh</p>
+                            <p className="response">&gt; System online. Ready to build the future.</p>
+                            <p className="response">&gt; Actively seeking visionary projects and opportunities.</p>
+                            <br />
+                            <p><span className="cmd">root@mann-patel:~$</span> locate transmission-channels</p>
+                            
+                            <a href="mailto:patelmann673@gmail.com" className="terminal-email">
+                                [EMAIL_OVERRIDE]: patelmann673@gmail.com
+                            </a>
 
-                        <a href="mailto:patelmann673@gmail.com" className="contact-email-link glass-panel">
-                            <FaEnvelope className="email-icon" />
-                            <span className="email-text">patelmann673@gmail.com</span>
-                        </a>
-
-                        <div className="contact-social-row">
-                            {socialLinks.map((link, i) => (
-                                <Magnetic key={i} strength={30}>
-                                    <a href={link.href} target="_blank" rel="noopener noreferrer" className="contact-social-icon magnetic-wrap glass-panel" aria-label={link.label}>
-                                        {link.icon}
-                                    </a>
-                                </Magnetic>
-                            ))}
+                            <div className="terminal-socials">
+                                {socialLinks.map((link, i) => (
+                                    <Magnetic key={i} strength={30}>
+                                        <a href={link.href} target="_blank" rel="noopener noreferrer" className="terminal-social-icon magnetic-wrap" aria-label={link.label}>
+                                            {link.icon}
+                                        </a>
+                                    </Magnetic>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
-                    <form className="contact-form-glass glass-panel" onSubmit={handleSubmit}>
-                        <input type="hidden" name="_captcha" value="false" />
+                    <form className="gold-form" onSubmit={handleSubmit}>
+                        <div className="gold-form-inner">
+                            <input type="hidden" name="_captcha" value="false" />
 
-                        <div className="contact-form-grid">
-                            <div className="form-group">
-                                <label htmlFor="name" className="form-label label-cyan">Identity</label>
-                                <input type="text" id="name" name="name" placeholder="John Doe" required className="neon-input" />
+                            <div className="gold-input-group">
+                                <input type="text" id="name" name="name" placeholder=" " required className="gold-input" />
+                                <label htmlFor="name" className="gold-label">Entity Name</label>
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="email" className="form-label label-purple">Comlink (Email)</label>
-                                <input type="email" id="email" name="email" placeholder="john@example.com" required className="neon-input" />
+                            
+                            <div className="gold-input-group">
+                                <input type="email" id="email" name="email" placeholder=" " required className="gold-input" />
+                                <label htmlFor="email" className="gold-label">Comlink (Email)</label>
                             </div>
-                        </div>
 
-                        <div className="form-group msg-group">
-                            <label htmlFor="message" className="form-label label-white">Transmission Data</label>
-                            <textarea id="message" name="message" rows="5" placeholder="Project details or message..." required className="neon-input"></textarea>
-                        </div>
+                            <div className="gold-input-group">
+                                <textarea id="message" name="message" rows="4" placeholder=" " required className="gold-input"></textarea>
+                                <label htmlFor="message" className="gold-label">Transmission Data</label>
+                            </div>
 
-                        <Magnetic strength={20}>
-                            <button type="submit" className="contact-submit-btn magnetic-wrap" disabled={isSubmitting}>
-                                <span>{isSubmitting ? 'Transmitting...' : 'Send Transmission'}</span>
-                                <FaPaperPlane />
-                            </button>
-                        </Magnetic>
+                            <Magnetic strength={20}>
+                                <button type="submit" className="gold-submit-btn magnetic-wrap" disabled={isSubmitting}>
+                                    <span>{isSubmitting ? 'TRANSMITTING...' : 'SEND TRANSMISSION'}</span>
+                                </button>
+                            </Magnetic>
+                        </div>
                     </form>
                 </div>
 
-                {/* Footer */}
                 <div className="contact-footer">
-                    <div className="footer-left">
-                        <span className="footer-name">Mann Patel</span>
-                        <span className="footer-role">UX Engineer</span>
-                    </div>
-                    <p className="footer-center">
-                        &copy; {new Date().getFullYear()} Mann Patel. Engineered with React, GSAP & Three.js.
-                    </p>
+                    <p className="footer-text">INITIATED BY MANN PATEL • &copy; {new Date().getFullYear()}</p>
                     <Magnetic strength={40}>
                         <button className="footer-up-btn magnetic-wrap" onClick={scrollToTop} aria-label="Back to top">
                             <FaArrowUp />
@@ -199,7 +177,7 @@ const Contact = () => {
             {showSuccess && createPortal(
                 <div className="success-toast">
                     <span className="success-check">✓</span>
-                    Message sent successfully!
+                    Transmission Successful.
                 </div>,
                 document.body
             )}

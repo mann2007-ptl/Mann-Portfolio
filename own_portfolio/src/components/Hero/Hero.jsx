@@ -1,52 +1,81 @@
 import React, { useEffect, useRef, useState, Suspense, lazy } from 'react';
-import { Link } from 'react-router-dom';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { SiLeetcode } from 'react-icons/si';
 import Magnetic from '../Magnetic/Magnetic';
 import './Hero.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Hero3D = lazy(() => import('./Hero3D'));
 
 const Hero = ({ loading }) => {
     const heroRef = useRef(null);
+    const topTextRef = useRef(null);
+    const bottomTextRef = useRef(null);
+    const centerNameRef = useRef(null);
     const [animationRan, setAnimationRan] = useState(false);
 
     useEffect(() => {
         if (loading || animationRan) return;
 
-        const rafId = requestAnimationFrame(() => {
-            gsap.context(() => {
-                const tl = gsap.timeline();
+        // Initial Reveal Animation
+        const tl = gsap.timeline();
+        tl.fromTo(topTextRef.current,
+            { y: '50%', opacity: 0 },
+            { y: '0%', opacity: 1, duration: 1.2, ease: "power3.out" },
+            0.2
+        )
+        .fromTo(bottomTextRef.current,
+            { y: '-50%', opacity: 0 },
+            { y: '0%', opacity: 1, duration: 1.2, ease: "power3.out" },
+            0.2
+        )
+        .fromTo('.hero-socials a',
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out" },
+            1.0
+        );
 
-                tl.from('.hero-label',
-                    { y: -15, opacity: 0, duration: 0.8, ease: "back.out(1.5)" },
-                    0.2
-                )
-                    .from('.hero-bottom-area',
-                        { y: 25, opacity: 0, duration: 0.9, ease: "power3.out" },
-                        0.4
-                    )
-                    .from('.hero-3d-wrapper',
-                        { opacity: 0, scale: 0.9, duration: 1.2, ease: "power3.out" },
-                        0.3
-                    )
-                    .from('.hero-socials a',
-                        { y: 15, opacity: 0, duration: 0.5, stagger: 0.08, ease: "power3.out" },
-                        0.6
-                    )
-                    .from('.hero-scroll-cue',
-                        { opacity: 0, duration: 0.6, ease: "power2.out" },
-                        1.0
-                    );
-            }, heroRef);
+        setAnimationRan(true);
+    }, [loading, animationRan]);
 
-            setAnimationRan(true);
+    useEffect(() => {
+        if (!heroRef.current) return;
+
+        // Scroll Split Animation
+        const splitTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: heroRef.current,
+                start: "top top",
+                end: "+=100%",
+                scrub: 1,
+                pin: true,
+            }
         });
 
-        return () => cancelAnimationFrame(rafId);
-    }, [loading, animationRan]);
+        splitTl.to(topTextRef.current, {
+            y: '-60vh',
+            opacity: 0,
+            ease: "none"
+        }, 0)
+        .to(bottomTextRef.current, {
+            y: '60vh',
+            opacity: 0,
+            ease: "none"
+        }, 0)
+        .fromTo(centerNameRef.current, 
+            { scale: 0.8, opacity: 0, filter: 'blur(10px)' },
+            { scale: 1, opacity: 1, filter: 'blur(0px)', ease: "power2.out" }, 
+            0.2
+        );
+
+        return () => {
+            ScrollTrigger.getAll().forEach(t => t.kill());
+        };
+    }, []);
 
     const socialLinks = [
         { icon: <FaGithub />, href: 'https://github.com/mann2007-ptl', label: 'GitHub' },
@@ -58,73 +87,51 @@ const Hero = ({ loading }) => {
 
     return (
         <section id="hero" className="hero-section" ref={heroRef}>
-            <div className="hero-ambient-glow"></div>
-            <div className="hero-grain"></div>
+            {/* 3D Background */}
+            <div className="hero-3d-wrapper">
+                <Suspense fallback={null}>
+                    <Hero3D />
+                </Suspense>
+            </div>
 
             <div className="container hero-container">
-                {/* LEFT: Main content */}
-                <div className="hero-left">
-                    <span className="hero-label">Mann Patel</span>
-
-                    <h1 className="hero-headline">
-                        I build <em>digital</em><br />
-                        experiences that<br />
-                        <em>inspire.</em>
-                    </h1>
-
-                    <div className="hero-bottom-area">
-                        <p className="hero-description">
-                            Full-stack developer specializing in cinematic web design,
-                            MERN stack, and performance engineering.
-                        </p>
-
-                        <div className="hero-cta">
-                            <Magnetic strength={30}>
-                                <Link to="/projects" className="btn-primary magnetic-wrap">
-                                    <span>Explore Work</span>
-                                </Link>
-                            </Magnetic>
-                            <Magnetic strength={20}>
-                                <a
-                                    href="https://drive.google.com/file/d/1L9B4lu0oojjxq5Fz0qiozFWxS8L_Uzw2/view?usp=sharing"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="btn-outline magnetic-wrap"
-                                >
-                                    <span>View Resume</span>
-                                </a>
-                            </Magnetic>
-                        </div>
+                {/* Abstract Typography */}
+                <div className="hero-typography">
+                    <div className="split-text-container top-text" ref={topTextRef}>
+                        <h1>SOFTWARE</h1>
+                    </div>
+                    
+                    <div className="center-reveal-name" ref={centerNameRef}>
+                        <h2 className="gradient-text">MANN PATEL</h2>
+                        <p className="hero-subtitle">Full-Stack Developer & Performance Engineer</p>
                     </div>
 
-                    <div className="hero-socials">
-                        {socialLinks.map((link, i) => (
-                            <Magnetic key={i} strength={40}>
-                                <a
-                                    href={link.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="social-icon magnetic-wrap"
-                                    aria-label={link.label}
-                                >
-                                    {link.icon}
-                                </a>
-                            </Magnetic>
-                        ))}
+                    <div className="split-text-container bottom-text" ref={bottomTextRef}>
+                        <h1>ENGINEER</h1>
                     </div>
                 </div>
 
-                {/* RIGHT: 3D Object */}
-                <div className="hero-3d-wrapper">
-                    <Suspense fallback={null}>
-                        <Hero3D />
-                    </Suspense>
+                <div className="hero-socials">
+                    {socialLinks.map((link, i) => (
+                        <Magnetic key={i} strength={30}>
+                            <a
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="social-icon magnetic-wrap"
+                                aria-label={link.label}
+                            >
+                                {link.icon}
+                            </a>
+                        </Magnetic>
+                    ))}
                 </div>
             </div>
 
-            <div className="hero-scroll-cue">
-                <div className="scroll-line"></div>
-                <span className="scroll-text">Scroll</span>
+            <div className="hero-scroll-indicator">
+                <div className="mouse">
+                    <div className="wheel"></div>
+                </div>
             </div>
         </section>
     );
