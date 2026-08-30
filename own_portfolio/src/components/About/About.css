@@ -88,7 +88,7 @@
 }
 
 .bento-photo .bento-card-inner {
-    padding: 0;
+    padding: 2.5rem; /* Give it the same padding as other cards so the image is framed and smaller */
 }
 
 .bento-bio {
@@ -112,51 +112,43 @@
     grid-row: 3 / 4;
 }
 
-/* ── Photo & Glitch ── */
+/* ── Photo & Hover ── */
 .bento-photo-wrapper {
     position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
+    border-radius: calc(var(--border-radius-lg) - 10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .photo-base {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: grayscale(80%) contrast(1.1);
-    transition: filter 0.5s ease, transform 0.8s ease;
+    object-position: top;
+    filter: grayscale(40%) contrast(1.1);
+    transition: filter 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .bento-card:hover .photo-base {
-    filter: grayscale(0%) contrast(1.2);
-    transform: scale(1.05);
+    filter: grayscale(0%) contrast(1.1);
+    transform: scale(1.08);
 }
 
-.photo-glitch {
+/* Added a subtle gold glow on hover instead of the aggressive glitch */
+.bento-photo-wrapper::after {
+    content: '';
     position: absolute;
     inset: 0;
-    background-image: url('../../assets/photo.jpeg');
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    mix-blend-mode: color-dodge;
+    box-shadow: inset 0 0 0 0 rgba(212, 175, 55, 0);
+    transition: box-shadow 0.8s ease;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    border-radius: inherit;
 }
 
-.bento-card:hover .photo-glitch {
-    opacity: 1;
-    animation: glitchAnim 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
-}
-
-@keyframes glitchAnim {
-    0% { transform: translate(0) }
-    20% { transform: translate(-5px, 5px) }
-    40% { transform: translate(-5px, -5px) }
-    60% { transform: translate(5px, 5px) }
-    80% { transform: translate(5px, -5px) }
-    100% { transform: translate(0) }
+.bento-card:hover .bento-photo-wrapper::after {
+    box-shadow: inset 0 0 40px rgba(212, 175, 55, 0.2);
 }
 
 /* ── Typography inside Bento ── */

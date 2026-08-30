@@ -44,7 +44,6 @@ const About = () => {
                     <BentoCard className="bento-photo" delay={0.1}>
                         <div className="bento-photo-wrapper">
                             <img src={userPhoto} alt="Mann Patel" className="photo-base" loading="lazy" />
-                            <div className="photo-glitch"></div>
                         </div>
                     </BentoCard>
 
