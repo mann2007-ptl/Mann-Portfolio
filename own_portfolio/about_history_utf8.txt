@@ -1,0 +1,751 @@
+﻿commit 3d6f71689bf87abbe826b961ba96c0a51c8d7ddb
+Author: mann2007-ptl <mann.patel.cg@gmail.com>
+Date:   Sun Aug 30 10:02:15 2026 +0530
+
+    Update About photo: removed glitch, reduced size, added elegant hover
+
+diff --git a/own_portfolio/src/components/About/About.jsx b/own_portfolio/src/components/About/About.jsx
+index 2dea580..8b9b3a8 100644
+--- a/own_portfolio/src/components/About/About.jsx
++++ b/own_portfolio/src/components/About/About.jsx
+@@ -44,7 +44,6 @@ const About = () => {
+                     <BentoCard className="bento-photo" delay={0.1}>
+                         <div className="bento-photo-wrapper">
+                             <img src={userPhoto} alt="Mann Patel" className="photo-base" loading="lazy" />
+-                            <div className="photo-glitch"></div>
+                         </div>
+                     </BentoCard>
+ 
+
+commit ff19c5a1c54b9ea57d64fde404cafd7d9db674ff
+Author: mann2007-ptl <mann.patel.cg@gmail.com>
+Date:   Sun Aug 30 09:59:42 2026 +0530
+
+    Complete redesign: Obsidian & Liquid Gold theme
+
+diff --git a/own_portfolio/src/components/About/About.jsx b/own_portfolio/src/components/About/About.jsx
+index dcc4fef..2dea580 100644
+--- a/own_portfolio/src/components/About/About.jsx
++++ b/own_portfolio/src/components/About/About.jsx
+@@ -1,177 +1,101 @@
+-import React, { useEffect, useRef } from 'react';
+-import gsap from 'gsap';
+-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+-import VanillaTilt from 'vanilla-tilt';
+-import { isMobileDevice } from '../../hooks/useDeviceDetect';
++import React, { useRef } from 'react';
++import { motion, useInView } from 'framer-motion';
+ import userPhoto from '../../assets/photo.jpeg';
+-import ScrollReveal from '../ScrollReveal/ScrollReveal';
+ import './About.css';
+ 
+-gsap.registerPlugin(ScrollTrigger);
+-
+-const isDesktop = !isMobileDevice();
+-
+-const TiltCard = ({ children, className = '', options = {} }) => {
+-    const tiltRef = useRef(null);
+-    useEffect(() => {
+-        if (!isDesktop) return; // Skip VanillaTilt on mobile
+-        if (tiltRef.current) {
+-            VanillaTilt.init(tiltRef.current, {
+-                max: 15,
+-                speed: 400,
+-                glare: true,
+-                "max-glare": 0.2,
+-                ...options
+-            });
+-        }
+-        return () => {
+-            if (tiltRef.current && tiltRef.current.vanillaTilt) {
+-                tiltRef.current.vanillaTilt.destroy();
+-            }
+-        };
+-    }, [options]);
++const BentoCard = ({ children, className = '', delay = 0 }) => {
++    const cardRef = useRef(null);
++    const isInView = useInView(cardRef, { once: true, margin: "-50px" });
+ 
+     return (
+-        <div ref={tiltRef} className={`tilt-card ${className}`}>
+-            {children}
+-        </div>
++        <motion.div
++            ref={cardRef}
++            initial={{ y: 50, opacity: 0 }}
++            animate={isInView ? { y: 0, opacity: 1 } : { y: 50, opacity: 0 }}
++            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
++            className={`bento-card ${className}`}
++        >
++            <div className="bento-card-inner">
++                {children}
++            </div>
++            {/* The golden tracing border is handled via CSS pseudo-elements */}
++        </motion.div>
+     );
+ };
+ 
+ const About = () => {
+-    const sectionRef = useRef(null);
+-
+-    useEffect(() => {
+-        let ctx = gsap.context(() => {
+-            const textLines = gsap.utils.toArray('.about-text-reveal');
+-            textLines.forEach((text) => {
+-                gsap.fromTo(text,
+-                    { y: 40, opacity: 0, rotationX: 45 },
+-                    { y: 0, opacity: 1, rotationX: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: text, start: 'top 85%', toggleActions: "play none none reverse" } }
+-                );
+-            });
+-
+-            gsap.fromTo('.about-stat',
+-                { y: 60, opacity: 0, scale: 0.9 },
+-                { y: 0, opacity: 1, scale: 1, stagger: 0.15, duration: 1, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.about-stats', start: 'top 80%', toggleActions: "play none none reverse" } }
+-            );
+-
+-            const tl = gsap.timeline({ scrollTrigger: { trigger: '.experience-timeline', start: 'top 75%', toggleActions: "play none none reverse" } });
+-
+-            tl.fromTo('.timeline-title-text',
+-                { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.8 }
+-            )
+-                .fromTo('.exp-line',
+-                    { height: 0 }, { height: '100%', duration: 1.5, ease: 'power2.inOut' }, "-=0.4"
+-                )
+-                .fromTo('.timeline-dot',
+-                    { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, stagger: 0.3, ease: 'back.out(2)' }, "-=1.2"
+-                )
+-                .fromTo('.experience-item-content',
+-                    { x: 30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, stagger: 0.3, ease: 'power3.out' }, "-=1"
+-                );
+-
+-        }, sectionRef);
+-
+-        return () => ctx.revert();
+-    }, []);
+-
+-    const stats = [
+-        { number: '05+', label: 'Projects Completed' },
+-        { number: '01+', label: 'Years Coding' },
+-        { number: '10+', label: 'Technologies' },
+-        { number: '100+', label: 'LeetCode Problems' },
+-    ];
+-
+-    const experiences = [
+-        {
+-            role: 'Full-Stack Developer',
+-            type: 'Self-Learning & Projects',
+-            period: '2025 ΓÇö Present',
+-            description: 'Building production-ready web applications using the MERN stack with cinematic frontend aesthetics.'
+-        },
+-        {
+-            role: 'Computer Engineering Student',
+-            type: 'Swaminarayan University',
+-            period: '2025 ΓÇö Present',
+-            description: 'Pursuing B.E. in Computer Engineering, focusing on core algorithm concepts and web architectures.'
+-        },
+-        {
+-            role: 'Frontend Developer',
+-            type: 'Personal Projects',
+-            period: '2024 ΓÇö 2025',
+-            description: 'Mastered frontend fundamentals through intensive cloning and crafting of premium responsive UI.'
+-        }
++    const techStack = [
++        "React", "Node.js", "Express", "MongoDB", "Next.js",
++        "TypeScript", "Three.js", "GSAP", "Tailwind", "SQL"
+     ];
+ 
+     return (
+-        <section id="about" className="about-section section" ref={sectionRef}>
++        <section id="about" className="about-bento-section section">
+             <div className="container">
+-                <div className="section-header center mb-20">
+-                    <span className="section-label neon-text-cyan">Prologize</span>
++                <div className="section-header">
++                    <span className="section-label">01. Origin</span>
+                     <h2 className="section-title">
+-                        My career & <span className="accent">experience</span>
++                        The <span className="accent">Architect</span>
+                     </h2>
+                 </div>
+ 
+-                <div className="about-grid">
+-                    <TiltCard className="about-image-wrapper glass-panel" options={{ max: 10, scale: 1.02 }}>
+-                        <img src={userPhoto} alt="Mann Patel" className="about-image" loading="lazy" />
+-                        <div className="corner-accent top-left"></div>
+-                        <div className="corner-accent bottom-right"></div>
+-                    </TiltCard>
+-
+-                    <div className="about-content-wrapper">
+-                        <div className="about-text-block">
+-                            <ScrollReveal type="paragraph" className="about-intro-text" stagger={0.03}>
+-                                I am a Computer Engineering student based in Gujarat, India.
+-                                My journey in web development started with a curiosity for internet mechanics,
+-                                which has explosive-evolved into an obsession for creating award-winning level digital experiences.
+-                            </ScrollReveal>
+-                            <ScrollReveal type="paragraph" className="about-sub-text" delay={0.2} stagger={0.03}>
+-                                Specializing in the MERN stack,
+-                                my true passion is frontend engineeringΓÇöfusing bleeding-edge technology like
+-                                WebGL, GSAP, and cinematic design to build things that make people say wow.
+-                            </ScrollReveal>
++                <div className="bento-grid">
++                    {/* CARD 1: Headshot with glitch */}
++                    <BentoCard className="bento-photo" delay={0.1}>
++                        <div className="bento-photo-wrapper">
++                            <img src={userPhoto} alt="Mann Patel" className="photo-base" loading="lazy" />
++                            <div className="photo-glitch"></div>
+                         </div>
+-
+-                        <div className="about-stats">
+-                            {stats.map((stat, i) => (
+-                                <TiltCard key={i} className="about-stat glass-panel" options={{ max: 20, scale: 1.05 }}>
+-                                    <span className="stat-number gradient-text">{stat.number}</span>
+-                                    <span className="stat-label">{stat.label}</span>
+-                                </TiltCard>
+-                            ))}
+-                        </div>
+-                    </div>
+-                </div>
+-
+-                <div className="experience-timeline">
+-                    <h3 className="timeline-title-text">The <span className="accent">Journey</span></h3>
+-
+-                    <div className="timeline-container">
+-                        {/* Center glowing line */}
+-                        <div className="timeline-center-line">
+-                            <div className="exp-line"></div>
+-                        </div>
+-
+-                        {experiences.map((exp, i) => (
+-                            <div key={i} className={`experience-item ${i % 2 === 0 ? 'reverse' : ''}`}>
+-                                <div className="timeline-spacer"></div>
+-
+-                                <div className="timeline-dot-wrapper">
+-                                    <div className="timeline-dot"></div>
++                    </BentoCard>
++
++                    {/* CARD 2: Bio Text */}
++                    <BentoCard className="bento-bio" delay={0.2}>
++                        <h3 className="bento-heading">About Me</h3>
++                        <p className="bento-text">
++                            I am a Computer Engineering student based in Gujarat, India. 
++                            My journey in software engineering has explosive-evolved into an obsession for creating 
++                            award-winning level digital experiences.
++                        </p>
++                        <p className="bento-text">
++                            Specializing in the MERN stack, my true passion is fusing bleeding-edge technology like 
++                            WebGL, GSAP, and cinematic design to build things that make people say <span className="gold-text">wow</span>.
++                        </p>
++                    </BentoCard>
++
++                    {/* CARD 3: Infinite Marquee Tech Stack */}
++                    <BentoCard className="bento-tech" delay={0.3}>
++                        <div className="bento-tech-content">
++                            <h4 className="bento-subheading">Core Arsenal</h4>
++                            <div className="tech-marquee-container">
++                                <div className="tech-marquee">
++                                    {[...techStack, ...techStack].map((tech, i) => (
++                                        <span key={i} className="tech-item">{tech}</span>
++                                    ))}
+                                 </div>
+-
+-                                <TiltCard className="experience-item-content glass-panel" options={{ max: 5, scale: 1.02 }}>
+-                                    <span className="exp-period">{exp.period}</span>
+-                                    <h4 className="exp-role">{exp.role}</h4>
+-                                    <span className="exp-type">{exp.type}</span>
+-                                    <p className="exp-desc">{exp.description}</p>
+-                                </TiltCard>
+                             </div>
+-                        ))}
+-                    </div>
++                        </div>
++                    </BentoCard>
++
++                    {/* CARD 4: LeetCode Stats */}
++                    <BentoCard className="bento-stats" delay={0.4}>
++                        <div className="stat-content">
++                            <span className="stat-number">350<span className="stat-plus">+</span></span>
++                            <span className="stat-label">LeetCode Solved</span>
++                            <div className="stat-bar-container">
++                                <div className="stat-bar-fill"></div>
++                            </div>
++                        </div>
++                    </BentoCard>
++
++                    {/* CARD 5: Current Focus */}
++                    <BentoCard className="bento-focus" delay={0.5}>
++                        <h4 className="bento-subheading">Current Focus</h4>
++                        <ul className="focus-list">
++                            <li>Advanced System Design</li>
++                            <li>Creative WebGL Graphics</li>
++                            <li>Full-Stack Performance</li>
++                        </ul>
++                    </BentoCard>
+                 </div>
+             </div>
+         </section>
+
+commit c3cc07cfac7de82a6b81b626b0ee36db7fb136f4
+Author: mann2007-ptl <mann.patel.cg@gmail.com>
+Date:   Fri Apr 17 22:24:57 2026 +0530
+
+    feat: complete premium dark luxury gold theme overhaul
+
+diff --git a/own_portfolio/src/components/About/About.jsx b/own_portfolio/src/components/About/About.jsx
+index 153c44f..dcc4fef 100644
+--- a/own_portfolio/src/components/About/About.jsx
++++ b/own_portfolio/src/components/About/About.jsx
+@@ -2,15 +2,19 @@ import React, { useEffect, useRef } from 'react';
+ import gsap from 'gsap';
+ import { ScrollTrigger } from 'gsap/ScrollTrigger';
+ import VanillaTilt from 'vanilla-tilt';
++import { isMobileDevice } from '../../hooks/useDeviceDetect';
+ import userPhoto from '../../assets/photo.jpeg';
+ import ScrollReveal from '../ScrollReveal/ScrollReveal';
+ import './About.css';
+ 
+ gsap.registerPlugin(ScrollTrigger);
+ 
++const isDesktop = !isMobileDevice();
++
+ const TiltCard = ({ children, className = '', options = {} }) => {
+     const tiltRef = useRef(null);
+     useEffect(() => {
++        if (!isDesktop) return; // Skip VanillaTilt on mobile
+         if (tiltRef.current) {
+             VanillaTilt.init(tiltRef.current, {
+                 max: 15,
+@@ -106,7 +110,7 @@ const About = () => {
+                 <div className="section-header center mb-20">
+                     <span className="section-label neon-text-cyan">Prologize</span>
+                     <h2 className="section-title">
+-                        My career & <span className="gradient-text italic">experience</span>
++                        My career & <span className="accent">experience</span>
+                     </h2>
+                 </div>
+ 
+@@ -143,7 +147,7 @@ const About = () => {
+                 </div>
+ 
+                 <div className="experience-timeline">
+-                    <h3 className="timeline-title-text">The Journey</h3>
++                    <h3 className="timeline-title-text">The <span className="accent">Journey</span></h3>
+ 
+                     <div className="timeline-container">
+                         {/* Center glowing line */}
+
+commit 207116135c7b6542461e31dd094b683e2de4a996
+Author: mann2007-ptl <mann.patel.cg@gmail.com>
+Date:   Sat Apr 11 10:51:16 2026 +0530
+
+    added new section in portfolio and enhance the design
+
+diff --git a/own_portfolio/src/components/About/About.jsx b/own_portfolio/src/components/About/About.jsx
+index c23e154..153c44f 100644
+--- a/own_portfolio/src/components/About/About.jsx
++++ b/own_portfolio/src/components/About/About.jsx
+@@ -3,6 +3,7 @@ import gsap from 'gsap';
+ import { ScrollTrigger } from 'gsap/ScrollTrigger';
+ import VanillaTilt from 'vanilla-tilt';
+ import userPhoto from '../../assets/photo.jpeg';
++import ScrollReveal from '../ScrollReveal/ScrollReveal';
+ import './About.css';
+ 
+ gsap.registerPlugin(ScrollTrigger);
+@@ -42,16 +43,16 @@ const About = () => {
+             textLines.forEach((text) => {
+                 gsap.fromTo(text,
+                     { y: 40, opacity: 0, rotationX: 45 },
+-                    { y: 0, opacity: 1, rotationX: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: text, start: 'top 85%' } }
++                    { y: 0, opacity: 1, rotationX: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: text, start: 'top 85%', toggleActions: "play none none reverse" } }
+                 );
+             });
+ 
+             gsap.fromTo('.about-stat',
+                 { y: 60, opacity: 0, scale: 0.9 },
+-                { y: 0, opacity: 1, scale: 1, stagger: 0.15, duration: 1, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.about-stats', start: 'top 80%' } }
++                { y: 0, opacity: 1, scale: 1, stagger: 0.15, duration: 1, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.about-stats', start: 'top 80%', toggleActions: "play none none reverse" } }
+             );
+ 
+-            const tl = gsap.timeline({ scrollTrigger: { trigger: '.experience-timeline', start: 'top 75%' } });
++            const tl = gsap.timeline({ scrollTrigger: { trigger: '.experience-timeline', start: 'top 75%', toggleActions: "play none none reverse" } });
+ 
+             tl.fromTo('.timeline-title-text',
+                 { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.8 }
+@@ -111,23 +112,23 @@ const About = () => {
+ 
+                 <div className="about-grid">
+                     <TiltCard className="about-image-wrapper glass-panel" options={{ max: 10, scale: 1.02 }}>
+-                        <img src={userPhoto} alt="Mann Patel" className="about-image" />
++                        <img src={userPhoto} alt="Mann Patel" className="about-image" loading="lazy" />
+                         <div className="corner-accent top-left"></div>
+                         <div className="corner-accent bottom-right"></div>
+                     </TiltCard>
+ 
+                     <div className="about-content-wrapper">
+                         <div className="about-text-block">
+-                            <p className="about-text-reveal about-intro-text">
+-                                I am a <strong className="highlight-cyan">Computer Engineering student</strong> based in Gujarat, India.
++                            <ScrollReveal type="paragraph" className="about-intro-text" stagger={0.03}>
++                                I am a Computer Engineering student based in Gujarat, India.
+                                 My journey in web development started with a curiosity for internet mechanics,
+-                                which has explosive-evolved into an obsession for creating <span className="highlight-white">award-winning level digital experiences</span>.
+-                            </p>
+-                            <p className="about-text-reveal about-sub-text">
+-                                Specializing in the <strong className="highlight-purple">MERN stack</strong>,
++                                which has explosive-evolved into an obsession for creating award-winning level digital experiences.
++                            </ScrollReveal>
++                            <ScrollReveal type="paragraph" className="about-sub-text" delay={0.2} stagger={0.03}>
++                                Specializing in the MERN stack,
+                                 my true passion is frontend engineeringΓÇöfusing bleeding-edge technology like
+                                 WebGL, GSAP, and cinematic design to build things that make people say wow.
+-                            </p>
++                            </ScrollReveal>
+                         </div>
+ 
+                         <div className="about-stats">
+
+commit 2b268bd5b3f90148704e5ead31e736eedfc8c0f7
+Author: mann2007-ptl <mann.patel.cg@gmail.com>
+Date:   Tue Mar 17 10:30:37 2026 +0530
+
+    updated certificate section and add some smooth scrolling effect
+
+diff --git a/own_portfolio/src/components/About/About.jsx b/own_portfolio/src/components/About/About.jsx
+index 87e69e8..c23e154 100644
+--- a/own_portfolio/src/components/About/About.jsx
++++ b/own_portfolio/src/components/About/About.jsx
+@@ -1,68 +1,172 @@
+-import React from 'react';
+-import { motion } from 'framer-motion';
++import React, { useEffect, useRef } from 'react';
++import gsap from 'gsap';
++import { ScrollTrigger } from 'gsap/ScrollTrigger';
++import VanillaTilt from 'vanilla-tilt';
++import userPhoto from '../../assets/photo.jpeg';
+ import './About.css';
+ 
++gsap.registerPlugin(ScrollTrigger);
++
++const TiltCard = ({ children, className = '', options = {} }) => {
++    const tiltRef = useRef(null);
++    useEffect(() => {
++        if (tiltRef.current) {
++            VanillaTilt.init(tiltRef.current, {
++                max: 15,
++                speed: 400,
++                glare: true,
++                "max-glare": 0.2,
++                ...options
++            });
++        }
++        return () => {
++            if (tiltRef.current && tiltRef.current.vanillaTilt) {
++                tiltRef.current.vanillaTilt.destroy();
++            }
++        };
++    }, [options]);
++
++    return (
++        <div ref={tiltRef} className={`tilt-card ${className}`}>
++            {children}
++        </div>
++    );
++};
++
+ const About = () => {
++    const sectionRef = useRef(null);
++
++    useEffect(() => {
++        let ctx = gsap.context(() => {
++            const textLines = gsap.utils.toArray('.about-text-reveal');
++            textLines.forEach((text) => {
++                gsap.fromTo(text,
++                    { y: 40, opacity: 0, rotationX: 45 },
++                    { y: 0, opacity: 1, rotationX: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: text, start: 'top 85%' } }
++                );
++            });
++
++            gsap.fromTo('.about-stat',
++                { y: 60, opacity: 0, scale: 0.9 },
++                { y: 0, opacity: 1, scale: 1, stagger: 0.15, duration: 1, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.about-stats', start: 'top 80%' } }
++            );
++
++            const tl = gsap.timeline({ scrollTrigger: { trigger: '.experience-timeline', start: 'top 75%' } });
++
++            tl.fromTo('.timeline-title-text',
++                { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.8 }
++            )
++                .fromTo('.exp-line',
++                    { height: 0 }, { height: '100%', duration: 1.5, ease: 'power2.inOut' }, "-=0.4"
++                )
++                .fromTo('.timeline-dot',
++                    { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, stagger: 0.3, ease: 'back.out(2)' }, "-=1.2"
++                )
++                .fromTo('.experience-item-content',
++                    { x: 30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, stagger: 0.3, ease: 'power3.out' }, "-=1"
++                );
++
++        }, sectionRef);
++
++        return () => ctx.revert();
++    }, []);
++
++    const stats = [
++        { number: '05+', label: 'Projects Completed' },
++        { number: '01+', label: 'Years Coding' },
++        { number: '10+', label: 'Technologies' },
++        { number: '100+', label: 'LeetCode Problems' },
++    ];
++
++    const experiences = [
++        {
++            role: 'Full-Stack Developer',
++            type: 'Self-Learning & Projects',
++            period: '2025 ΓÇö Present',
++            description: 'Building production-ready web applications using the MERN stack with cinematic frontend aesthetics.'
++        },
++        {
++            role: 'Computer Engineering Student',
++            type: 'Swaminarayan University',
++            period: '2025 ΓÇö Present',
++            description: 'Pursuing B.E. in Computer Engineering, focusing on core algorithm concepts and web architectures.'
++        },
++        {
++            role: 'Frontend Developer',
++            type: 'Personal Projects',
++            period: '2024 ΓÇö 2025',
++            description: 'Mastered frontend fundamentals through intensive cloning and crafting of premium responsive UI.'
++        }
++    ];
++
+     return (
+-        <section id="about" className="about-section section">
++        <section id="about" className="about-section section" ref={sectionRef}>
+             <div className="container">
+-                <motion.div
+-                    className="section-header"
+-                    initial={{ opacity: 0, y: 20 }}
+-                    whileInView={{ opacity: 1, y: 0 }}
+-                    viewport={{ once: true }}
+-                    transition={{ duration: 0.6 }}
+-                >
+-                    <span className="sub-heading">Introduction</span>
+-                    <h2 className="section-title">About Me</h2>
+-                </motion.div>
+-
+-                <div className="about-content">
+-                    <motion.div
+-                        className="about-text"
+-                        initial={{ opacity: 0, x: -30 }}
+-                        whileInView={{ opacity: 1, x: 0 }}
+-                        viewport={{ once: true }}
+-                        transition={{ duration: 0.6, delay: 0.2 }}
+-                    >
+-                        <p className="about-bio">
+-                            I am a <strong>Computer Engineering student</strong> based in Gujarat, India.
+-                            My journey in web development started with a curiosity for how things work on the internet,
+-                            which has now grown into a passion for building clean, performant, and interactive websites.
+-                        </p>
+-                        <p className="about-bio">
+-                            I specialize in the <strong>MERN stack</strong> (MongoDB, Express, React, Node.js) but my true love lies in
+-                            frontend engineeringΓÇöcreating intuitive user interfaces that delight users.
+-                        </p>
+-
+-                        <div className="stats-container">
+-                            <div className="stat-item">
+-                                <span className="stat-number">05+</span>
+-                                <span className="stat-label">Projects Completed</span>
+-                            </div>
+-                            <div className="stat-item">
+-                                <span className="stat-number">01+</span>
+-                                <span className="stat-label">Years Coding</span>
+-                            </div>
++                <div className="section-header center mb-20">
++                    <span className="section-label neon-text-cyan">Prologize</span>
++                    <h2 className="section-title">
++                        My career & <span className="gradient-text italic">experience</span>
++                    </h2>
++                </div>
++
++                <div className="about-grid">
++                    <TiltCard className="about-image-wrapper glass-panel" options={{ max: 10, scale: 1.02 }}>
++                        <img src={userPhoto} alt="Mann Patel" className="about-image" />
++                        <div className="corner-accent top-left"></div>
++                        <div className="corner-accent bottom-right"></div>
++                    </TiltCard>
++
++                    <div className="about-content-wrapper">
++                        <div className="about-text-block">
++                            <p className="about-text-reveal about-intro-text">
++                                I am a <strong className="highlight-cyan">Computer Engineering student</strong> based in Gujarat, India.
++                                My journey in web development started with a curiosity for internet mechanics,
++                                which has explosive-evolved into an obsession for creating <span className="highlight-white">award-winning level digital experiences</span>.
++                            </p>
++                            <p className="about-text-reveal about-sub-text">
++                                Specializing in the <strong className="highlight-purple">MERN stack</strong>,
++                                my true passion is frontend engineeringΓÇöfusing bleeding-edge technology like
++                                WebGL, GSAP, and cinematic design to build things that make people say wow.
++                            </p>
+                         </div>
+-                    </motion.div>
+-
+-                    <motion.div
+-                        className="about-cards"
+-                        initial={{ opacity: 0, x: 30 }}
+-                        whileInView={{ opacity: 1, x: 0 }}
+-                        viewport={{ once: true }}
+-                        transition={{ duration: 0.6, delay: 0.4 }}
+-                    >
+-                        <div className="service-card">
+-                            <h3>Web Development</h3>
+-                            <p>Building responsive websites that work seamlessly across all devices using modern technologies.</p>
++
++                        <div className="about-stats">
++                            {stats.map((stat, i) => (
++                                <TiltCard key={i} className="about-stat glass-panel" options={{ max: 20, scale: 1.05 }}>
++                                    <span className="stat-number gradient-text">{stat.number}</span>
++                                    <span className="stat-label">{stat.label}</span>
++                                </TiltCard>
++                            ))}
+                         </div>
+-                        <div className="service-card">
+-                            <h3>UI/UX Design</h3>
+-                            <p>Translating requirements into clean, user-friendly designs with a focus on usability.</p>
++                    </div>
++                </div>
++
++                <div className="experience-timeline">
++                    <h3 className="timeline-title-text">The Journey</h3>
++
++                    <div className="timeline-container">
++                        {/* Center glowing line */}
++                        <div className="timeline-center-line">
++                            <div className="exp-line"></div>
+                         </div>
+-                    </motion.div>
++
++                        {experiences.map((exp, i) => (
++                            <div key={i} className={`experience-item ${i % 2 === 0 ? 'reverse' : ''}`}>
++                                <div className="timeline-spacer"></div>
++
++                                <div className="timeline-dot-wrapper">
++                                    <div className="timeline-dot"></div>
++                                </div>
++
++                                <TiltCard className="experience-item-content glass-panel" options={{ max: 5, scale: 1.02 }}>
++                                    <span className="exp-period">{exp.period}</span>
++                                    <h4 className="exp-role">{exp.role}</h4>
++                                    <span className="exp-type">{exp.type}</span>
++                                    <p className="exp-desc">{exp.description}</p>
++                                </TiltCard>
++                            </div>
++                        ))}
++                    </div>
+                 </div>
+             </div>
+         </section>
+
+commit 8a810bff9ce0a1f588a9b92db4f615306221fb5b
+Author: mann2007-ptl <mann.patel.cg@gmail.com>
+Date:   Fri Mar 6 22:14:30 2026 +0530
+
+    updated portfolio's section
+
+diff --git a/own_portfolio/src/components/About/About.jsx b/own_portfolio/src/components/About/About.jsx
+index 67f9c2b..87e69e8 100644
+--- a/own_portfolio/src/components/About/About.jsx
++++ b/own_portfolio/src/components/About/About.jsx
+@@ -41,7 +41,7 @@ const About = () => {
+                                 <span className="stat-label">Projects Completed</span>
+                             </div>
+                             <div className="stat-item">
+-                                <span className="stat-number">02+</span>
++                                <span className="stat-number">01+</span>
+                                 <span className="stat-label">Years Coding</span>
+                             </div>
+                         </div>
+
+commit 0028eab3462833d338f6cb02e364f6311754231d
+Author: mann2007-ptl <mann.patel.cg@gmail.com>
+Date:   Tue Feb 3 22:25:49 2026 +0530
+
+    Added portfolio
+
+diff --git a/own_portfolio/src/components/About/About.jsx b/own_portfolio/src/components/About/About.jsx
+new file mode 100644
+index 0000000..67f9c2b
+--- /dev/null
++++ b/own_portfolio/src/components/About/About.jsx
+@@ -0,0 +1,72 @@
++import React from 'react';
++import { motion } from 'framer-motion';
++import './About.css';
++
++const About = () => {
++    return (
++        <section id="about" className="about-section section">
++            <div className="container">
++                <motion.div
++                    className="section-header"
++                    initial={{ opacity: 0, y: 20 }}
++                    whileInView={{ opacity: 1, y: 0 }}
++                    viewport={{ once: true }}
++                    transition={{ duration: 0.6 }}
++                >
++                    <span className="sub-heading">Introduction</span>
++                    <h2 className="section-title">About Me</h2>
++                </motion.div>
++
++                <div className="about-content">
++                    <motion.div
++                        className="about-text"
++                        initial={{ opacity: 0, x: -30 }}
++                        whileInView={{ opacity: 1, x: 0 }}
++                        viewport={{ once: true }}
++                        transition={{ duration: 0.6, delay: 0.2 }}
++                    >
++                        <p className="about-bio">
++                            I am a <strong>Computer Engineering student</strong> based in Gujarat, India.
++                            My journey in web development started with a curiosity for how things work on the internet,
++                            which has now grown into a passion for building clean, performant, and interactive websites.
++                        </p>
++                        <p className="about-bio">
++                            I specialize in the <strong>MERN stack</strong> (MongoDB, Express, React, Node.js) but my true love lies in
++                            frontend engineeringΓÇöcreating intuitive user interfaces that delight users.
++                        </p>
++
++                        <div className="stats-container">
++                            <div className="stat-item">
++                                <span className="stat-number">05+</span>
++                                <span className="stat-label">Projects Completed</span>
++                            </div>
++                            <div className="stat-item">
++                                <span className="stat-number">02+</span>
++                                <span className="stat-label">Years Coding</span>
++                            </div>
++                        </div>
++                    </motion.div>
++
++                    <motion.div
++                        className="about-cards"
++                        initial={{ opacity: 0, x: 30 }}
++                        whileInView={{ opacity: 1, x: 0 }}
++                        viewport={{ once: true }}
++                        transition={{ duration: 0.6, delay: 0.4 }}
++                    >
++                        <div className="service-card">
++                            <h3>Web Development</h3>
++                            <p>Building responsive websites that work seamlessly across all devices using modern technologies.</p>
++                        </div>
++                        <div className="service-card">
++                            <h3>UI/UX Design</h3>
++                            <p>Translating requirements into clean, user-friendly designs with a focus on usability.</p>
++                        </div>
++                    </motion.div>
++                </div>
++            </div>
++        </section>
++    );
++};
++
++export default About;

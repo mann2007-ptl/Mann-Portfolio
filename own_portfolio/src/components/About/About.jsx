@@ -25,8 +25,8 @@ const BentoCard = ({ children, className = '', delay = 0 }) => {
 
 const About = () => {
     const techStack = [
-        "React", "Node.js", "Express", "MongoDB", "Next.js",
-        "TypeScript", "Three.js", "GSAP", "Tailwind", "SQL"
+        "React", "Node.js", "Express", "MongoDB", "JavaScript",
+        "HTML", "CSS", "Tailwind", "C++", "Git"
     ];
 
     return (
@@ -52,12 +52,12 @@ const About = () => {
                         <h3 className="bento-heading">About Me</h3>
                         <p className="bento-text">
                             I am a Computer Engineering student based in Gujarat, India. 
-                            My journey in software engineering has explosive-evolved into an obsession for creating 
-                            award-winning level digital experiences.
+                            My journey in web development started with a curiosity for how things work on the internet, 
+                            which has now grown into a passion for building clean, performant, and interactive websites.
                         </p>
                         <p className="bento-text">
-                            Specializing in the MERN stack, my true passion is fusing bleeding-edge technology like 
-                            WebGL, GSAP, and cinematic design to build things that make people say <span className="gold-text">wow</span>.
+                            I specialize in the MERN stack (MongoDB, Express, React, Node.js) but my true love lies in 
+                            frontend engineering—creating intuitive user interfaces that delight users.
                         </p>
                     </BentoCard>
 
@@ -90,9 +90,9 @@ const About = () => {
                     <BentoCard className="bento-focus" delay={0.5}>
                         <h4 className="bento-subheading">Current Focus</h4>
                         <ul className="focus-list">
-                            <li>Advanced System Design</li>
-                            <li>Creative WebGL Graphics</li>
-                            <li>Full-Stack Performance</li>
+                            <li>Full-Stack Web Development</li>
+                            <li>UI/UX Design & Prototyping</li>
+                            <li>Data Structures & Algorithms</li>
                         </ul>
                     </BentoCard>
                 </div>

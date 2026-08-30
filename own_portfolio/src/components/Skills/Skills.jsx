@@ -34,9 +34,6 @@ const Skills = () => {
         { name: 'VS Code', icon: <VscVscode />, color: '#007ACC' },
         { name: 'Postman', icon: <SiPostman />, color: '#FF6C37' },
         { name: 'Figma', icon: <FaFigma />, color: '#F24E1E' },
-        { name: 'Firebase', icon: <SiFirebase />, color: '#FFCA28' },
-        { name: 'Vercel', icon: <SiVercel />, color: '#ffffff' },
-        { name: 'Netlify', icon: <SiNetlify />, color: '#00C7B7' },
     ];
 
     useEffect(() => {
