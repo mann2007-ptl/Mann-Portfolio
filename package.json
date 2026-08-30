@@ -1,0 +1,8 @@
+{
+  "name": "mann-portfolio-root",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd own_portfolio && npm install && npm run build"
+  }
+}
