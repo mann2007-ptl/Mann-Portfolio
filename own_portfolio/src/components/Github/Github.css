@@ -1,0 +1,128 @@
+/* ═══════════════════════════════════════════════════
+   GITHUB — "Contribution Graph"
+   ═══════════════════════════════════════════════════ */
+
+.github-section {
+    position: relative;
+    padding: 150px 0;
+    z-index: 5;
+    background: var(--bg-primary);
+}
+
+.github-card {
+    background: var(--bg-panel);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: var(--border-radius-lg);
+    padding: 3rem;
+    margin-top: 3rem;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glassmorphism border trace */
+.github-card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(from 0deg, transparent 70%, var(--accent-light) 80%, transparent 100%);
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+    animation: rotateTrace 4s linear infinite;
+    pointer-events: none;
+}
+
+.github-card:hover::before {
+    opacity: 0.5;
+}
+
+.github-card::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: var(--bg-panel);
+    border-radius: calc(var(--border-radius-lg) - 1px);
+    z-index: 1;
+}
+
+.github-card-header, .github-calendar-wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+.github-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.github-icon {
+    font-size: 3rem;
+    color: #ffffff;
+}
+
+.github-user-info h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.2rem;
+}
+
+.github-link {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.3s ease;
+}
+
+.github-link:hover {
+    color: #ffffff;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.github-calendar-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
+
+/* Customizing the react-github-calendar SVG slightly */
+.github-calendar-wrapper article {
+    width: max-content;
+}
+
+.github-calendar-wrapper text {
+    fill: var(--text-secondary) !important;
+    font-family: var(--font-mono) !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .github-card {
+        padding: 1.5rem;
+    }
+    
+    .github-card-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+    }
+    
+    .github-icon {
+        font-size: 2.5rem;
+    }
+}

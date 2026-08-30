@@ -16,6 +16,7 @@ const CustomCursor = lazy(() => import('./components/CustomCursor/CustomCursor')
 const About = lazy(() => import('./components/About/About'));
 const Skills = lazy(() => import('./components/Skills/Skills'));
 const Hackathon = lazy(() => import('./components/Hackathon/Hackathon'));
+const Github = lazy(() => import('./components/Github/Github'));
 const Marquee = lazy(() => import('./components/Marquee/Marquee'));
 const Projects = lazy(() => import('./components/Projects/Projects'));
 const Certificate = lazy(() => import('./components/Certificate/Certificate'));
@@ -41,7 +42,11 @@ function HomePage({ loading }) {
       <LazySection threshold="800px"><About /></LazySection>
       <LazySection threshold="800px"><Skills /></LazySection>
       <LazySection threshold="800px"><Projects /></LazySection>
+      <LazySection threshold="800px"><Hackathon /></LazySection>
+      <LazySection threshold="800px"><Github /></LazySection>
+      <LazySection threshold="800px"><LeetCode /></LazySection>
       <LazySection threshold="800px"><Certificate /></LazySection>
+      <LazySection threshold="800px"><Education /></LazySection>
       <LazySection threshold="800px"><Contact /></LazySection>
     </main>
   );
