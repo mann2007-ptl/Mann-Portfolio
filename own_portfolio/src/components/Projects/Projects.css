@@ -1,118 +1,142 @@
 /* ═══════════════════════════════════════════════════
-   PROJECTS — "The Museum Gallery"
+   PROJECTS — "The Exhibition"
    ═══════════════════════════════════════════════════ */
 
-.museum-section {
+.projects-section {
     position: relative;
-    background-color: var(--bg-primary);
-    overflow: hidden;
+    padding: 150px 0;
+    z-index: 5;
+    background: var(--bg-primary);
 }
 
-/* ── Gallery Track ── */
-.museum-gallery {
-    display: flex;
-    align-items: center;
-    height: 100vh; /* Fixed height for horizontal scroll pinning */
-    padding: 0 10vw;
-    width: max-content;
-}
-
-/* ── Intro Slide ── */
-.gallery-intro {
-    width: 40vw;
-    min-width: 400px;
-    padding-right: 5rem;
-    flex-shrink: 0;
-}
-
-.gallery-desc {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    margin-top: 1rem;
-}
-
-.gallery-arrow {
-    font-size: 3rem;
-    color: var(--accent);
-    margin-top: 2rem;
-    animation: bounceRight 2s infinite ease-in-out;
-}
-
-@keyframes bounceRight {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(20px); }
-}
-
-/* ── Frames ── */
-.gallery-frame {
+/* ── Exhibit Grid ── */
+.exhibit-grid {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    width: 65vw;
-    max-width: 1100px;
-    height: 100%;
-    margin-right: 15vw;
-    flex-shrink: 0;
-    position: relative;
+    gap: 8rem;
+    margin-top: 4rem;
 }
 
-.frame-image-wrapper {
+/* ── Exhibit Card ── */
+.exhibit-card {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.exhibit-card--reverse {
+    grid-template-columns: 1fr 1.4fr;
+}
+
+.exhibit-card--reverse .exhibit-image-wrap {
+    order: 2;
+}
+
+.exhibit-card--reverse .exhibit-info {
+    order: 1;
+    text-align: right;
+}
+
+.exhibit-card--reverse .exhibit-links {
+    justify-content: flex-end;
+}
+
+/* ── Image ── */
+.exhibit-image-wrap {
     position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
+    border-radius: 8px;
     overflow: hidden;
-    border-radius: 4px; /* Slight roundness like canvas */
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.05);
+    aspect-ratio: 16 / 10;
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
-.frame-image {
+.exhibit-img {
     width: 100%;
-    height: 100%;
+    height: 120%; /* Extra height for parallax travel */
     object-fit: cover;
-    filter: brightness(0.85) contrast(1.1);
-    transform: scale(1.02);
-    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1s ease;
+    object-position: top;
+    filter: brightness(0.85) contrast(1.05);
+    transition: filter 0.6s ease;
 }
 
-.frame-vignette {
+.exhibit-card:hover .exhibit-img {
+    filter: brightness(1) contrast(1.1);
+}
+
+.exhibit-overlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, transparent 40%, rgba(20, 15, 5, 0.6) 100%);
-    opacity: 0;
-    transition: opacity 0.8s ease;
+    background: linear-gradient(
+        180deg,
+        transparent 30%,
+        rgba(2, 2, 2, 0.4) 100%
+    );
     pointer-events: none;
-    mix-blend-mode: multiply;
+    transition: opacity 0.5s ease;
 }
 
-.gallery-frame:hover .frame-image {
-    transform: scale(1.08);
-    filter: brightness(1) contrast(1.15);
+.exhibit-card:hover .exhibit-overlay {
+    opacity: 0.5;
 }
 
-.gallery-frame:hover .frame-vignette {
-    opacity: 1;
-}
-
-/* ── Links overlay ── */
-.frame-links {
+/* Gold border glow on hover */
+.exhibit-image-wrap::after {
+    content: '';
     position: absolute;
-    bottom: 2rem;
-    right: 2rem;
+    inset: 0;
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 0 rgba(212, 175, 55, 0);
+    transition: box-shadow 0.6s ease;
+    pointer-events: none;
+}
+
+.exhibit-card:hover .exhibit-image-wrap::after {
+    box-shadow: inset 0 0 30px rgba(212, 175, 55, 0.15);
+}
+
+/* ── Info ── */
+.exhibit-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.exhibit-tech {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.exhibit-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.exhibit-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* ── Links ── */
+.exhibit-links {
     display: flex;
     gap: 1rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 10;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
 }
 
-.gallery-frame:hover .frame-links {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.frame-btn {
+.exhibit-btn {
+    display: inline-flex;
+    align-items: center;
     padding: 0.8rem 1.5rem;
     background: rgba(212, 175, 55, 0.9);
     color: #020202;
@@ -126,82 +150,62 @@
     transition: all 0.3s ease;
 }
 
-.frame-btn:hover {
+.exhibit-btn:hover {
     background: #ffffff;
-    transform: scale(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-.frame-btn-icon {
+.exhibit-btn-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 45px;
     height: 45px;
-    background: rgba(8, 8, 8, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     color: #ffffff;
     font-size: 1.2rem;
+    text-decoration: none;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
 }
 
-.frame-btn-icon:hover {
-    background: rgba(212, 175, 55, 0.2);
+.exhibit-btn-icon:hover {
+    background: rgba(212, 175, 55, 0.15);
     border-color: var(--accent);
     color: var(--accent);
-    transform: scale(1.1);
-}
-
-/* ── Typography ── */
-.gallery-title-group {
-    margin-top: 2.5rem;
-}
-
-.gallery-project-title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 4rem);
-    font-weight: 600;
-    color: #ffffff;
-    letter-spacing: 0.02em;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-}
-
-.gallery-tech-string {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--accent);
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
+    transform: translateY(-2px);
 }
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
-    .museum-gallery {
-        display: block;
-        height: auto;
-        width: 100%;
-        padding: 6rem 1.5rem;
+    .exhibit-card,
+    .exhibit-card--reverse {
+        grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
-    .gallery-intro {
-        width: 100%;
-        min-width: unset;
-        margin-bottom: 4rem;
-        padding-right: 0;
+    .exhibit-card--reverse .exhibit-image-wrap {
+        order: 0;
     }
 
-    .gallery-frame {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 6rem;
+    .exhibit-card--reverse .exhibit-info {
+        order: 0;
+        text-align: left;
     }
 
-    .frame-links {
-        opacity: 1; /* Always show links on mobile */
-        transform: translateY(0);
-        bottom: 1rem;
-        right: 1rem;
+    .exhibit-card--reverse .exhibit-links {
+        justify-content: flex-start;
+    }
+
+    .exhibit-grid {
+        gap: 5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .exhibit-title {
+        font-size: 1.5rem;
     }
 }

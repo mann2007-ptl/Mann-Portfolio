@@ -1,143 +1,131 @@
 /* ═══════════════════════════════════════════════════
-   SKILLS — "Magnetic Constellation"
+   SKILLS — "Tech Constellation"
    ═══════════════════════════════════════════════════ */
 
-.skills-constellation-section {
+.skills-section {
     position: relative;
     padding: 150px 0;
     overflow: hidden;
+    z-index: 5;
 }
 
-/* ── Ripple Container ── */
-.ripple-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 9999;
-    overflow: hidden;
-}
-
-.gold-ripple {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: transparent;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6);
-    animation: rippleEffect 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes rippleEffect {
-    0% {
-        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6), inset 0 0 0 0 rgba(212, 175, 55, 0.6);
-    }
-    100% {
-        box-shadow: 0 0 0 200vw rgba(212, 175, 55, 0), inset 0 0 0 10px rgba(212, 175, 55, 0);
-    }
-}
-
-/* ── Constellation Grid ── */
-.constellation-grid {
+/* ── Orbit Grid ── */
+.skills-orbit-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
-    max-width: 1000px;
+    gap: 2.5rem;
+    max-width: 900px;
     margin: 4rem auto 0;
     padding: 2rem;
-    perspective: 1000px;
 }
 
-/* ── Magnetic Node ── */
-.magnetic-node-wrapper {
+/* ── Skill Orb ── */
+.skill-orb {
     position: relative;
-    padding: 1.5rem; /* Increased hit area for magnetism */
-    cursor: pointer;
-    touch-action: none;
-}
-
-.magnetic-node {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
-    background: rgba(8, 8, 8, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 0, 0, 0.8);
+    background: rgba(8, 8, 8, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
-.magnetic-node.hovered {
-    background: rgba(8, 8, 8, 0.9);
-    border-color: var(--node-color, var(--accent));
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 
-                0 0 30px rgba(212, 175, 55, 0.15),
-                inset 0 0 30px rgba(0, 0, 0, 0.9);
-    transform: scale(1.1);
+.skill-orb:hover {
+    transform: translateY(-10px) scale(1.1);
+    border-color: var(--orb-color, var(--accent));
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.6),
+        0 0 30px color-mix(in srgb, var(--orb-color, var(--accent)) 30%, transparent);
 }
 
-.node-icon {
+/* Glow ring behind the orb */
+.orb-glow {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 60%,
+        var(--orb-color, var(--accent)) 80%,
+        transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+    animation: orbSpin 6s linear infinite;
+    filter: blur(3px);
+}
+
+.skill-orb:hover .orb-glow {
+    opacity: 0.8;
+}
+
+@keyframes orbSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Icon */
+.orb-icon {
     font-size: 2.5rem;
-    color: var(--text-secondary);
-    transition: all 0.3s ease;
-    filter: grayscale(100%) opacity(0.7);
+    color: rgba(255, 255, 255, 0.4);
+    transition: all 0.4s ease;
+    filter: grayscale(100%);
 }
 
-.magnetic-node.hovered .node-icon {
-    color: var(--node-color, var(--accent));
-    filter: grayscale(0%) opacity(1);
-    transform: scale(1.1);
+.skill-orb:hover .orb-icon {
+    color: var(--orb-color, var(--accent));
+    filter: grayscale(0%);
+    transform: scale(1.15);
 }
 
-.node-name {
+/* Name label */
+.orb-name {
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
     font-family: var(--font-mono);
     font-size: 0.75rem;
-    margin-top: 0.8rem;
-    color: var(--text-secondary);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
 }
 
-.magnetic-node.hovered .node-name {
+.skill-orb:hover .orb-name {
     opacity: 1;
-    transform: translateY(0);
-    color: #ffffff;
+    transform: translateX(-50%) translateY(0);
 }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-    .constellation-grid {
-        gap: 1rem;
+    .skills-orbit-grid {
+        gap: 1.5rem;
         padding: 1rem;
     }
 
-    .magnetic-node-wrapper {
-        padding: 0.5rem;
+    .skill-orb {
+        width: 95px;
+        height: 95px;
     }
 
-    .magnetic-node {
-        width: 90px;
-        height: 90px;
-    }
-
-    .node-icon {
+    .orb-icon {
         font-size: 2rem;
     }
-    
-    .node-name {
+
+    .orb-name {
         font-size: 0.65rem;
-        margin-top: 0.5rem;
+        bottom: -1.5rem;
     }
 }
