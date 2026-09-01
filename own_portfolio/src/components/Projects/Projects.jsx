@@ -18,6 +18,44 @@ import githubAnalyzerImg from '../../assets/github-analyzer.png';
 gsap.registerPlugin(ScrollTrigger);
 
 const allProjects = [
+    // ─── Original / Impressive Projects First ───
+    {
+        title: 'GitHub Analyzer',
+        category: 'Web Development',
+        tech: ['React.js', 'GitHub API', 'Chart.js'],
+        description: 'A developer dashboard that fetches GitHub user data, visualizes repository metrics, commit velocity, and language distribution.',
+        image: githubAnalyzerImg,
+        github: 'https://github.com/mann2007-ptl/Github-Analyzer',
+        live: 'https://mannpatel-github-analyzer.netlify.app/'
+    },
+    {
+        title: 'KiranaSetu',
+        category: 'Web Development',
+        tech: ['HTML', 'CSS', 'JavaScript'],
+        description: 'A platform designed to empower local Kirana stores by digitizing inventory, ordering, and neighborhood delivery management.',
+        image: kiranaSetuImg,
+        github: 'https://github.com/mann2007-ptl/KiranaSetu',
+        live: 'https://kirana-setu.netlify.app/'
+    },
+    {
+        title: 'CodingGita Clone UI',
+        category: 'UI/UX Design',
+        tech: ['Figma', 'UI Design', 'Prototyping'],
+        description: 'A high-fidelity Figma redesign for CodingGita platform focusing on clean hierarchy, modern dark mode aesthetic, and seamless UX.',
+        image: figmaCgImg,
+        github: '#',
+        live: 'https://www.figma.com/design/Pz7nQd2tYfJ1mX8k/CodingGita-Clone?node-id=0-1&t=abcdef'
+    },
+    {
+        title: 'Epic Hospital Dashboard UI',
+        category: 'UI/UX Design',
+        tech: ['Figma', 'UX Research', 'Design System'],
+        description: 'A comprehensive healthcare management dashboard design created in Figma, optimizing patient records and doctor schedules.',
+        image: figmaEpicImg,
+        github: '#',
+        live: 'https://www.figma.com/design/Xy8mNk3pQw9vL4z2/Epic-Hospital-Dashboard?node-id=0-1&t=abcdef'
+    },
+    // ─── Brand Clones ───
     {
         title: 'JioHotstar Clone',
         category: 'Web Development',
@@ -35,15 +73,6 @@ const allProjects = [
         image: ultimateEarsImg,
         github: 'https://github.com/mann2007-ptl/ultimateEars',
         live: 'https://mannpatel-ultimate-ears.netlify.app/'
-    },
-    {
-        title: 'KiranaSetu',
-        category: 'Web Development',
-        tech: ['HTML', 'CSS', 'JavaScript'],
-        description: 'A platform designed to empower local Kirana stores by digitizing inventory, ordering, and neighborhood delivery management.',
-        image: kiranaSetuImg,
-        github: 'https://github.com/mann2007-ptl/KiranaSetu',
-        live: 'https://kirana-setu.netlify.app/'
     },
     {
         title: 'Salomon E-Commerce',
@@ -71,33 +100,6 @@ const allProjects = [
         image: stanleyImg,
         github: 'https://github.com/mann2007-ptl/stanley1913-clone',
         live: 'https://mannpatel-stanley.netlify.app/'
-    },
-    {
-        title: 'GitHub Analyzer',
-        category: 'Web Development',
-        tech: ['React.js', 'GitHub API', 'Chart.js'],
-        description: 'A developer dashboard that fetches GitHub user data, visualizes repository metrics, commit velocity, and language distribution.',
-        image: githubAnalyzerImg,
-        github: 'https://github.com/mann2007-ptl/Github-Analyzer',
-        live: 'https://mannpatel-github-analyzer.netlify.app/'
-    },
-    {
-        title: 'CodingGita Clone UI',
-        category: 'UI/UX Design',
-        tech: ['Figma', 'UI Design', 'Prototyping'],
-        description: 'A high-fidelity Figma redesign for CodingGita platform focusing on clean hierarchy, modern dark mode aesthetic, and seamless UX.',
-        image: figmaCgImg,
-        github: '#',
-        live: 'https://www.figma.com/design/Pz7nQd2tYfJ1mX8k/CodingGita-Clone?node-id=0-1&t=abcdef'
-    },
-    {
-        title: 'Epic Hospital Dashboard UI',
-        category: 'UI/UX Design',
-        tech: ['Figma', 'UX Research', 'Design System'],
-        description: 'A comprehensive healthcare management dashboard design created in Figma, optimizing patient records and doctor schedules.',
-        image: figmaEpicImg,
-        github: '#',
-        live: 'https://www.figma.com/design/Xy8mNk3pQw9vL4z2/Epic-Hospital-Dashboard?node-id=0-1&t=abcdef'
     }
 ];
 
