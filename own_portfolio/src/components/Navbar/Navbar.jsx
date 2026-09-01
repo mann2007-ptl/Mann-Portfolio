@@ -24,6 +24,7 @@ const Navbar = () => {
         { label: 'Skills', to: '/skills' },
         { label: 'Projects', to: '/projects' },
         { label: 'Hackathon', to: '/hackathon' },
+        { label: 'Github', to: '/github' },
         { label: 'Certificate', to: '/certificates' },
         { label: 'LeetCode', to: '/leetcode' },
         { label: 'Education', to: '/education' },

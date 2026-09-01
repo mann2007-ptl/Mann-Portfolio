@@ -51,18 +51,22 @@ const About = () => {
                     <BentoCard className="bento-bio" delay={0.2}>
                         <h3 className="bento-heading">About Me</h3>
                         <p className="bento-text">
-                            I am a Computer Engineering student based in Gujarat, India. 
-                            My journey in web development started with a curiosity for how things work on the internet, 
-                            which has now grown into a passion for building clean, performant, and interactive websites.
-                        </p>
-                        <p className="bento-text">
-                            I specialize in the MERN stack (MongoDB, Express, React, Node.js) but my true love lies in 
-                            frontend engineering—creating intuitive user interfaces that delight users.
+                            Computer Engineering student (3rd Semester) specializing in the MERN stack, React Native, and Next.js. I build full-stack, production-style web applications with strong fundamentals in Data Structures & Algorithms and Database Management Systems (MySQL), backed by real hackathon experience and a track record of shipping working products under tight deadlines.
                         </p>
                     </BentoCard>
+                    
+                    {/* CARD 3: Current Focus (Moved below Bio) */}
+                    <BentoCard className="bento-focus" delay={0.3}>
+                        <h4 className="bento-subheading">Current Focus</h4>
+                        <ul className="focus-list">
+                            <li>Full-Stack Web Development</li>
+                            <li>UI/UX Design & Prototyping</li>
+                            <li>Data Structures & Algorithms</li>
+                        </ul>
+                    </BentoCard>
 
-                    {/* CARD 3: Infinite Marquee Tech Stack */}
-                    <BentoCard className="bento-tech" delay={0.3}>
+                    {/* CARD 4: Infinite Marquee Tech Stack (Full Width) */}
+                    <BentoCard className="bento-tech full-width" delay={0.4}>
                         <div className="bento-tech-content">
                             <h4 className="bento-subheading">Core Arsenal</h4>
                             <div className="tech-marquee-container">
@@ -73,27 +77,6 @@ const About = () => {
                                 </div>
                             </div>
                         </div>
-                    </BentoCard>
-
-                    {/* CARD 4: LeetCode Stats */}
-                    <BentoCard className="bento-stats" delay={0.4}>
-                        <div className="stat-content">
-                            <span className="stat-number">350<span className="stat-plus">+</span></span>
-                            <span className="stat-label">LeetCode Solved</span>
-                            <div className="stat-bar-container">
-                                <div className="stat-bar-fill"></div>
-                            </div>
-                        </div>
-                    </BentoCard>
-
-                    {/* CARD 5: Current Focus */}
-                    <BentoCard className="bento-focus" delay={0.5}>
-                        <h4 className="bento-subheading">Current Focus</h4>
-                        <ul className="focus-list">
-                            <li>Full-Stack Web Development</li>
-                            <li>UI/UX Design & Prototyping</li>
-                            <li>Data Structures & Algorithms</li>
-                        </ul>
                     </BentoCard>
                 </div>
             </div>

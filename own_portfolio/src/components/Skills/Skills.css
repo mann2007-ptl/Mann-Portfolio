@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   SKILLS — "Tech Constellation"
+   SKILLS — "Tech Arsenal" (Glassmorphism Grid with CD Glow)
    ═══════════════════════════════════════════════════ */
 
 .skills-section {
@@ -9,123 +9,140 @@
     z-index: 5;
 }
 
-/* ── Orbit Grid ── */
-.skills-orbit-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2.5rem;
-    max-width: 900px;
-    margin: 4rem auto 0;
-    padding: 2rem;
+/* ── Skills Grid ── */
+.skills-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+    perspective: 800px;
 }
 
-/* ── Skill Orb ── */
-.skill-orb {
+/* ── Skill Card with CD Glow ── */
+.skill-card-glass {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    background: rgba(8, 8, 8, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 1rem;
+    background: rgba(8, 8, 8, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem 1rem;
     cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
 }
 
-.skill-orb:hover {
-    transform: translateY(-10px) scale(1.1);
-    border-color: var(--orb-color, var(--accent));
-    box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.6),
-        0 0 30px color-mix(in srgb, var(--orb-color, var(--accent)) 30%, transparent);
-}
-
-/* Glow ring behind the orb */
-.orb-glow {
+/* CD Spinning Glow Ring (hidden by default) */
+.skill-card-glass::before {
+    content: '';
     position: absolute;
-    inset: -4px;
-    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
     background: conic-gradient(
         from 0deg,
+        transparent 0%,
         transparent 60%,
-        var(--orb-color, var(--accent)) 80%,
+        var(--skill-color, #d4af37) 70%,
+        transparent 80%,
         transparent 100%
     );
+    transform: translate(-50%, -50%) rotate(0deg);
     opacity: 0;
+    z-index: 0;
+    animation: cdSpin 3s linear infinite;
     transition: opacity 0.5s ease;
-    z-index: -1;
-    animation: orbSpin 6s linear infinite;
-    filter: blur(3px);
-}
-
-.skill-orb:hover .orb-glow {
-    opacity: 0.8;
-}
-
-@keyframes orbSpin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Icon */
-.orb-icon {
-    font-size: 2.5rem;
-    color: rgba(255, 255, 255, 0.4);
-    transition: all 0.4s ease;
-    filter: grayscale(100%);
-}
-
-.skill-orb:hover .orb-icon {
-    color: var(--orb-color, var(--accent));
-    filter: grayscale(0%);
-    transform: scale(1.15);
-}
-
-/* Name label */
-.orb-name {
-    position: absolute;
-    bottom: -2rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(5px);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    white-space: nowrap;
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events: none;
 }
 
-.skill-orb:hover .orb-name {
+/* Inner card mask to create the border-glow illusion */
+.skill-card-glass::after {
+    content: '';
+    position: absolute;
+    inset: 1.5px;
+    background: rgba(8, 8, 8, 0.85);
+    border-radius: 15px;
+    z-index: 0;
+    transition: background 0.4s ease;
+}
+
+/* Activate CD glow on hover */
+.skill-card-glass:hover::before {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+}
+
+.skill-card-glass:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.6),
+        0 0 40px color-mix(in srgb, var(--skill-color, #d4af37) 15%, transparent);
+}
+
+.skill-card-glass:hover::after {
+    background: rgba(8, 8, 8, 0.7);
+}
+
+@keyframes cdSpin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ── Icon ── */
+.skill-icon-wrap {
+    position: relative;
+    z-index: 1;
+    font-size: 2.8rem;
+    transition: all 0.4s ease;
+    filter: grayscale(60%) brightness(0.8);
+}
+
+.skill-card-glass:hover .skill-icon-wrap {
+    transform: scale(1.2) rotate(5deg);
+    filter: grayscale(0%) brightness(1) drop-shadow(0 0 15px var(--skill-color, #d4af37));
+}
+
+/* ── Name ── */
+.skill-name {
+    position: relative;
+    z-index: 1;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.skill-card-glass:hover .skill-name {
+    color: #ffffff;
 }
 
 /* ── Responsive ── */
+@media (max-width: 1024px) {
+    .skills-grid-layout {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 1.2rem;
+    }
+}
+
 @media (max-width: 768px) {
-    .skills-orbit-grid {
-        gap: 1.5rem;
-        padding: 1rem;
+    .skills-grid-layout {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 1rem;
     }
 
-    .skill-orb {
-        width: 95px;
-        height: 95px;
+    .skill-card-glass {
+        padding: 1.5rem 0.8rem;
     }
 
-    .orb-icon {
-        font-size: 2rem;
+    .skill-icon-wrap {
+        font-size: 2.2rem;
     }
 
-    .orb-name {
-        font-size: 0.65rem;
-        bottom: -1.5rem;
+    .skill-name {
+        font-size: 0.75rem;
     }
 }

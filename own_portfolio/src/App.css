@@ -57,3 +57,57 @@ body,
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* ═══ LENIS SMOOTH SCROLL ═══ */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ═══ GLOBAL SECTION SCROLL ANIMATIONS ═══ */
+
+/* Section-level fade in */
+.section {
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+/* Section header - animated by GSAP */
+.section-header {
+  will-change: transform, opacity;
+}
+
+/* Smooth section divider line */
+.section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-border), transparent);
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.section.in-view::after {
+  width: 80%;
+}
+
+/* Smooth parallax depth layers */
+[data-speed] {
+  will-change: transform;
+}

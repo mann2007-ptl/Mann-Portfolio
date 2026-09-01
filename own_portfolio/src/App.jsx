@@ -124,6 +124,15 @@ function LeetCodePage() {
   );
 }
 
+function GithubPage() {
+  return (
+    <main className="main-content">
+      <SEO title="GitHub Contributions | Mann Patel" description="View my open-source contribution graph and GitHub activity." />
+      <Suspense fallback={<SectionLoader />}><Github /></Suspense>
+    </main>
+  );
+}
+
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -143,12 +152,12 @@ function App() {
       if (typeof LenisModule?.default === 'function') {
         const Lenis = LenisModule.default;
         const lenis = new Lenis({
-          duration: 1.2,
+          duration: 1.6,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           orientation: 'vertical',
           gestureOrientation: 'vertical',
           smoothWheel: true,
-          wheelMultiplier: 1.2,
+          wheelMultiplier: 1.0,
           touchMultiplier: 2,
           infinite: false,
           autoRaf: false,
@@ -163,6 +172,36 @@ function App() {
         window.__lenis = lenis;
         window.__lenisRaf = rafFn;
       }
+
+      // ── Global scroll-triggered section animations ──
+      const sections = document.querySelectorAll('.section');
+      sections.forEach((section) => {
+        // Animate section headers
+        const header = section.querySelector('.section-header');
+        if (header) {
+          gsap.fromTo(header,
+            { y: 60, opacity: 0 },
+            {
+              y: 0, opacity: 1,
+              duration: 1.2,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: section,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        }
+
+        // Add in-view class for the gold divider line
+        ScrollTrigger.create({
+          trigger: section,
+          start: 'top 80%',
+          onEnter: () => section.classList.add('in-view'),
+          onLeaveBack: () => section.classList.remove('in-view'),
+        });
+      });
 
     });
   }, []);
@@ -225,6 +264,7 @@ function App() {
         <Route path="/skills" element={<SkillsPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/hackathon" element={<HackathonPage />} />
+        <Route path="/github" element={<GithubPage />} />
         <Route path="/certificates" element={<CertificatesPage />} />
         <Route path="/leetcode" element={<LeetCodePage />} />
         <Route path="/education" element={<EducationPage />} />
