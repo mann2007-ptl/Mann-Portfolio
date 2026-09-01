@@ -10,9 +10,8 @@ import cIntermediateCertiImg from '../../assets/c-intermediate-certi.jpg';
 import cppCertiImg from '../../assets/cpp-certificate.jpg';
 import introJsCertiImg from '../../assets/intro-javascript-certi.jpg';
 
-// TODO: Once you download the images and put them in src/assets/, uncomment these:
-// import hackSprintImg from '../../assets/hacksprint-certi.jpg';
-// import icetaiImg from '../../assets/icetai-certi.jpg';
+import hackSprintImg from '../../assets/hacksprint-certi.jpg';
+import icetaiImg from '../../assets/icetai-certi.jpg';
 
 import './Certificate.css';
 
@@ -26,7 +25,7 @@ const certificates = [
         provider: 'HackSprint',
         description: 'Team achievement for building Tales Beyond the Tomb (Multiplayer Horror Game)',
         icon: <FaTrophy />,
-        image: null, // TODO: Replace null with hackSprintImg
+        image: hackSprintImg,
         link: 'https://drive.google.com/file/d/1Ycyd89W_QB_y6V-8yzEMgpvVgOCB4Lm_/view?usp=sharing'
     },
     {
@@ -35,7 +34,7 @@ const certificates = [
         provider: 'ICETAI',
         description: 'International Conference on Emerging Trends in Artificial Intelligence',
         icon: <FaAward />,
-        image: null, // TODO: Replace null with icetaiImg
+        image: icetaiImg,
         link: 'https://drive.google.com/file/d/1dv_qNs5cp725z0tMbgAJ5RTIDbWaNdKC/view?usp=sharing'
     },
     // ─── Existing Certificates (Kept) ───

@@ -1,218 +1,203 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FaGithub, FaYoutube, FaBook } from 'react-icons/fa';
-import { FaFigma } from 'react-icons/fa6';
-import Magnetic from '../Magnetic/Magnetic';
-import ultimateEesImg from '../../assets/ultimate-ears.png';
-import githubAnalyzerImg from '../../assets/github-analyzer.png';
+import { FiGithub, FiExternalLink, FiFolder } from 'react-icons/fi';
+import VanillaTilt from 'vanilla-tilt';
+
+import './Projects.css';
+import jioHotstarImg from '../../assets/jio-hotstar.png';
+import ultimateEarsImg from '../../assets/ultimate-ears.png';
+import kiranaSetuImg from '../../assets/kiranaSetu.png';
 import salomonImg from '../../assets/salomon.png';
 import lacosteImg from '../../assets/lacoste.png';
 import stanleyImg from '../../assets/stanley.png';
-import jioHotstarImg from '../../assets/jio-hotstar.png';
-import figmaCodingGitaImg from '../../assets/figma-design-cg-clone.jpg';
-import figmaEpicHospitalImg from '../../assets/figma-design-epic-hospital.jpg';
-import KiranaSetu from '../../assets/kiranaSetu.png';
-import caiaImg from '../../assets/caia.png';
-import './Projects.css';
+import figmaCgImg from '../../assets/figma-design-cg-clone.jpg';
+import figmaEpicImg from '../../assets/figma-design-epic-hospital.jpg';
+import githubAnalyzerImg from '../../assets/github-analyzer.png';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const allProjects = [
+    {
+        title: 'JioHotstar Clone',
+        category: 'Web Development',
+        tech: ['HTML', 'CSS', 'JavaScript'],
+        description: 'A pixel-perfect, responsive clone of the popular streaming platform JioHotstar with interactive media carousels and smooth UX.',
+        image: jioHotstarImg,
+        github: 'https://github.com/mann2007-ptl/JioHotstar-clone',
+        live: 'https://mannpatel-jiohotstar-clone.netlify.app/'
+    },
+    {
+        title: 'Ultimate Ears Web Design',
+        category: 'Web Development',
+        tech: ['HTML', 'CSS', 'JavaScript'],
+        description: 'An immersive product showcase website for Ultimate Ears with high-contrast visuals, dynamic product highlights, and slick animations.',
+        image: ultimateEarsImg,
+        github: 'https://github.com/mann2007-ptl/ultimateEars',
+        live: 'https://mannpatel-ultimate-ears.netlify.app/'
+    },
+    {
+        title: 'KiranaSetu',
+        category: 'Web Development',
+        tech: ['HTML', 'CSS', 'JavaScript'],
+        description: 'A platform designed to empower local Kirana stores by digitizing inventory, ordering, and neighborhood delivery management.',
+        image: kiranaSetuImg,
+        github: 'https://github.com/mann2007-ptl/KiranaSetu',
+        live: 'https://kirana-setu.netlify.app/'
+    },
+    {
+        title: 'Salomon E-Commerce',
+        category: 'Web Development',
+        tech: ['HTML', 'CSS', 'JavaScript'],
+        description: 'A sleek e-commerce store concept inspired by Salomon outdoor footwear, featuring refined typography and smooth interactions.',
+        image: salomonImg,
+        github: 'https://github.com/mann2007-ptl/salomon-web-clone',
+        live: 'https://mannpatel-salomon.netlify.app/'
+    },
+    {
+        title: 'Lacoste Brand Showcase',
+        category: 'Web Development',
+        tech: ['HTML', 'CSS', 'JavaScript'],
+        description: 'A luxury brand landing page for Lacoste emphasizing minimal design, elegant grid spacing, and interactive hero media.',
+        image: lacosteImg,
+        github: 'https://github.com/mann2007-ptl/lacoste-web-clone',
+        live: 'https://mannpatel-lacoste.netlify.app/'
+    },
+    {
+        title: 'Stanley Brand Store',
+        category: 'Web Development',
+        tech: ['HTML', 'CSS', 'JavaScript'],
+        description: 'A dynamic online store for Stanley drinkware featuring rich product cards and smooth hover effects.',
+        image: stanleyImg,
+        github: 'https://github.com/mann2007-ptl/stanley1913-clone',
+        live: 'https://mannpatel-stanley.netlify.app/'
+    },
+    {
+        title: 'GitHub Analyzer',
+        category: 'Web Development',
+        tech: ['React.js', 'GitHub API', 'Chart.js'],
+        description: 'A developer dashboard that fetches GitHub user data, visualizes repository metrics, commit velocity, and language distribution.',
+        image: githubAnalyzerImg,
+        github: 'https://github.com/mann2007-ptl/Github-Analyzer',
+        live: 'https://mannpatel-github-analyzer.netlify.app/'
+    },
+    {
+        title: 'CodingGita Clone UI',
+        category: 'UI/UX Design',
+        tech: ['Figma', 'UI Design', 'Prototyping'],
+        description: 'A high-fidelity Figma redesign for CodingGita platform focusing on clean hierarchy, modern dark mode aesthetic, and seamless UX.',
+        image: figmaCgImg,
+        github: '#',
+        live: 'https://www.figma.com/design/Pz7nQd2tYfJ1mX8k/CodingGita-Clone?node-id=0-1&t=abcdef'
+    },
+    {
+        title: 'Epic Hospital Dashboard UI',
+        category: 'UI/UX Design',
+        tech: ['Figma', 'UX Research', 'Design System'],
+        description: 'A comprehensive healthcare management dashboard design created in Figma, optimizing patient records and doctor schedules.',
+        image: figmaEpicImg,
+        github: '#',
+        live: 'https://www.figma.com/design/Xy8mNk3pQw9vL4z2/Epic-Hospital-Dashboard?node-id=0-1&t=abcdef'
+    }
+];
 
 const Projects = () => {
     const sectionRef = useRef(null);
     const gridRef = useRef(null);
     const [activeFilter, setActiveFilter] = useState('All');
 
-    const filters = ['All', 'Full Stack', 'HTML-CSS', 'Figma'];
-
-    const projects = [
-        {
-            title: 'CAIA — AI System Design',
-            description: 'AI-powered system design learning platform with 900+ concepts, RBAC, admin analytics, and 100+ API endpoints.',
-            techString: 'REACT • REDUX • NODE • EXPRESS • MONGODB',
-            category: 'Full Stack',
-            image: caiaImg,
-            links: { demo: 'https://caia-system-design.vercel.app/', code: 'https://github.com/mann2007-ptl/caia_system_design_mann_patel', docs: 'https://documenter.getpostman.com/view/50840766/2sBXwmQYQA' }
-        },
-        {
-            title: 'kiranaSetu',
-            description: 'MERN app that digitizes local kirana stores with online product browsing, order management, and customer engagement.',
-            techString: 'REACT • TAILWIND • NODE • MONGODB',
-            category: 'Full Stack',
-            image: KiranaSetu,
-            links: { demo: 'https://kirana-setu.netlify.app/', code: 'https://github.com/mann2007-ptl/kiranaSetu', youtube: 'https://youtu.be/5tiD33iZs70?si=FDFRdx7IKPOi2eSY' }
-        },
-        {
-            title: 'GitHub Profile Analyzer',
-            description: 'Analyze any GitHub profile with premium glassmorphism UI, user stats, top repositories, and language distribution.',
-            techString: 'REACT • CSS • GITHUB API',
-            category: 'Full Stack',
-            image: githubAnalyzerImg,
-            links: { demo: 'https://mannpatel-githubanalyser.netlify.app/', code: 'https://github.com/mann2007-ptl/Github-profileAnalyzer', youtube: 'https://youtu.be/tK5DegUFxyo?si=YgiqfyhR4zq69FnM' }
-        },
-        {
-            title: 'Ultimate Ears',
-            description: 'High-energy, immersive landing page clone with dynamic scroll interactions and punchy typography.',
-            techString: 'HTML • CSS • JAVASCRIPT',
-            category: 'HTML-CSS',
-            image: ultimateEesImg,
-            links: { demo: 'https://mannpatel-ultimate-ears-clone.netlify.app/', code: 'https://github.com/mann2007-ptl/ultimate-ears-diwali-assgn', youtube: 'https://youtu.be/dEqTLWKtaSM?si=VCURJ9gfygrkPbma' }
-        },
-        {
-            title: 'Salomon Clone',
-            description: 'Premium outdoor gear store featuring rugged aesthetics, smooth navigation, and responsive product grids.',
-            techString: 'HTML • CSS • UI',
-            category: 'HTML-CSS',
-            image: salomonImg,
-            links: { demo: 'https://mannpatel-salomon-clone.netlify.app/', code: 'https://github.com/mann2007-ptl/salomon-diwali-asgn/tree/main/salomon', youtube: 'https://youtu.be/Ogk8143L_HY?si=7Ob175mhoyYdUuP1' }
-        },
-        {
-            title: 'Lacoste Clone',
-            description: 'Responsive Lacoste website clone with modern layout techniques, mega-menus, and product filtering.',
-            techString: 'HTML • CSS • MEGA-MENU',
-            category: 'HTML-CSS',
-            image: lacosteImg,
-            links: { demo: 'https://mannpatel108585-lacoste-clone.netlify.app/diwali_assgn1/lacoste/', code: 'https://github.com/mann2007-ptl/diwali_assgn1/tree/main/lacoste', youtube: 'https://youtu.be/xAganSw7jdM?si=yVgZU4fMt1sulXBU' }
-        },
-        {
-            title: 'Stanley Clone',
-            description: 'Modern product landing page clone with strong visuals and typography focus.',
-            techString: 'HTML • CSS • ANIMATIONS',
-            category: 'HTML-CSS',
-            image: stanleyImg,
-            links: { demo: 'https://mannpatel-stanley.netlify.app/stanley-diwal-assgn-/stanley/', code: 'https://github.com/mann2007-ptl/stanley-diwal-assgn-/tree/main/stanley', youtube: 'https://youtu.be/wMEwE0U6ipY?si=KFx2pMu0Vtk-TeUP' }
-        },
-        {
-            title: 'Jio-Hotstar Clone',
-            description: 'UI clone inspired by streaming platforms with card layouts, spacing, and content hierarchy.',
-            techString: 'HTML • CSS • RESPONSIVE',
-            category: 'HTML-CSS',
-            image: jioHotstarImg,
-            links: { demo: 'https://mannpatel108585-jiohotstar-clone.netlify.app/diwali_assgn/jio-hotstar/', code: 'https://github.com/mann2007-ptl/diwali_assgn/tree/main/jio-hotstar', youtube: 'https://youtu.be/g-J-iG2aoR4?si=zn8WcRV48pUlUvgk' }
-        },
-        {
-            title: 'Epic Hospital',
-            description: 'Modern premium Figma UI/UX design for a multispeciality hospital with patient accessibility.',
-            techString: 'FIGMA • UI/UX',
-            category: 'Figma',
-            image: figmaEpicHospitalImg,
-            links: { figma: 'https://www.figma.com/design/ptv2A9fooySZj6ptxVyJc4/Untitled?node-id=645-2&t=h5aBYjHjlA8j6WJM-1' }
-        },
-        {
-            title: 'CodingGita',
-            description: 'Comprehensive Figma design and prototyping for a full website clone with modern aesthetics.',
-            techString: 'FIGMA • PROTOTYPING',
-            category: 'Figma',
-            image: figmaCodingGitaImg,
-            links: { figma: 'https://www.figma.com/design/ptv2A9fooySZj6ptxVyJc4/Untitled?node-id=716-2&t=h5aBYjHjlA8j6WJM-1' }
-        }
-    ];
-
-    const filteredProjects = projects.filter(project => activeFilter === 'All' || project.category === activeFilter);
+    const filteredProjects = activeFilter === 'All'
+        ? allProjects
+        : allProjects.filter(p => p.category === activeFilter);
 
     useEffect(() => {
         let ctx = gsap.context(() => {
-            const cards = gsap.utils.toArray('.exhibit-card');
+            const cards = gsap.utils.toArray('.project-deck-card');
             
-            gsap.fromTo(cards, 
-                { opacity: 0, y: 30 }, 
-                { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }
-            );
-
-            cards.forEach((card) => {
-                const img = card.querySelector('.exhibit-img');
-                if (img) {
-                    gsap.to(img, {
-                        yPercent: 15,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: card,
-                            start: "top bottom",
-                            end: "bottom top",
-                            scrub: 1,
-                        }
-                    });
+            gsap.fromTo(cards,
+                { y: 60, opacity: 0, scale: 0.96 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 1,
+                    stagger: 0.2,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: gridRef.current,
+                        start: 'top 85%'
+                    },
+                    onComplete: () => {
+                        cards.forEach(card => {
+                            VanillaTilt.init(card, {
+                                max: 6,
+                                speed: 500,
+                                glare: true,
+                                'max-glare': 0.15,
+                                perspective: 1200
+                            });
+                        });
+                    }
                 }
-            });
-            
-            ScrollTrigger.refresh();
-        }, gridRef);
+            );
+        }, sectionRef);
 
         return () => ctx.revert();
     }, [activeFilter]);
 
     return (
-        <section id="work" className="projects-section section" ref={sectionRef}>
+        <section id="projects" className="projects-section section" ref={sectionRef}>
             <div className="container">
                 <div className="section-header center">
-                    <span className="section-label">03. Archive</span>
+                    <span className="section-label">03. Showcase</span>
                     <h2 className="section-title">
-                        The <span className="accent">Exhibition</span>
+                        Featured <span className="accent">Exhibition</span>
                     </h2>
                 </div>
 
-                {/* Filter Controls */}
                 <div className="project-filters">
-                    {filters.map(filter => (
+                    {['All', 'Web Development', 'UI/UX Design'].map(cat => (
                         <button
-                            key={filter}
-                            className={`filter-btn ${activeFilter === filter ? 'active' : ''}`}
-                            onClick={() => setActiveFilter(filter)}
+                            key={cat}
+                            className={`filter-btn ${activeFilter === cat ? 'active' : ''}`}
+                            onClick={() => setActiveFilter(cat)}
                         >
-                            {filter}
+                            {cat}
                         </button>
                     ))}
                 </div>
 
-                <div className="exhibit-grid" ref={gridRef}>
-                    {filteredProjects.map((project) => (
-                        <div className="exhibit-card" key={project.title}>
-                            <div className="exhibit-image-wrap">
-                                <img src={project.image} alt={project.title} className="exhibit-img" loading="lazy" />
-                                <div className="exhibit-overlay"></div>
+                <div className="projects-deck-container" ref={gridRef}>
+                    {filteredProjects.map((project, idx) => (
+                        <div className="project-deck-card" key={project.title}>
+                            <div className="project-deck-image-side">
+                                <img src={project.image} alt={project.title} className="project-deck-img" loading="lazy" />
+                                <div className="project-deck-overlay"></div>
+                                <span className="project-index-badge">0{idx + 1}</span>
                             </div>
 
-                            <div className="exhibit-info">
-                                <span className="exhibit-tech">{project.techString}</span>
-                                <h3 className="exhibit-title">{project.title}</h3>
-                                <p className="exhibit-desc">{project.description}</p>
+                            <div className="project-deck-info-side">
+                                <div className="project-deck-category">
+                                    <FiFolder className="category-icon" /> {project.category}
+                                </div>
+                                <h3 className="project-deck-title">{project.title}</h3>
+                                <p className="project-deck-desc">{project.description}</p>
+                                
+                                <div className="project-deck-tech-tags">
+                                    {project.tech.map(t => (
+                                        <span key={t} className="tech-chip">{t}</span>
+                                    ))}
+                                </div>
 
-                                <div className="exhibit-links">
-                                    {project.links.demo && (
-                                        <Magnetic strength={20}>
-                                            <a href={project.links.demo} target="_blank" rel="noopener noreferrer" className="exhibit-btn">
-                                                Live Demo
-                                            </a>
-                                        </Magnetic>
+                                <div className="project-deck-actions">
+                                    {project.github !== '#' && (
+                                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="deck-btn deck-btn-ghost">
+                                            <FiGithub /> Code
+                                        </a>
                                     )}
-                                    {project.links.code && (
-                                        <Magnetic strength={20}>
-                                            <a href={project.links.code} target="_blank" rel="noopener noreferrer" className="exhibit-btn-icon">
-                                                <FaGithub />
-                                            </a>
-                                        </Magnetic>
-                                    )}
-                                    {project.links.youtube && (
-                                        <Magnetic strength={20}>
-                                            <a href={project.links.youtube} target="_blank" rel="noopener noreferrer" className="exhibit-btn-icon">
-                                                <FaYoutube />
-                                            </a>
-                                        </Magnetic>
-                                    )}
-                                    {project.links.figma && (
-                                        <Magnetic strength={20}>
-                                            <a href={project.links.figma} target="_blank" rel="noopener noreferrer" className="exhibit-btn">
-                                                <FaFigma style={{ marginRight: '6px' }} /> Figma
-                                            </a>
-                                        </Magnetic>
-                                    )}
-                                    {project.links.docs && (
-                                        <Magnetic strength={20}>
-                                            <a href={project.links.docs} target="_blank" rel="noopener noreferrer" className="exhibit-btn-icon">
-                                                <FaBook />
-                                            </a>
-                                        </Magnetic>
-                                    )}
+                                    <a href={project.live} target="_blank" rel="noopener noreferrer" className="deck-btn deck-btn-gold">
+                                        <FiExternalLink /> View Project
+                                    </a>
                                 </div>
                             </div>
                         </div>

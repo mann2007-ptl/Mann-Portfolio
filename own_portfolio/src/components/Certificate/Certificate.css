@@ -65,13 +65,13 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
+    filter: brightness(0.7) contrast(1.1); /* Darker default */
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
-    filter: brightness(0.7) contrast(1.1);
 }
 
 .cert-card:hover .cert-img {
     transform: scale(1.08);
-    filter: brightness(0.4) contrast(1.2) blur(2px);
+    filter: brightness(0.95) contrast(1.15); /* Richer, not washed out */
 }
 
 .cert-fallback {
@@ -85,45 +85,52 @@
     background: linear-gradient(135deg, #0a0a0a, #050505);
 }
 
+/* "View Credential" Button Overlay */
 .cert-overlay {
     position: absolute;
     inset: 0;
+    background: rgba(0, 0, 0, 0.5); /* Always show a subtle dark overlay on hover */
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.4s ease;
+    backdrop-filter: blur(3px);
 }
 
 .cert-card:hover .cert-overlay {
     opacity: 1;
-    transform: translateY(0);
 }
 
 /* ── View Button ── */
 .cert-view-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.8rem;
-    padding: 1rem 2rem;
-    background: rgba(212, 175, 55, 0.9);
+    gap: 0.6rem;
+    padding: 0.8rem 1.8rem;
+    background: var(--gradient-gold);
     color: #020202;
     font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    font-weight: 700;
+    letter-spacing: 0.1em;
     border-radius: 50px;
     text-decoration: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
+}
+
+.cert-card:hover .cert-view-btn {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .cert-view-btn:hover {
-    background: #ffffff;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.4);
-    transform: scale(1.05);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
 }
 
 .cert-view-icon {
