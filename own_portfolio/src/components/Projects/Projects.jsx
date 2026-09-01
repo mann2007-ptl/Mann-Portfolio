@@ -14,19 +14,20 @@ import stanleyImg from '../../assets/stanley.png';
 import figmaCgImg from '../../assets/figma-design-cg-clone.jpg';
 import figmaEpicImg from '../../assets/figma-design-epic-hospital.jpg';
 import githubAnalyzerImg from '../../assets/github-analyzer.png';
+import caiaImg from '../../assets/caia.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const allProjects = [
     // ─── Original / Impressive Projects First ───
     {
-        title: 'GitHub Analyzer',
+        title: 'CAIA — System Design',
         category: 'Web Development',
-        tech: ['React.js', 'GitHub API', 'Chart.js'],
-        description: 'A developer dashboard that fetches GitHub user data, visualizes repository metrics, commit velocity, and language distribution.',
-        image: githubAnalyzerImg,
-        github: 'https://github.com/mann2007-ptl/Github-Analyzer',
-        live: 'https://mannpatel-github-analyzer.netlify.app/'
+        tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'System Design'],
+        description: 'A comprehensive system design project showcasing scalable architecture patterns, microservices, and real-time data processing.',
+        image: caiaImg,
+        github: 'https://github.com/mann2007-ptl/CAIA',
+        live: '#'
     },
     {
         title: 'KiranaSetu',
@@ -38,22 +39,13 @@ const allProjects = [
         live: 'https://kirana-setu.netlify.app/'
     },
     {
-        title: 'CodingGita Clone UI',
-        category: 'UI/UX Design',
-        tech: ['Figma', 'UI Design', 'Prototyping'],
-        description: 'A high-fidelity Figma redesign for CodingGita platform focusing on clean hierarchy, modern dark mode aesthetic, and seamless UX.',
-        image: figmaCgImg,
-        github: '#',
-        live: 'https://www.figma.com/design/Pz7nQd2tYfJ1mX8k/CodingGita-Clone?node-id=0-1&t=abcdef'
-    },
-    {
-        title: 'Epic Hospital Dashboard UI',
-        category: 'UI/UX Design',
-        tech: ['Figma', 'UX Research', 'Design System'],
-        description: 'A comprehensive healthcare management dashboard design created in Figma, optimizing patient records and doctor schedules.',
-        image: figmaEpicImg,
-        github: '#',
-        live: 'https://www.figma.com/design/Xy8mNk3pQw9vL4z2/Epic-Hospital-Dashboard?node-id=0-1&t=abcdef'
+        title: 'GitHub Profile Analyzer',
+        category: 'Web Development',
+        tech: ['React.js', 'GitHub API', 'Chart.js'],
+        description: 'A developer dashboard that fetches GitHub user data, visualizes repository metrics, commit velocity, and language distribution.',
+        image: githubAnalyzerImg,
+        github: 'https://github.com/mann2007-ptl/Github-Analyzer',
+        live: 'https://mannpatel-github-analyzer.netlify.app/'
     },
     // ─── Brand Clones ───
     {
@@ -100,6 +92,25 @@ const allProjects = [
         image: stanleyImg,
         github: 'https://github.com/mann2007-ptl/stanley1913-clone',
         live: 'https://mannpatel-stanley.netlify.app/'
+    },
+    // ─── Figma / UI Design Projects Last ───
+    {
+        title: 'CodingGita Clone UI',
+        category: 'UI/UX Design',
+        tech: ['Figma', 'UI Design', 'Prototyping'],
+        description: 'A high-fidelity Figma redesign for CodingGita platform focusing on clean hierarchy, modern dark mode aesthetic, and seamless UX.',
+        image: figmaCgImg,
+        github: '#',
+        live: 'https://www.figma.com/design/Pz7nQd2tYfJ1mX8k/CodingGita-Clone?node-id=0-1&t=abcdef'
+    },
+    {
+        title: 'Epic Hospital Dashboard UI',
+        category: 'UI/UX Design',
+        tech: ['Figma', 'UX Research', 'Design System'],
+        description: 'A comprehensive healthcare management dashboard design created in Figma, optimizing patient records and doctor schedules.',
+        image: figmaEpicImg,
+        github: '#',
+        live: 'https://www.figma.com/design/Xy8mNk3pQw9vL4z2/Epic-Hospital-Dashboard?node-id=0-1&t=abcdef'
     }
 ];
 
