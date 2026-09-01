@@ -165,8 +165,8 @@ const Projects = () => {
                 </div>
 
                 <div className="exhibit-grid" ref={gridRef}>
-                    {filteredProjects.map((project, i) => (
-                        <div className={`exhibit-card ${i % 2 !== 0 ? 'exhibit-card--reverse' : ''}`} key={project.title}>
+                    {filteredProjects.map((project) => (
+                        <div className="exhibit-card" key={project.title}>
                             <div className="exhibit-image-wrap">
                                 <img src={project.image} alt={project.title} className="exhibit-img" loading="lazy" />
                                 <div className="exhibit-overlay"></div>

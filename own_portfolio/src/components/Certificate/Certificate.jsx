@@ -2,12 +2,18 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaExternalLinkAlt, FaAward, FaTrophy, FaCertificate } from 'react-icons/fa';
+import VanillaTilt from 'vanilla-tilt';
 import Magnetic from '../Magnetic/Magnetic';
 import cssCertiImg from '../../assets/css-certi.png';
 import cCertiImg from '../../assets/c-certifictate.jpg';
 import cIntermediateCertiImg from '../../assets/c-intermediate-certi.jpg';
 import cppCertiImg from '../../assets/cpp-certificate.jpg';
 import introJsCertiImg from '../../assets/intro-javascript-certi.jpg';
+
+// TODO: Once you download the images and put them in src/assets/, uncomment these:
+// import hackSprintImg from '../../assets/hacksprint-certi.jpg';
+// import icetaiImg from '../../assets/icetai-certi.jpg';
+
 import './Certificate.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -20,7 +26,7 @@ const certificates = [
         provider: 'HackSprint',
         description: 'Team achievement for building Tales Beyond the Tomb (Multiplayer Horror Game)',
         icon: <FaTrophy />,
-        image: null,
+        image: null, // TODO: Replace null with hackSprintImg
         link: 'https://drive.google.com/file/d/1Ycyd89W_QB_y6V-8yzEMgpvVgOCB4Lm_/view?usp=sharing'
     },
     {
@@ -29,7 +35,7 @@ const certificates = [
         provider: 'ICETAI',
         description: 'International Conference on Emerging Trends in Artificial Intelligence',
         icon: <FaAward />,
-        image: null,
+        image: null, // TODO: Replace null with icetaiImg
         link: 'https://drive.google.com/file/d/1dv_qNs5cp725z0tMbgAJ5RTIDbWaNdKC/view?usp=sharing'
     },
     // ─── Existing Certificates (Kept) ───
@@ -102,6 +108,18 @@ const Certificate = () => {
                         trigger: containerRef.current,
                         start: 'top 85%',
                         toggleActions: "play none none reverse"
+                    },
+                    onComplete: () => {
+                        // Initialize VanillaTilt on cards after they animate in
+                        cards.forEach(card => {
+                            VanillaTilt.init(card, {
+                                max: 8,
+                                speed: 400,
+                                glare: true,
+                                "max-glare": 0.2,
+                                perspective: 1000
+                            });
+                        });
                     }
                 }
             );
